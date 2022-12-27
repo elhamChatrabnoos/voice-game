@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="fish_seekbar_style">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_weight">0.6</item>
+        <item name="android:background">@drawable/fish_seekbar</item>
+        <item name="android:clickable">false</item>
+        <item name="android:contextClickable">false</item>
+        <item name="android:progressDrawable">@android:color/transparent</item>
+        <item name="android:thumb">@drawable/human_voice</item>
+    </style>
+
+</resources>

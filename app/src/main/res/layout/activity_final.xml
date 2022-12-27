@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.FinalActivity"
+    android:background="@drawable/final_result_background">
+
+    <ImageView
+        android:id="@+id/first_platform"
+        style="@style/platforms_style"
+        android:layout_width="0dp"
+        android:src="@drawable/platform1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/third_platform"
+        app:layout_constraintStart_toEndOf="@+id/second_platform"
+        tools:ignore="MissingConstraints" />
+
+    <ImageView
+        android:id="@+id/first_player"
+        style="@style/final_players_style"
+        android:src="@drawable/first_player"
+        app:layout_constraintBottom_toTopOf="@+id/first_platform"
+        app:layout_constraintEnd_toEndOf="@+id/first_platform"
+        app:layout_constraintStart_toStartOf="@+id/first_platform"
+        tools:ignore="MissingConstraints" />
+
+    <ImageView
+        android:id="@+id/second_platform"
+        style="@style/platforms_style"
+        android:layout_width="0dp"
+        android:src="@drawable/platform2"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/first_platform"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageView
+        android:id="@+id/second_player"
+        style="@style/final_players_style"
+        android:src="@drawable/first_player"
+        app:layout_constraintBottom_toTopOf="@+id/second_platform"
+        app:layout_constraintEnd_toEndOf="@+id/second_platform"
+        app:layout_constraintEnd_toStartOf="@+id/first_player"
+        app:layout_constraintStart_toStartOf="@+id/second_platform"
+        tools:ignore="MissingConstraints" />
+
+    <ImageView
+        android:id="@+id/third_platform"
+        style="@style/platforms_style"
+        android:layout_width="0dp"
+        android:src="@drawable/platform3"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/fourth_platform"
+        app:layout_constraintStart_toEndOf="@+id/first_platform" />
+
+    <ImageView
+        android:id="@+id/third_player"
+        style="@style/final_players_style"
+        android:src="@drawable/first_player"
+        app:layout_constraintBottom_toTopOf="@+id/third_platform"
+        app:layout_constraintEnd_toEndOf="@+id/third_platform"
+        app:layout_constraintStart_toStartOf="@+id/third_platform"
+        tools:ignore="MissingConstraints" />
+
+    <ImageView
+        android:id="@+id/fourth_platform"
+        style="@style/platforms_style"
+        android:layout_width="0dp"
+        android:src="@drawable/platform4"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/third_platform" />
+
+    <ImageView
+        android:id="@+id/fourth_player"
+        style="@style/final_players_style"
+        android:src="@drawable/first_player"
+        app:layout_constraintBottom_toTopOf="@+id/fourth_platform"
+        app:layout_constraintEnd_toEndOf="@+id/fourth_platform"
+        app:layout_constraintStart_toStartOf="@+id/fourth_platform"
+        tools:ignore="MissingConstraints" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

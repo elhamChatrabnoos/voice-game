@@ -1,0 +1,407 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal"
+    tools:context=".activities.PlayerActivity"
+    android:gravity="center"
+    android:background="@drawable/player_select_background">
+
+    <ImageView
+        android:id="@+id/btn_back"
+        style="@style/back_image_style"
+        android:layout_height="90dp"
+        android:layout_gravity="top"
+        android:layout_weight="3"
+        android:foregroundGravity="top"
+        android:onClick="backButtonClick"
+        android:src="@drawable/btn_back"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:padding="@dimen/littleSize"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:layout_weight="3">
+
+            <TextView
+                android:text="@string/playerName1"
+                style="@style/human_robot_style" />
+
+            <TextView
+                android:text="@string/playerName2"
+                style="@style/human_robot_style" />
+
+            <TextView
+                android:text="@string/playerName3"
+                style="@style/human_robot_style" />
+
+            <TextView
+                android:text="@string/playerName4"
+                style="@style/human_robot_style" />
+
+        </LinearLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_gravity="center"
+            android:padding="@dimen/normalSize">
+
+            <LinearLayout
+                android:id="@+id/backGroundLayouts"
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/background1"
+                    android:layout_weight="1"
+                    android:background="@drawable/orange_background_player"
+                    android:onClick="player1ColorClick"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    style="@style/background_style" />
+
+                <ImageView
+                    android:id="@+id/background2"
+                    android:layout_weight="1"
+                    android:background="@drawable/blue_background_player"
+                    android:onClick="player1ColorClick"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    style="@style/background_style" />
+
+                <ImageView
+                    android:id="@+id/background3"
+                    android:layout_weight="1"
+                    android:background="@drawable/orange_background_player"
+                    android:onClick="player3ColorClick"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    style="@style/background_style" />
+
+                <ImageView
+                    android:id="@+id/background4"
+                    android:layout_weight="1"
+                    android:onClick="player4ColorClick"
+                    android:background="@drawable/blue_background_player"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    style="@style/background_style" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/playersColorLayouts"
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:layout_weight="1"
+                    android:id="@+id/player1Color"
+                    style="@style/player_color_style"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:onClick="player1ColorClick"/>
+
+                <ImageView
+                    android:layout_weight="1"
+                    android:id="@+id/player2Color"
+                    style="@style/player_color_style"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:onClick="player2ColorClick"/>
+
+
+                <ImageView
+                    android:layout_weight="1"
+                    android:id="@+id/player3Color"
+                    style="@style/player_color_style"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:onClick="player3ColorClick"/>
+
+
+                <ImageView
+                    android:layout_weight="1"
+                    android:id="@+id/player4Color"
+                    style="@style/player_color_style"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:onClick="player4ColorClick"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/playerKindLayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toBottomOf="@id/backGroundLayouts">
+
+                <ImageView
+                    android:id="@+id/player1Img"
+                    style="@style/player_image_style"
+                    android:onClick="player1Onclick"
+                    app:layout_constraintTop_toBottomOf="@+id/player1Color"
+                    app:layout_constraintStart_toStartOf="@id/background1"
+                    app:layout_constraintEnd_toEndOf="@id/background1"
+                    app:layout_constraintBottom_toBottomOf="@id/background1"/>
+
+                <ImageView
+                    android:id="@+id/player2Img"
+                    style="@style/player_image_style"
+                    android:onClick="player2Onclick"
+                    app:layout_constraintTop_toBottomOf="@+id/player1Color"
+                    app:layout_constraintStart_toStartOf="@id/background1"
+                    app:layout_constraintEnd_toEndOf="@id/background1"
+                    app:layout_constraintBottom_toBottomOf="@id/background1"/>
+
+                <ImageView
+                    android:id="@+id/player3Img"
+                    style="@style/player_image_style"
+                    android:onClick="player3Onclick"
+                    app:layout_constraintTop_toBottomOf="@+id/player1Color"
+                    app:layout_constraintStart_toStartOf="@id/background1"
+                    app:layout_constraintEnd_toEndOf="@id/background1"
+                    app:layout_constraintBottom_toBottomOf="@id/background1"/>
+
+                <ImageView
+                    android:id="@+id/player4Img"
+                    style="@style/player_image_style"
+                    android:onClick="player4Onclick"
+                    app:layout_constraintTop_toBottomOf="@+id/player1Color"
+                    app:layout_constraintStart_toStartOf="@id/background1"
+                    app:layout_constraintEnd_toEndOf="@id/background1"
+                    app:layout_constraintBottom_toBottomOf="@id/background1"/>
+
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <LinearLayout
+            android:id="@+id/playerNamesLayout"
+            android:layout_weight="2.8"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintTop_toBottomOf="@+id/backGroundLayouts">
+
+            <EditText
+                android:id="@+id/player1NameEdt"
+                style="@style/numberPlayerEdt"
+                android:text="@string/player1_txt"
+                android:background="@drawable/background_button_name"
+                app:layout_constraintTop_toBottomOf="@id/background1" />
+
+            <EditText
+                android:id="@+id/player2NameEdt"
+                style="@style/numberPlayerEdt"
+                android:text="@string/player2_txt"
+                android:background="@drawable/background_button_name"
+                app:layout_constraintTop_toBottomOf="@id/background1" />
+
+            <EditText
+                android:id="@+id/player3NameEdt"
+                style="@style/numberPlayerEdt"
+                android:text="@string/player3_txt"
+                android:background="@drawable/background_button_name"
+                app:layout_constraintTop_toBottomOf="@id/background1" />
+
+            <EditText
+                android:id="@+id/player4NameEdt"
+                style="@style/numberPlayerEdt"
+                android:text="@string/player4_txt"
+                android:background="@drawable/background_button_name"
+                app:layout_constraintTop_toBottomOf="@id/background1" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_weight="2.5"
+        android:gravity="center"
+        android:layout_margin="@dimen/normalSize">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            style="@style/select_player_layouts"
+            android:layout_weight="1.4">
+
+            <View
+                android:id="@+id/colorBorder"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/colors_border" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:padding="@dimen/normalSize">
+
+                <ImageView
+                    android:id="@+id/red_color"
+                    style="@style/general_color_style"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:src="@drawable/red_circle"
+                    android:onClick="redColorClick"/>
+
+                <ImageView
+                    android:id="@+id/green_color"
+                    style="@style/general_color_style"
+                    android:src="@drawable/green_circle"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:onClick="greenColorClick"/>
+
+                <ImageView
+                    android:id="@+id/yellow_color"
+                    style="@style/general_color_style"
+                    android:src="@drawable/yellow_circle"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:onClick="yellowColorClick"/>
+
+                <ImageView
+                    android:id="@+id/blue_color"
+                    style="@style/general_color_style"
+                    android:src="@drawable/blue_circle"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:onClick="blueColorClick"/>
+
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            style="@style/select_player_layouts">
+
+            <View
+                android:id="@+id/humanRobotBorder"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/colors_border"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:padding="@dimen/normalSize"
+                android:gravity="center"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:text="@string/robot"
+                        style="@style/human_robot_style" />
+
+                    <ImageView
+                        android:id="@+id/robotImg"
+                        style="@style/image_style"
+                        android:layout_weight="1"
+                        android:src="@drawable/robot_image"
+                        android:onClick="botClick" />
+
+                </LinearLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:id="@+id/humanLayout">
+
+                    <View
+                        android:visibility="invisible"
+                        android:id="@+id/humanBorder"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/colors_border"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"/>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:text="@string/human"
+                            style="@style/human_robot_style" />
+
+                        <ImageView
+                            android:id="@+id/humanImg"
+                            style="@style/image_style"
+                            android:layout_weight="1"
+                            android:onClick="humanClick"
+                            android:src="@drawable/human_image" />
+
+                    </LinearLayout>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <ImageButton
+            android:id="@+id/startBtnPlayerNum"
+            style="@style/NextButtonStyle"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:layout_margin="@dimen/bigSize"
+            android:background="@drawable/next_button"
+            android:onClick="startGameClick"
+            android:text="@string/startBtnNumberPlayer" />
+
+    </LinearLayout>
+
+</LinearLayout>

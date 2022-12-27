@@ -1,0 +1,349 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <style name="imageStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">start</item>
+        <item name="android:layout_margin">@dimen/normalSize</item>
+        <item name="android:gravity">start</item>
+    </style>
+
+    <style name="textStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">end</item>
+        <item name="android:padding">@dimen/bigSize</item>
+        <item name="android:textColor">#000000</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="IconGameStyle">
+        <item name="android:orientation">vertical</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_margin">@dimen/normalSize</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="titleStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">@dimen/bigText</item>
+        <item name="android:layout_margin">10dp</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:textAlignment">center</item>
+    </style>
+
+    <style name="player_image_style">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:layout_margin">@dimen/normalSize</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="NextButtonStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:layout_gravity">end</item>
+    </style>
+
+
+    <style name="startButtonStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:layout_gravity">end</item>
+        <item name="android:layout_marginTop">@dimen/bigSize</item>
+        <item name="android:layout_marginStart">@dimen/bigSize</item>
+
+    </style>
+
+    <style name="numberPlayerEdt">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textAlignment">center</item>
+        <item name="background">@drawable/background_button_name</item>
+        <item name="android:textSize">@dimen/text_size</item>
+    </style>
+
+    <style name="layoutStyle">
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:layout_margin">@dimen/normalSize</item>
+<!--        <item name="android:padding">10dp</item>-->
+
+    </style>
+
+    <style name="playerIcon">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_weight">1</item>
+    </style>
+
+    <style name="playerScoreText">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="playerImageStyle">
+        <item name="android:layout_width">200dp</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="roadStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:visibility">invisible</item>
+    </style>
+
+    <style name="playerLayoutStyle">
+        <item name="android:scrollbars">none</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_marginTop">3dp</item>
+        <item name="background">@drawable/roadcu</item>
+    </style>
+
+    <style name="playersNameStyle" parent="textStyle">
+        <item name="android:rotation">90</item>
+        <item name="background">@color/white</item>
+        <item name="android:padding">5dp</item>
+        <item name="android:layout_gravity">center</item>
+    </style>
+
+    <style name="finalImageStyle">
+        <item name="android:gravity">center</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="background">@drawable/stickers_background</item>
+    </style>
+
+    <style name="final_name_text">
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_marginBottom">30dp</item>
+
+        <item name="android:textColor">@color/black</item>
+        <item name="android:shadowColor">@color/white</item>
+        <item name="android:shadowRadius">5</item>
+        <item name="android:shadowDy">2</item>
+        <item name="android:shadowDx">1</item>
+
+        <item name="android:textSize">@dimen/bigSize</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:layout_margin">@dimen/normalSize</item>
+    </style>
+
+    <style name="final_score_text" parent="final_name_text">
+        <item name="android:layout_marginStart">172dp</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
+    <style name="sticker_style">
+        <item name="android:gravity">center</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_margin">@dimen/normalSize</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:padding">@dimen/bigSize</item>
+        <item name="android:background">@drawable/stickers_background</item>
+    </style>
+
+    <style name="innerLayoutStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="current_game_score" parent="final_score_text">
+        <item name="android:layout_weight">1</item>
+        <item name="android:textSize">@dimen/bigSize</item>
+    </style>
+
+    <style name="score_text_style" parent="finalImageStyle">
+        <item name="android:textSize">@dimen/big_text</item>
+        <item name="android:textColor">#FF0000</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:visibility">invisible</item>
+    </style>
+
+    <style name="back_image_style">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="text_style_dialog">
+        <item name="android:layout_width">60dp</item>
+        <item name="android:layout_height">60dp</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="image_style">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="player_color_style">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_margin">@dimen/littleSize</item>
+        <item name="android:src">@drawable/color_selection</item>
+    </style>
+
+    <style name="general_color_style">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_margin">@dimen/littleSize</item>
+    </style>
+
+    <style name="fishImageStyle">
+        <item name="android:layout_width">@dimen/fish_image_size</item>
+        <item name="android:layout_height">@dimen/fish_image_size</item>
+    </style>
+
+
+    <style name="shark_style1">
+        <item name="android:layout_width">300dp</item>
+        <item name="android:layout_height">300dp</item>
+        <item name="android:layout_marginEnd">200dp</item>
+    </style>
+
+    <style name="progressBarFeature" parent="Widget.AppCompat.ProgressBar.Horizontal">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_centerHorizontal">true</item>
+        <item name="android:indeterminate">false</item>
+        <item name="android:max">100</item>
+        <item name="android:layout_margin">@dimen/normalSize</item>
+        <item name="android:padding">3dp</item>
+        <item name="android:progress">0</item>
+        <item name="android:background">@drawable/progressbar_background</item>
+        <item name="android:progressDrawable">@drawable/curved_progressbar</item>
+    </style>
+
+    <style name="platforms_style">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="final_players_style">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:visibility">invisible</item>
+    </style>
+
+    <style name="blue_frame_style">
+        <item name="android:background">@drawable/blue_background_player</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_margin">@dimen/normalSize</item>
+    </style>
+
+    <style name="orange_frame_style">
+        <item name="android:background">@drawable/orange_background_player</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_margin">@dimen/normalSize</item>
+    </style>
+
+    <style name="seprate_layout">
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+    </style>
+
+    <style name="background_style">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+    </style>
+
+    <style name="check_image_style">
+        <item name="android:visibility">invisible</item>
+        <item name="android:layout_width">100dp</item>
+        <item name="android:layout_height">100dp</item>
+        <item name="android:src">@drawable/check_img</item>
+    </style>
+
+    <style name="human_robot_style">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:layout_weight">3</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">@dimen/text_size</item>
+    </style>
+
+    <style name="player_score_layout_style">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_marginStart">@dimen/littleSize</item>
+    </style>
+
+    <style name="nitrogen_style">
+        <item name="android:layout_width">60dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:src">@drawable/caps_blue</item>
+    </style>
+
+    <style name="car_layout_style">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">@dimen/normalSize</item>
+    </style>
+
+    <style name="dialog_buttons_style">
+        <item name="android:layout_width">200dp</item>
+        <item name="android:layout_height">50dp</item>
+    </style>
+
+    <style name="select_player_layouts">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_marginTop">@dimen/littleSize</item>
+    </style>
+
+    <style name="carPointStyle">
+        <item name="android:layout_width">150dp</item>
+        <item name="android:layout_height">40dp</item>
+        <item name="android:background">@drawable/nitrogen_point</item>
+        <item name="android:visibility">invisible</item>
+    </style>
+
+    <style name="fish_seekbar_style">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_weight">0.80</item>
+        <item name="android:background">@drawable/fish_seekbar</item>
+        <item name="android:thumb">@drawable/human_voice</item>
+        <item name="android:clickable">false</item>
+        <item name="android:progressDrawable">@android:color/transparent</item>
+    </style>
+
+</resources>

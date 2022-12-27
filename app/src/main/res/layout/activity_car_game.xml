@@ -1,0 +1,455 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.CarGameActivity"
+    android:orientation="vertical"
+    android:id="@+id/mainLayout"
+    android:gravity="center"
+    android:background="#A8D1AF74">
+
+    <LinearLayout
+        android:id="@+id/wholeCarGameLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <com.h6ah4i.android.widget.verticalseekbar.VerticalSeekBarWrapper
+            android:id="@+id/seekBarLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginStart="@dimen/littleSize"
+            android:background="@drawable/seekbar_back_img"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.h6ah4i.android.widget.verticalseekbar.VerticalSeekBar
+                android:id="@+id/seekBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:splitTrack="false"
+                app:seekBarRotation="CW270"
+                android:contextClickable="false"
+                android:thumb="@drawable/little_car"
+                android:clickable="false"
+                android:progressDrawable="@android:color/transparent"/>
+
+        </com.h6ah4i.android.widget.verticalseekbar.VerticalSeekBarWrapper>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <LinearLayout
+                android:id="@+id/scoresLayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:layout_gravity="top"
+                android:layout_weight="6"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toEndOf="@id/seekBarLayout"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:background="#A8EC9B22">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_weight="0.8"
+                    android:layout_height="match_parent">
+
+                    <ProgressBar
+                        android:id="@+id/nitrogenProgressBar"
+                        style="@style/progressBarFeature"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"/>
+
+                    <TextView
+                        android:id="@+id/nitrogenTxt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="scoreCarGameTxt"
+                        android:text="@string/nitrogen_txt"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_size"
+                        app:layout_constraintTop_toTopOf="@id/nitrogenProgressBar"
+                        app:layout_constraintStart_toStartOf="@id/nitrogenProgressBar"
+                        app:layout_constraintEnd_toEndOf="@id/nitrogenProgressBar"
+                        app:layout_constraintBottom_toBottomOf="@+id/nitrogenProgressBar"/>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <LinearLayout
+                    android:id="@+id/player1ScoreLayout"
+                    style="@style/player_score_layout_style">
+
+                    <ImageView
+                        android:id="@+id/imgScore1"
+                        android:src="@drawable/red_car_r"
+                        style="@style/playerIcon" />
+
+                    <TextView
+                        android:id="@+id/player1Score"
+                        android:text="0"
+                        style="@style/playerScoreText" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/player2ScoreLayout"
+                    style="@style/player_score_layout_style">
+
+                    <ImageView
+                        android:id="@+id/imgScore2"
+                        android:src="@drawable/green_car_r"
+                        style="@style/playerIcon" />
+
+                    <TextView
+                        android:id="@+id/player2Score"
+                        android:text="0"
+                        style="@style/playerScoreText" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/player3ScoreLayout"
+                    style="@style/player_score_layout_style">
+
+                    <ImageView
+                        android:id="@+id/imgScore3"
+                        android:src="@drawable/yellow_car_r"
+                        style="@style/playerIcon" />
+
+                    <TextView
+                        android:id="@+id/player3Score"
+                        android:text="0"
+                        style="@style/playerScoreText" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/player4ScoreLayout"
+                    style="@style/player_score_layout_style">
+
+                    <ImageView
+                        android:id="@+id/imgScore4"
+                        android:src="@drawable/blue_car_r"
+                        style="@style/playerIcon" />
+
+                    <TextView
+                        android:id="@+id/player4Score"
+                        android:text="0"
+                        style="@style/playerScoreText" />
+
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/pause_btn"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:src="@drawable/pause_icon"
+                    android:layout_margin="@dimen/littleSize"
+                    android:layout_weight="1"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/allPlayersLayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/player1Layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
+
+                    <HorizontalScrollView
+                        android:id="@+id/scrollViewP1"
+                        style="@style/playerLayoutStyle"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/player1InnerLayout"
+                            style="@style/playerLayoutStyle"
+                            android:background="@drawable/roadcu">
+
+                            <ImageView
+                                android:id="@+id/road11"
+                                style="@style/roadStyle"
+                                android:src="@drawable/roadcu"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <androidx.constraintlayout.widget.ConstraintLayout
+                                android:id="@+id/car1Layout"
+                                style="@style/car_layout_style"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent">
+
+                                <!--car image-->
+                                <pl.droidsonroids.gif.GifImageView
+                                    android:id="@+id/car1"
+                                    style="@style/playerImageStyle"
+                                    android:src="@drawable/red_car_r"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    tools:ignore="MissingConstraints" />
+
+                                <View
+                                    android:id="@+id/car1_point"
+                                    app:layout_constraintTop_toTopOf="@+id/car1"
+                                    app:layout_constraintStart_toStartOf="@id/car1"
+                                    app:layout_constraintBottom_toBottomOf="@id/car1"
+                                    android:src="@drawable/red_car_r"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    tools:ignore="MissingConstraints"
+                                    style="@style/carPointStyle" />
+
+                            </androidx.constraintlayout.widget.ConstraintLayout>
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+                    </HorizontalScrollView>
+
+                    <ImageView
+                        android:id="@+id/capsule"
+                        style="@style/nitrogen_style"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/player2Layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
+
+                    <HorizontalScrollView
+                        android:id="@+id/scrollViewP2"
+                        style="@style/playerLayoutStyle"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/player2InnerLayout"
+                            style="@style/playerLayoutStyle"
+                            android:background="@drawable/roadcu">
+
+                            <ImageView
+                                android:id="@+id/road2_1"
+                                style="@style/roadStyle"
+                                android:src="@drawable/roadcu"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <androidx.constraintlayout.widget.ConstraintLayout
+                                android:id="@+id/car2Layout"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+                                style="@style/car_layout_style">
+
+                                <!--car -->
+                                <pl.droidsonroids.gif.GifImageView
+                                    android:id="@+id/car2"
+                                    style="@style/playerImageStyle"
+                                    android:src="@drawable/green_car_r"
+                                    app:layout_constraintTop_toTopOf="parent"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    tools:ignore="MissingConstraints" />
+
+                                <View
+                                    android:id="@+id/car2_point"
+                                    app:layout_constraintTop_toTopOf="@+id/car2"
+                                    app:layout_constraintStart_toStartOf="@id/car2"
+                                    app:layout_constraintBottom_toBottomOf="@id/car2"
+                                    android:src="@drawable/red_car_r"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    tools:ignore="MissingConstraints"
+                                    style="@style/carPointStyle" />
+
+                            </androidx.constraintlayout.widget.ConstraintLayout>
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+                    </HorizontalScrollView>
+
+                    <ImageView
+                        android:id="@+id/capsule2"
+                        style="@style/nitrogen_style"
+                        android:src="@drawable/caps_blue"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/player3Layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
+
+                    <HorizontalScrollView
+                        android:id="@+id/scrollViewP3"
+                        style="@style/playerLayoutStyle"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/player3InnerLayout"
+                            style="@style/playerLayoutStyle"
+                            android:background="@drawable/roadcu">
+
+                            <ImageView
+                                android:id="@+id/road3_1"
+                                style="@style/roadStyle"
+                                android:src="@drawable/roadcu"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <androidx.constraintlayout.widget.ConstraintLayout
+                                style="@style/car_layout_style"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+                                android:id="@+id/car3Layout">
+
+                                <pl.droidsonroids.gif.GifImageView
+                                    android:id="@+id/car3"
+                                    style="@style/playerImageStyle"
+                                    android:src="@drawable/yellow_car_r"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    tools:ignore="MissingConstraints" />
+
+                                <View
+                                    android:id="@+id/car3_point"
+                                    app:layout_constraintTop_toTopOf="@+id/car3"
+                                    app:layout_constraintStart_toStartOf="@id/car3"
+                                    app:layout_constraintBottom_toBottomOf="@id/car3"
+                                    android:src="@drawable/red_car_r"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    tools:ignore="MissingConstraints"
+                                    style="@style/carPointStyle" />
+
+                            </androidx.constraintlayout.widget.ConstraintLayout>
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+                    </HorizontalScrollView>
+
+                    <ImageView
+                        android:id="@+id/capsule3"
+                        style="@style/nitrogen_style"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/player4Layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
+
+                    <HorizontalScrollView
+                        android:id="@+id/scrollViewP4"
+                        style="@style/playerLayoutStyle"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/player4InnerLayout"
+                            style="@style/playerLayoutStyle"
+                            android:background="@drawable/roadcu">
+
+                            <ImageView
+                                android:id="@+id/road4_1"
+                                style="@style/roadStyle"
+                                android:src="@drawable/roadcu"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <androidx.constraintlayout.widget.ConstraintLayout
+                                style="@style/car_layout_style"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+                                android:id="@+id/car4Layout">
+
+                                <pl.droidsonroids.gif.GifImageView
+                                    android:id="@+id/car4"
+                                    style="@style/playerImageStyle"
+                                    android:src="@drawable/blue_car_r"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    tools:ignore="MissingConstraints" />
+
+                                <View
+                                    android:id="@+id/car4_point"
+                                    app:layout_constraintTop_toTopOf="@+id/car4"
+                                    app:layout_constraintStart_toStartOf="@id/car4"
+                                    app:layout_constraintBottom_toBottomOf="@id/car4"
+                                    android:src="@drawable/red_car_r"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    tools:ignore="MissingConstraints"
+                                    style="@style/carPointStyle" />
+
+                            </androidx.constraintlayout.widget.ConstraintLayout>
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+                    </HorizontalScrollView>
+
+                    <ImageView
+                        android:id="@+id/capsule4"
+                        style="@style/nitrogen_style"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/fadeLayout"
+        android:orientation="vertical"
+        android:visibility="visible"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#99817D7D"/>
+
+    <TextView
+        android:visibility="visible"
+        android:id="@+id/reverseCount"
+        style="@style/titleStyle"
+        android:textColor="#E6A5E60C"
+        android:textSize="30dp"
+        android:text="3"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

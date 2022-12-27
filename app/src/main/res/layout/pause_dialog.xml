@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@drawable/alerts_background"
+    android:gravity="center">
+
+    <ImageView
+        android:id="@+id/btn_home"
+        android:src="@drawable/home_button"
+        style="@style/dialog_buttons_style" />
+
+    <ImageView
+        android:id="@+id/btn_retry"
+        style="@style/dialog_buttons_style"
+        android:src="@drawable/retry_button"/>
+
+    <ImageView
+        android:id="@+id/btn_back"
+        style="@style/dialog_buttons_style"
+        android:src="@drawable/resume_button" />
+
+</LinearLayout>

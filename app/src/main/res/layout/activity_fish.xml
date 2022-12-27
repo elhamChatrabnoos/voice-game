@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.FishGameActivity"
+    android:layout_gravity="center"
+    android:id="@+id/mainLayout"
+    android:background="#939393">
+
+    <LinearLayout
+        android:id="@+id/wholeLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <LinearLayout
+            android:id="@+id/scoresLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:layout_gravity="top"
+            android:layout_weight="6"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toEndOf="@id/seekBarLayout"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:background="@drawable/fish_score_background">
+
+            <SeekBar
+                android:id="@+id/seekBar"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                style="@style/fish_seekbar_style" />
+
+            <LinearLayout
+                android:id="@+id/player1ScoreLayout"
+                style="@style/player_score_layout_style">
+
+                <ImageView
+                    android:id="@+id/imgScore1"
+                    android:src="@drawable/fish_gif_red"
+                    style="@style/playerIcon" />
+
+                <TextView
+                    android:id="@+id/player1Score"
+                    android:text="0"
+                    style="@style/playerScoreText" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/player2ScoreLayout"
+                style="@style/player_score_layout_style">
+
+                <ImageView
+                    android:id="@+id/imgScore2"
+                    android:src="@drawable/fish_gif_gereen"
+                    style="@style/playerIcon" />
+
+                <TextView
+                    android:id="@+id/player2Score"
+                    android:text="0"
+                    style="@style/playerScoreText" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/player3ScoreLayout"
+                style="@style/player_score_layout_style">
+
+                <ImageView
+                    android:id="@+id/imgScore3"
+                    android:src="@drawable/fish_gif_yellow"
+                    style="@style/playerIcon" />
+
+                <TextView
+                    android:id="@+id/player3Score"
+                    android:text="0"
+                    style="@style/playerScoreText" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/player4ScoreLayout"
+                style="@style/player_score_layout_style">
+
+                <ImageView
+                    android:id="@+id/imgScore4"
+                    android:src="@drawable/fish_gif_blue"
+                    style="@style/playerIcon" />
+
+                <TextView
+                    android:id="@+id/player4Score"
+                    android:text="0"
+                    style="@style/playerScoreText" />
+
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/pause_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@drawable/pause_icon"
+                android:layout_margin="@dimen/littleSize"
+                android:layout_weight="1"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+        </LinearLayout>
+
+        <HorizontalScrollView
+            android:id="@+id/gameScrollView"
+            style="@style/playerLayoutStyle"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/player1ScoreLayout"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:id="@+id/gameLayout">
+
+                <ImageView
+                    android:id="@+id/gameBackground"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:adjustViewBounds="true"
+                    android:src="@drawable/sea_background"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <pl.droidsonroids.gif.GifImageView
+                    android:id="@+id/sharkImage"
+                    android:src="@drawable/shark_image"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintEnd_toStartOf="parent"
+                    style="@style/shark_style1" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/fish_layout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent">
+
+                    <pl.droidsonroids.gif.GifImageView
+                        android:id="@+id/fish_image"
+                        style="@style/fishImageStyle"
+                        android:layout_marginStart="@dimen/normalSize"
+                        android:src="@drawable/fish_gif_blue"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"/>
+
+<!--                    <ImageView-->
+<!--                        android:id="@+id/fish_line"-->
+<!--                        style="@style/fishImageStyle"-->
+<!--                        android:layout_width="5dp"-->
+<!--                        app:layout_constraintEnd_toEndOf="@+id/fish_image"-->
+<!--                        app:layout_constraintTop_toTopOf="@id/fish_image"-->
+<!--                        app:layout_constraintBottom_toBottomOf="@id/fish_image"-->
+<!--                        app:layout_constraintStart_toStartOf="@id/fish_image"-->
+<!--                        android:layout_marginEnd="20dp"/>-->
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </HorizontalScrollView>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/fadeLayout"
+        android:orientation="vertical"
+        android:visibility="visible"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#99817D7D"/>
+
+    <TextView
+        android:visibility="visible"
+        android:id="@+id/reverseCount"
+        style="@style/titleStyle"
+        android:textColor="#E6A5E60C"
+        android:textSize="50dp"
+        android:text="3"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

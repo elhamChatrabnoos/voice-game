@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".SelectGameActivity"
+    android:id="@+id/mainLayout"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:screenOrientation="landscape"
+    android:background="@drawable/back_main_page">
+
+   <LinearLayout
+       android:layout_width="match_parent"
+       android:layout_height="match_parent"
+       app:layout_constraintEnd_toEndOf="parent"
+       app:layout_constraintStart_toStartOf="parent"
+       app:layout_constraintTop_toTopOf="parent"
+       app:layout_constraintBottom_toBottomOf="parent"
+       android:orientation="horizontal">
+
+       <LinearLayout
+           android:id="@+id/wholeGameLayout"
+           android:gravity="center"
+           android:layout_weight="1"
+           android:layout_margin="@dimen/littleSize"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:orientation="vertical">
+
+           <LinearLayout
+               android:id="@+id/topLayout"
+               app:layout_constraintEnd_toEndOf="parent"
+               app:layout_constraintStart_toStartOf="parent"
+               app:layout_constraintTop_toTopOf="parent"
+               style="@style/seprate_layout">
+
+               <androidx.constraintlayout.widget.ConstraintLayout
+                   android:id="@+id/game1Layout"
+                   style="@style/IconGameStyle"
+                   android:layout_weight="1"
+                   android:onClick="carClick"
+                   android:background="@drawable/orange_background_game">
+
+                   <LinearLayout
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:orientation="vertical"
+                       android:layout_margin="@dimen/bigSize"
+                       app:layout_constraintBottom_toBottomOf="parent"
+                       app:layout_constraintEnd_toEndOf="parent"
+                       app:layout_constraintTop_toTopOf="parent"
+                       app:layout_constraintStart_toStartOf="parent">
+
+                       <ImageView
+                           android:id="@+id/car_img"
+                           android:layout_weight="1"
+                           style="@style/imageStyle"
+                           android:src="@drawable/red_car_r"/>
+
+                       <TextView
+                           style="@style/textStyle"
+                           android:text="@string/carGameTitle" />
+
+                   </LinearLayout>
+
+                   <ImageView
+                       android:id="@+id/carCheck"
+                       style="@style/check_image_style"
+                       app:layout_constraintEnd_toEndOf="parent"
+                       app:layout_constraintStart_toStartOf="parent"
+                       app:layout_constraintTop_toTopOf="parent"
+                       app:layout_constraintBottom_toBottomOf="parent"/>
+
+               </androidx.constraintlayout.widget.ConstraintLayout>
+
+               <androidx.constraintlayout.widget.ConstraintLayout
+                   android:id="@+id/game2Layout"
+                   style="@style/IconGameStyle"
+                   android:layout_weight="1.5"
+                   android:onClick="fruitClick"
+                   android:background="@drawable/blue_background_game">
+
+                   <LinearLayout
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:orientation="vertical"
+                       android:layout_margin="@dimen/bigSize"
+                       app:layout_constraintBottom_toBottomOf="parent"
+                       app:layout_constraintEnd_toEndOf="parent"
+                       app:layout_constraintTop_toTopOf="parent"
+                       app:layout_constraintStart_toStartOf="parent">
+
+                       <ImageView
+                           android:id="@+id/weight_img"
+                           style="@style/imageStyle"
+                           android:layout_weight="1"
+                           android:src="@drawable/blue_berry" />
+
+                       <TextView
+                           style="@style/textStyle"
+                           android:text="@string/weightGameTitle" />
+
+                   </LinearLayout>
+
+                   <ImageView
+                       android:id="@+id/fruitCheck"
+                       style="@style/check_image_style"
+                       app:layout_constraintBottom_toBottomOf="parent"
+                       app:layout_constraintEnd_toEndOf="parent"
+                       app:layout_constraintStart_toStartOf="parent"
+                       app:layout_constraintTop_toTopOf="parent" />
+
+               </androidx.constraintlayout.widget.ConstraintLayout>
+
+           </LinearLayout>
+
+           <LinearLayout
+               android:id="@+id/bottom_layout"
+               style="@style/seprate_layout"
+               app:layout_constraintBottom_toBottomOf="parent"
+               app:layout_constraintEnd_toEndOf="parent"
+               app:layout_constraintStart_toStartOf="parent"
+               android:orientation="horizontal">
+
+               <androidx.constraintlayout.widget.ConstraintLayout
+                   android:id="@+id/game3Layout"
+                   style="@style/IconGameStyle"
+                   android:layout_weight="1.5"
+                   android:onClick="fishClick"
+                   android:background="@drawable/blue_background_game">
+
+                   <LinearLayout
+                       android:layout_width="match_parent"
+                       android:layout_height="wrap_content"
+                       android:orientation="vertical"
+                       android:layout_margin="@dimen/bigSize"
+                       app:layout_constraintBottom_toBottomOf="parent"
+                       app:layout_constraintEnd_toEndOf="parent"
+                       app:layout_constraintTop_toTopOf="parent"
+                       app:layout_constraintStart_toStartOf="parent">
+
+                       <ImageView
+                           android:id="@+id/fish_img"
+                           style="@style/imageStyle"
+                           android:layout_weight="1"
+                           android:src="@drawable/fish_gif_yellow" />
+
+                       <TextView
+                           style="@style/textStyle"
+                           android:text="@string/fishGameTitle" />
+
+                   </LinearLayout>
+
+                   <ImageView
+                       android:id="@+id/fishCheck"
+                       android:src="@drawable/check_img"
+                       app:layout_constraintEnd_toEndOf="parent"
+                       app:layout_constraintStart_toStartOf="parent"
+                       app:layout_constraintTop_toTopOf="parent"
+                       app:layout_constraintBottom_toBottomOf="parent"
+                       style="@style/check_image_style" />
+
+               </androidx.constraintlayout.widget.ConstraintLayout>
+
+               <androidx.constraintlayout.widget.ConstraintLayout
+                   android:id="@+id/game4Layout"
+                   style="@style/IconGameStyle"
+                   android:layout_weight="1"
+                   android:onClick="stickManClick"
+                   android:background="@drawable/orange_background_game">
+
+                   <LinearLayout
+                       android:layout_width="match_parent"
+                       android:layout_height="wrap_content"
+                       android:orientation="vertical"
+                       android:layout_margin="@dimen/bigSize"
+                       app:layout_constraintBottom_toBottomOf="parent"
+                       app:layout_constraintEnd_toEndOf="parent"
+                       app:layout_constraintTop_toTopOf="parent"
+                       app:layout_constraintStart_toStartOf="parent">
+
+                       <ImageView
+                           android:id="@+id/run_image"
+                           style="@style/imageStyle"
+                           android:layout_weight="1"
+                           android:src="@drawable/ninja_green" />
+
+                       <TextView
+                           style="@style/textStyle"
+                           android:text="@string/runGameTitle" />
+
+                   </LinearLayout>
+
+                   <ImageView
+                       android:id="@+id/runCheck"
+                       style="@style/check_image_style"
+                       app:layout_constraintBottom_toBottomOf="parent"
+                       app:layout_constraintEnd_toEndOf="parent"
+                       app:layout_constraintStart_toStartOf="parent"
+                       app:layout_constraintTop_toTopOf="parent" />
+
+               </androidx.constraintlayout.widget.ConstraintLayout>
+
+           </LinearLayout>
+
+       </LinearLayout>
+
+       <TextView
+           android:id="@+id/startBtn"
+           style="@style/startButtonStyle"
+           android:layout_width="match_parent"
+           android:layout_height="99dp"
+           android:layout_gravity="bottom"
+           android:layout_weight="5"
+           android:background="@drawable/start_button_image" />
+
+   </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

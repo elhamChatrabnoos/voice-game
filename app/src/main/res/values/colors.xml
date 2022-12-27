@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="purple_200">#FFBB86FC</color>
+    <color name="purple_500">#FF6200EE</color>
+    <color name="purple_700">#FF3700B3</color>
+    <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="number_player_color">#C6FFFFFF</color>
+    <color name="background_color1">#A8FFFFFF</color>
+    <color name="buttons_color">#E6F8F8F8</color>
+    <color name="disable_btn_color">#E680BD83</color>
+    <color name="result_back_stickers">#1D2847</color>
+
+    <color name="red_color">#FF0000</color>
+    <color name="yellow_color">#FFF300</color>
+    <color name="green_color">#11FF00</color>
+    <color name="blue_color">#00EAFF</color>
+
+</resources>
