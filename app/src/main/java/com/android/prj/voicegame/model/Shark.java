@@ -16,8 +16,6 @@ public class Shark {
     private float sharkPositionY;
     public static boolean followFish;
     private int screenHeight;
-    private double scrollX;
-    private int layoutHeight;
     private boolean finishGame;
     private int rotationValue = 10;
     private int duration = 40;
@@ -30,7 +28,6 @@ public class Shark {
     public Shark(int backgroundWidth, int screenHeight, int layoutHeight, View topLine) {
         windowWidth = backgroundWidth;
         this.screenHeight = screenHeight;
-        this.layoutHeight = layoutHeight;
         this.topLine = topLine;
         followFish = false;
         finishGame = false;
