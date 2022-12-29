@@ -1,5 +1,6 @@
 package com.android.prj.voicegame.activities;
 
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.View;
@@ -7,6 +8,7 @@ import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.android.prj.voicegame.SelectGameActivity;
 import com.android.prj.voicegame.databinding.ActivityFinalBinding;
 import com.android.prj.voicegame.model.Player;
 
@@ -29,9 +31,12 @@ public class FinalActivity extends AppCompatActivity {
 
         sortPlayers();
         showPlayersImage();
-
         setEnglishLocale();
 
+        binding.btnBack.setOnClickListener(view -> {
+            finish();
+            startActivity(new Intent(this, SelectGameActivity.class));
+        });
     }
 
     private void setEnglishLocale() {

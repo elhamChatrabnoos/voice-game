@@ -1,7 +1,6 @@
 package com.android.prj.voicegame;
 
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -12,14 +11,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.android.prj.voicegame.activities.PlayerActivity;
 import com.android.prj.voicegame.databinding.ActivitySelectGameBinding;
 import com.android.prj.voicegame.model.Game;
-import com.android.prj.voicegame.model.Player;
+import com.android.prj.voicegame.publicClasses.PublicSetting;
 import com.android.prj.voicegame.publicClasses.SoundPermission;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Locale;
 
 
 public class SelectGameActivity extends AppCompatActivity {
@@ -46,15 +41,13 @@ public class SelectGameActivity extends AppCompatActivity {
         soundPermission.getPermission();
 
         checkClickableObject();
-
-        setEnglishLocale();
-    }
-
-    // use just english language
-    private void setEnglishLocale() {
-        Configuration configuration = getResources().getConfiguration();
-        configuration.setLayoutDirection(new Locale("en"));
-        getResources().updateConfiguration(configuration, getResources().getDisplayMetrics());
+        try {
+            PublicSetting.setAppLanguage(getResources());
+            PublicSetting.hideActionBar(getActionBar());
+        }
+        catch (Exception e){
+            Log.d("2323", "onCreate: " + e.getMessage());
+        }
     }
 
     private void checkClickableObject() {
@@ -131,4 +124,10 @@ public class SelectGameActivity extends AppCompatActivity {
 
     public void fruitClick(View view) {
     }
+
+    public void exitGame(View view) {
+        finish();
+    }
+
+
 }

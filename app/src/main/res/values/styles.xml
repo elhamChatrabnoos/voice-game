@@ -58,14 +58,10 @@
 
 
     <style name="startButtonStyle">
-        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textColor">@color/black</item>
-        <item name="android:textAlignment">center</item>
-        <item name="android:layout_gravity">end</item>
-        <item name="android:layout_marginTop">@dimen/bigSize</item>
-        <item name="android:layout_marginStart">@dimen/bigSize</item>
-
+        <item name="android:layout_weight">1.2</item>
     </style>
 
     <style name="numberPlayerEdt">
