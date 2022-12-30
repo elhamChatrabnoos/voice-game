@@ -742,7 +742,7 @@ public class CarGameActivity extends AppCompatActivity
             else {
                 getNitrogen = false;
                 // if car receive target point generate capsule
-                carCollision = nitrogen.generateCapsule(carPosition, movingStep, layout, carPoints[playerNumber], playersCarLayout[playerNumber]);
+                carCollision = nitrogen.generateCapsule(carPosition, movingStep, layout, carPoints[playerNumber], roadHeight);
                 // robot eat nitrogen randomly
                 if (playWithRobot) {
                     int num = Arrays.binarySearch(numberOfNitrogen, nitrogen.getNitrogenCount());

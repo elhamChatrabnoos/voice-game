@@ -70,6 +70,7 @@ public class Nitrogen {
         this.screenHeight = screenHeight;
     }
 
+    // generate random nitrogen in robot game
     public void generateRandomNumber() {
         randomPoints = new int[numberOfNitrogen];
         randomPoints[0] = random.nextInt(1000) + 50;
@@ -89,7 +90,7 @@ public class Nitrogen {
     }
 
     public boolean generateCapsule(int carPosition, int movingStep, ConstraintLayout playerLayout,
-                                        View nitrogenPoint, ConstraintLayout playerCarLayout) {
+                                        View nitrogenPoint, int roadHeight) {
         carCollision = false;
         for (int randomPoint : randomPoints) {
             // when car position was between generated random numbers make capsule
@@ -100,6 +101,7 @@ public class Nitrogen {
                 imageView = new ImageView(context);
                 ViewGroup.LayoutParams params = new ViewGroup.LayoutParams((int) (screenWidth * 0.15), (int) (screenHeight * 0.15));
                 imageView.setX(randomPoint + CarGameActivity.screenWidth);
+                imageView.setY((float) (roadHeight/4));
                 imageView.setLayoutParams(params);
                 imageView.setImageResource(R.drawable.caps_blue);
                 playerLayout.addView(imageView);
