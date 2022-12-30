@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.CarGameActivity"
+    tools:context=".car_game.CarGameActivity"
     android:orientation="vertical"
     android:id="@+id/mainLayout"
     android:gravity="center"
@@ -58,7 +58,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toEndOf="@id/seekBarLayout"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:background="#A8EC9B22">
+                android:background="@drawable/car_score_background">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
@@ -174,14 +174,15 @@
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/player1Layout"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_weight="1">
 
                     <HorizontalScrollView
                         android:id="@+id/scrollViewP1"
                         style="@style/playerLayoutStyle"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent">
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent">
 
                         <androidx.constraintlayout.widget.ConstraintLayout
                             android:id="@+id/player1InnerLayout"
@@ -189,11 +190,11 @@
                             android:background="@drawable/roadcu">
 
                             <ImageView
-                                android:id="@+id/road11"
+                                android:id="@+id/road1_1"
                                 style="@style/roadStyle"
-                                android:src="@drawable/roadcu"
                                 app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent" />
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:layout_constraintBottom_toBottomOf="parent"/>
 
                             <androidx.constraintlayout.widget.ConstraintLayout
                                 android:id="@+id/car1Layout"
@@ -255,15 +256,14 @@
                             <ImageView
                                 android:id="@+id/road2_1"
                                 style="@style/roadStyle"
-                                android:src="@drawable/roadcu"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toTopOf="parent" />
 
                             <androidx.constraintlayout.widget.ConstraintLayout
                                 android:id="@+id/car2Layout"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent"
+                                app:layout_constraintBottom_toBottomOf="@id/road2_1"
+                                app:layout_constraintTop_toTopOf="@id/road2_1"
+                                app:layout_constraintStart_toStartOf="@id/road2_1"
                                 style="@style/car_layout_style">
 
                                 <!--car -->
@@ -320,15 +320,14 @@
                             <ImageView
                                 android:id="@+id/road3_1"
                                 style="@style/roadStyle"
-                                android:src="@drawable/roadcu"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toTopOf="parent" />
 
                             <androidx.constraintlayout.widget.ConstraintLayout
                                 style="@style/car_layout_style"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent"
+                                app:layout_constraintBottom_toBottomOf="@id/road3_1"
+                                app:layout_constraintStart_toStartOf="@id/road3_1"
+                                app:layout_constraintTop_toTopOf="@id/road3_1"
                                 android:id="@+id/car3Layout">
 
                                 <pl.droidsonroids.gif.GifImageView
@@ -381,15 +380,14 @@
                             <ImageView
                                 android:id="@+id/road4_1"
                                 style="@style/roadStyle"
-                                android:src="@drawable/roadcu"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toTopOf="parent" />
 
                             <androidx.constraintlayout.widget.ConstraintLayout
                                 style="@style/car_layout_style"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent"
+                                app:layout_constraintBottom_toBottomOf="@id/road4_1"
+                                app:layout_constraintStart_toStartOf="@id/road4_1"
+                                app:layout_constraintTop_toTopOf="@id/road4_1"
                                 android:id="@+id/car4Layout">
 
                                 <pl.droidsonroids.gif.GifImageView
@@ -397,6 +395,8 @@
                                     style="@style/playerImageStyle"
                                     android:src="@drawable/blue_car_r"
                                     app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent"
+                                    app:layout_constraintBottom_toBottomOf="parent"
                                     tools:ignore="MissingConstraints" />
 
                                 <View

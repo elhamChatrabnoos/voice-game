@@ -100,19 +100,19 @@
     </style>
 
     <style name="playerImageStyle">
-        <item name="android:layout_width">200dp</item>
+        <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
     </style>
 
     <style name="roadStyle">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">7000dp</item>
+        <item name="android:layout_height">match_parent</item>
         <item name="android:visibility">invisible</item>
     </style>
 
     <style name="playerLayoutStyle">
         <item name="android:scrollbars">none</item>
-        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">match_parent</item>
         <item name="android:layout_marginTop">3dp</item>
         <item name="background">@drawable/roadcu</item>
@@ -216,14 +216,14 @@
     </style>
 
     <style name="fishImageStyle">
-        <item name="android:layout_width">@dimen/fish_image_size</item>
-        <item name="android:layout_height">@dimen/fish_image_size</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
     </style>
 
 
     <style name="shark_style1">
-        <item name="android:layout_width">300dp</item>
-        <item name="android:layout_height">300dp</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginEnd">200dp</item>
     </style>
 

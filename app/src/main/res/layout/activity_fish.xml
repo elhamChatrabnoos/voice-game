@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.FishGameActivity"
+    tools:context=".fish_game.FishGameActivity"
     android:layout_gravity="center"
     android:id="@+id/mainLayout"
     android:background="#939393">

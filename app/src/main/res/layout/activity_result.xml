@@ -7,7 +7,7 @@
     android:background="@drawable/result_background"
     android:layout_gravity="center"
     android:orientation="vertical"
-    tools:context=".activities.ResultActivity">
+    tools:context=".public_classes.activities.ResultActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
