@@ -129,6 +129,7 @@ public class Nitrogen {
         return carCollision;
     }
 
+    // when nitrogen cross car remove it from page
     public void removeViewFrom(ConstraintLayout layout, ProgressBar progressBar, ConstraintLayout targetImage, boolean spoilCar) {
         if (checkCollision(targetImage, imageView) && !spoilCar) {
             layout.removeView(imageView);

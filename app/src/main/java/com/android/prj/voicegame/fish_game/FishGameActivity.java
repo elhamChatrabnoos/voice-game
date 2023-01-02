@@ -25,6 +25,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.fragment.app.DialogFragment;
 
+import com.android.prj.voicegame.public_classes.PlaySound;
 import com.android.prj.voicegame.public_classes.activities.SelectGameActivity;
 import com.android.prj.voicegame.R;
 import com.android.prj.voicegame.public_classes.activities.PlayerActivity;
@@ -175,6 +176,7 @@ public class FishGameActivity extends AppCompatActivity implements
 
     private void clickItem() {
         binding.pauseBtn.setOnClickListener(view -> {
+            PlaySound.playClickSound(this, R.raw.click_sound);
             if (enablePauseButton && startGame) {
                 stopHandlers();
                 pauseDialog = new PauseDialog();

@@ -10,6 +10,7 @@ import com.android.prj.voicegame.R;
 import com.android.prj.voicegame.car_game.CarGameActivity;
 import com.android.prj.voicegame.databinding.ActivityResultBinding;
 import com.android.prj.voicegame.fish_game.FishGameActivity;
+import com.android.prj.voicegame.public_classes.PlaySound;
 import com.android.prj.voicegame.public_classes.model.Player;
 import com.android.prj.voicegame.public_classes.PublicSetting;
 
@@ -20,7 +21,6 @@ import java.util.TimerTask;
 
 public class ResultActivity extends AppCompatActivity {
 
-    //??? comment
     private ActivityResultBinding binding;
     private int numberOfPlayer;
 
@@ -35,6 +35,7 @@ public class ResultActivity extends AppCompatActivity {
         seFieldOfTextViews();
 
         binding.btnBack.setOnClickListener(view -> {
+            PlaySound.playClickSound(this, R.raw.click_sound);
             finish();
             startActivity(new Intent(this, SelectGameActivity.class));
         });
@@ -151,6 +152,8 @@ public class ResultActivity extends AppCompatActivity {
 
     public void NextGameButton(View view) {
         boolean allGamesDone = true;
+
+        PlaySound.playClickSound(this, R.raw.click_sound);
 
         // start next game depend on game list
         for (int i = 0; i < SelectGameActivity.gamesList.size(); i++) {

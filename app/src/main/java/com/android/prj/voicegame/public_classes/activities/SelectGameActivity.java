@@ -9,12 +9,13 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.prj.voicegame.R;
 import com.android.prj.voicegame.databinding.ActivitySelectGameBinding;
+import com.android.prj.voicegame.public_classes.PlaySound;
 import com.android.prj.voicegame.public_classes.model.Game;
 import com.android.prj.voicegame.public_classes.PublicSetting;
 import com.android.prj.voicegame.public_classes.SoundPermission;
+import com.android.prj.voicegame.public_classes.services.BackgroundMusicService;
 
 import java.util.ArrayList;
-
 
 public class SelectGameActivity extends AppCompatActivity {
 
@@ -33,13 +34,14 @@ public class SelectGameActivity extends AppCompatActivity {
         binding = ActivitySelectGameBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        gamesList = new ArrayList<>();
+        // start background music
+        Intent intentStartService = new Intent(this, BackgroundMusicService.class);
+        startService(intentStartService);
 
+        gamesList = new ArrayList<>();
         // get requirement of sound permission when activity start
         SoundPermission soundPermission = new SoundPermission(this, SelectGameActivity.this);
         soundPermission.getPermission();
-
-        checkClickableObject();
         PublicSetting.setAppLanguage(getApplicationContext().getResources());
 //        PublicSetting.hideBars(this);
     }
@@ -49,14 +51,6 @@ public class SelectGameActivity extends AppCompatActivity {
 
     }
 
-    private void checkClickableObject() {
-        binding.startBtn.setOnClickListener(view -> {
-            // when any game selected go do its work
-            if(selectAnyGame){
-                startPlayerActivity();
-            }
-        });
-    }
 
     private void startPlayerActivity() {
         startActivity(new Intent(SelectGameActivity.this, PlayerActivity.class));
@@ -71,6 +65,8 @@ public class SelectGameActivity extends AppCompatActivity {
             carGame = new Game(getString(R.string.carGameTitle), false);
             addOrRemoveGameToList(carGame, binding.carCheck, 0,true);
         }
+
+        PlaySound.playClickSound(this, R.raw.click_sound);
     }
 
     //
@@ -82,7 +78,7 @@ public class SelectGameActivity extends AppCompatActivity {
             fishGame = new Game(getString(R.string.fishGameTitle), false);
             addOrRemoveGameToList(fishGame, binding.fishCheck, 3, true);
         }
-//        enableStartButton();
+       PlaySound.playClickSound(this, R.raw.click_sound);
     }
 
     // when click on a game image add it to games list or remove it from game list
@@ -125,8 +121,16 @@ public class SelectGameActivity extends AppCompatActivity {
     }
 
     public void exitGame(View view) {
+        PlaySound.playClickSound(this, R.raw.click_sound);
         finish();
     }
 
 
+    public void startButton(View view) {
+        // when any game selected go do its work
+        if(selectAnyGame){
+            startPlayerActivity();
+        }
+        PlaySound.playClickSound(this, R.raw.click_sound);
+    }
 }

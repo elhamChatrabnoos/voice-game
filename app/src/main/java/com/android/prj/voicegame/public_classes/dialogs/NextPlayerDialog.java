@@ -15,6 +15,7 @@ import androidx.fragment.app.DialogFragment;
 import com.android.prj.voicegame.R;
 import com.android.prj.voicegame.car_game.CarGameActivity;
 import com.android.prj.voicegame.databinding.NextPlayerDialogBinding;
+import com.android.prj.voicegame.public_classes.PlaySound;
 
 import java.util.Objects;
 
@@ -53,6 +54,7 @@ public class NextPlayerDialog extends DialogFragment {
         }
 
         bindingCu.yesBtn.setOnClickListener(view -> {
+            PlaySound.playClickSound(getContext(), R.raw.click_sound);
             if (message.equals(getString(R.string.finishMsg))){
                 finish.startTheGame(isPlayerRobot, getString(R.string.finishMsg));
             }
@@ -63,10 +65,12 @@ public class NextPlayerDialog extends DialogFragment {
         });
 
         bindingCu.restartBtn.setOnClickListener(view -> {
+            PlaySound.playClickSound(getContext(), R.raw.click_sound);
             finish.restartFromNextPlayerDialog(this);
         });
 
         bindingCu.mainMenuBtn.setOnClickListener(view -> {
+            PlaySound.playClickSound(getContext(), R.raw.click_sound);
             dismiss();
             finish.goMainMenu();
         });

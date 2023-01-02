@@ -23,6 +23,7 @@ import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.fragment.app.DialogFragment;
 
 import com.android.prj.voicegame.R;
+import com.android.prj.voicegame.public_classes.PlaySound;
 import com.android.prj.voicegame.public_classes.activities.SelectGameActivity;
 import com.android.prj.voicegame.public_classes.activities.PlayerActivity;
 import com.android.prj.voicegame.public_classes.activities.ResultActivity;
@@ -207,6 +208,7 @@ public class CarGameActivity extends AppCompatActivity
 
     private void onClickItems() {
         binding.pauseBtn.setOnClickListener(view -> {
+            PlaySound.playClickSound(this, R.raw.click_sound);
             if (enablePauseButton && startGame) {
                 mainHandler.removeCallbacksAndMessages(null);
                 PauseDialog dialog = new PauseDialog();

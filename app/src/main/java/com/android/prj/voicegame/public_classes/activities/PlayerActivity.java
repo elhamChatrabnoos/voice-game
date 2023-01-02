@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.android.prj.voicegame.R;
 import com.android.prj.voicegame.car_game.CarGameActivity;
 import com.android.prj.voicegame.databinding.ActivityPlayerBinding;
+import com.android.prj.voicegame.public_classes.PlaySound;
 import com.android.prj.voicegame.public_classes.dialogs.SensorSettingDialog;
 import com.android.prj.voicegame.fish_game.FishGameActivity;
 import com.android.prj.voicegame.public_classes.model.Player;
@@ -127,15 +128,18 @@ public class PlayerActivity extends AppCompatActivity implements SensorSettingDi
     }
 
     public void botClick(View view) {
+        PlaySound.playClickSound(this, R.raw.click_sound);
         setImagesResources(R.drawable.robot_image, getString(R.string.robot));
     }
 
     public void humanClick(View view) {
+        PlaySound.playClickSound(this, R.raw.click_sound);
         setImagesResources(R.drawable.human_image, getString(R.string.human));
     }
 
     public void startGameClick(View view) {
-       if (enableStartButton){
+        PlaySound.playClickSound(this, R.raw.click_sound);
+        if (enableStartButton){
            showSensSettingDialog();
        }
        else{
@@ -180,21 +184,26 @@ public class PlayerActivity extends AppCompatActivity implements SensorSettingDi
     public void backButtonClick(View view) {
         finish();
         startActivity(new Intent(PlayerActivity.this, SelectGameActivity.class));
+        PlaySound.playClickSound(this, R.raw.click_sound);
     }
 
     public void player1Onclick(View view) {
+        PlaySound.playClickSound(this, R.raw.click_sound);
         setPlayerField(0, binding.player1Img, binding.player1NameEdt, 0, "" );
     }
 
     public void player2Onclick(View view) {
+        PlaySound.playClickSound(this, R.raw.click_sound);
         setPlayerField(1, binding.player2Img, binding.player2NameEdt, 0, "");
     }
 
     public void player3Onclick(View view) {
+        PlaySound.playClickSound(this, R.raw.click_sound);
         setPlayerField(2, binding.player3Img, binding.player3NameEdt, 0, "");
     }
 
     public void player4Onclick(View view) {
+        PlaySound.playClickSound(this, R.raw.click_sound);
         setPlayerField(3, binding.player4Img, binding.player4NameEdt, 0, "");
     }
 
@@ -379,14 +388,17 @@ public class PlayerActivity extends AppCompatActivity implements SensorSettingDi
     }
 
     public void greenColorClick(View view) {
+        PlaySound.playClickSound(this, R.raw.click_sound);
         replaceColorToPlayer(1);
     }
 
     public void yellowColorClick(View view) {
+        PlaySound.playClickSound(this, R.raw.click_sound);
         replaceColorToPlayer(2);
     }
 
     public void blueColorClick(View view) {
+        PlaySound.playClickSound(this, R.raw.click_sound);
         replaceColorToPlayer(3);
     }
 

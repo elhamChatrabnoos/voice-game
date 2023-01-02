@@ -13,8 +13,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
+import com.android.prj.voicegame.R;
 import com.android.prj.voicegame.databinding.SensitiveSettingLayoutBinding;
 import com.android.prj.voicegame.fish_game.SeekBarMoving;
+import com.android.prj.voicegame.public_classes.PlaySound;
 import com.android.prj.voicegame.public_classes.SoundDetector;
 
 public class SensorSettingDialog extends DialogFragment {
@@ -116,6 +118,7 @@ public class SensorSettingDialog extends DialogFragment {
     private void onClickObject() {
         binding.startGame.setOnClickListener(view -> {
             // start game activity
+            PlaySound.playClickSound(getContext(), R.raw.click_sound);
             loopVar = false;
             check.getSensInfo(sliderValue);
             dismiss();
