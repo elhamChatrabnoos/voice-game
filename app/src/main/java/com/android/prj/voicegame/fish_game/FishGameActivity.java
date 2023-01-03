@@ -6,7 +6,6 @@ import static java.lang.Thread.sleep;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.res.ColorStateList;
-import android.content.res.Configuration;
 import android.graphics.Color;
 import android.media.MediaRecorder;
 import android.os.Bundle;
@@ -28,7 +27,7 @@ import androidx.fragment.app.DialogFragment;
 import com.android.prj.voicegame.public_classes.PlaySound;
 import com.android.prj.voicegame.public_classes.activities.SelectGameActivity;
 import com.android.prj.voicegame.R;
-import com.android.prj.voicegame.public_classes.activities.PlayerActivity;
+import com.android.prj.voicegame.public_classes.activities.PlayerSelectionActivity;
 import com.android.prj.voicegame.public_classes.activities.ResultActivity;
 import com.android.prj.voicegame.public_classes.dialogs.NextPlayerDialog;
 import com.android.prj.voicegame.public_classes.dialogs.PauseDialog;
@@ -47,7 +46,6 @@ import com.android.prj.voicegame.public_classes.SoundDetector;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.ExecutorService;
@@ -131,7 +129,7 @@ public class FishGameActivity extends AppCompatActivity implements
         setContentView(binding.getRoot());
 
         getAndSetPlayerInfo();
-        numberOfPlayer = PlayerActivity.numberOfPlayer;
+        numberOfPlayer = PlayerSelectionActivity.numberOfPlayer;
 
         //cant manipulate scrollview
         binding.gameScrollView.setOnTouchListener((view, motionEvent) -> true);
@@ -142,10 +140,10 @@ public class FishGameActivity extends AppCompatActivity implements
 
         // if robot game is start with human or game is without robot
         if (!playWithRobot) {
-            runOnUiThread(() -> showDialogFinish(PlayerActivity.playerList.get(playerNumber).isPlayerRobot(), PlayerActivity.playerList.get(playerNumber).getPlayerName()));
+            runOnUiThread(() -> showDialogFinish(PlayerSelectionActivity.playerList.get(playerNumber).isPlayerRobot(), PlayerSelectionActivity.playerList.get(playerNumber).getPlayerName()));
         }
         else {
-            startTheGame(PlayerActivity.playerList.get(playerNumber).isPlayerRobot(), PlayerActivity.playerList.get(playerNumber).getPlayerName());
+            startTheGame(PlayerSelectionActivity.playerList.get(playerNumber).isPlayerRobot(), PlayerSelectionActivity.playerList.get(playerNumber).getPlayerName());
         }
 
         clickItem();
@@ -163,7 +161,7 @@ public class FishGameActivity extends AppCompatActivity implements
         // take the shark out of page
         binding.sharkImage.setX(-1300);
         binding.sharkImage.setY(screenHeight/2);
-        soundSensitive = PlayerActivity.soundSensitive;
+        soundSensitive = PlayerSelectionActivity.soundSensitive;
 
         PublicSetting.setAppLanguage(getApplicationContext().getResources());
 //        PublicSetting.hideBars(this);
@@ -176,7 +174,7 @@ public class FishGameActivity extends AppCompatActivity implements
 
     private void clickItem() {
         binding.pauseBtn.setOnClickListener(view -> {
-            PlaySound.playClickSound(this, R.raw.click_sound);
+            PlaySound.playSound(this, R.raw.click_sound);
             if (enablePauseButton && startGame) {
                 stopHandlers();
                 pauseDialog = new PauseDialog();
@@ -195,21 +193,21 @@ public class FishGameActivity extends AppCompatActivity implements
 
     private void getAndSetPlayerInfo() {
         // set image for each player depend on her color
-        for (int i = 0; i < PlayerActivity.playerList.size(); i++) {
-            PlayerActivity.playerList.get(i).setPlayerScore(0);
-            String playerColor = PlayerActivity.playerList.get(i).getPlayerColor();
+        for (int i = 0; i < PlayerSelectionActivity.playerList.size(); i++) {
+            PlayerSelectionActivity.playerList.get(i).setPlayerScore(0);
+            String playerColor = PlayerSelectionActivity.playerList.get(i).getPlayerColor();
             if (playerColor.equals(getString(R.string.blue_color))) {
-                PlayerActivity.playerList.get(i).setPlayerGif(R.drawable.fish_gif_blue);
-                PlayerActivity.playerList.get(i).setPlayerSecondGif(R.drawable.confused_blue_fish);
+                PlayerSelectionActivity.playerList.get(i).setPlayerGif(R.drawable.fish_gif_blue);
+                PlayerSelectionActivity.playerList.get(i).setPlayerSecondGif(R.drawable.confused_blue_fish);
             } else if (playerColor.equals(getString(R.string.green_color))) {
-                PlayerActivity.playerList.get(i).setPlayerGif(R.drawable.fish_gif_gereen);
-                PlayerActivity.playerList.get(i).setPlayerSecondGif(R.drawable.confused_green_fish);
+                PlayerSelectionActivity.playerList.get(i).setPlayerGif(R.drawable.fish_gif_gereen);
+                PlayerSelectionActivity.playerList.get(i).setPlayerSecondGif(R.drawable.confused_green_fish);
             } else if (playerColor.equals(getString(R.string.red_color))) {
-                PlayerActivity.playerList.get(i).setPlayerGif(R.drawable.fish_gif_red);
-                PlayerActivity.playerList.get(i).setPlayerSecondGif(R.drawable.confused_red_fish);
+                PlayerSelectionActivity.playerList.get(i).setPlayerGif(R.drawable.fish_gif_red);
+                PlayerSelectionActivity.playerList.get(i).setPlayerSecondGif(R.drawable.confused_red_fish);
             } else if (playerColor.equals(getString(R.string.yellow_color))) {
-                PlayerActivity.playerList.get(i).setPlayerGif(R.drawable.fish_gif_yellow);
-                PlayerActivity.playerList.get(i).setPlayerSecondGif(R.drawable.confused_yellow_fish);
+                PlayerSelectionActivity.playerList.get(i).setPlayerGif(R.drawable.fish_gif_yellow);
+                PlayerSelectionActivity.playerList.get(i).setPlayerSecondGif(R.drawable.confused_yellow_fish);
             }
         }
 
@@ -223,12 +221,12 @@ public class FishGameActivity extends AppCompatActivity implements
 
     private void readyPlayerBoard() {
         // save image of player and their score to a array
-        for (int i = 0; i < PlayerActivity.playerList.size(); i++) {
-            playerScoreImage[i].setImageResource(PlayerActivity.playerList.get(i).getPlayerGif());
+        for (int i = 0; i < PlayerSelectionActivity.playerList.size(); i++) {
+            playerScoreImage[i].setImageResource(PlayerSelectionActivity.playerList.get(i).getPlayerGif());
         }
 
         // remove additional layout
-        for (int i = PlayerActivity.playerList.size(); i < 4; i++) {
+        for (int i = PlayerSelectionActivity.playerList.size(); i < 4; i++) {
             binding.scoresLayout.removeView(playerScoreLayout[i]);
         }
     }
@@ -251,10 +249,10 @@ public class FishGameActivity extends AppCompatActivity implements
         maxProgressValue = 6;
         addProgressBar();
 
-        binding.fishImage.setImageResource(PlayerActivity.playerList.get(playerNumber).getPlayerGif());
+        binding.fishImage.setImageResource(PlayerSelectionActivity.playerList.get(playerNumber).getPlayerGif());
 
         // check first player that is robot or not for starting the game
-        if (PlayerActivity.playerList.get(playerNumber).isPlayerRobot()) {
+        if (PlayerSelectionActivity.playerList.get(playerNumber).isPlayerRobot()) {
             playWithRobot = true;
             tempBoolean = true;
             bot = new FishBot();
@@ -295,7 +293,7 @@ public class FishGameActivity extends AppCompatActivity implements
         }
 
         // start fish and shark thread
-        startFishMoving(PlayerActivity.playerList.get(playerNumber));
+        startFishMoving(PlayerSelectionActivity.playerList.get(playerNumber));
         startSharkMoving(binding.sharkImage);
 
         rocksCollision = new boolean[rockList.size()];
@@ -453,9 +451,9 @@ public class FishGameActivity extends AppCompatActivity implements
             // when next player turn show suitable dialog depend on robot or human
             isNext = true;
             if (!playWithRobot) {
-                runOnUiThread(() -> showDialogFinish(PlayerActivity.playerList.get(playerNumber).isPlayerRobot(), PlayerActivity.playerList.get(playerNumber).getPlayerName()));
+                runOnUiThread(() -> showDialogFinish(PlayerSelectionActivity.playerList.get(playerNumber).isPlayerRobot(), PlayerSelectionActivity.playerList.get(playerNumber).getPlayerName()));
             } else {
-                startTheGame(PlayerActivity.playerList.get(playerNumber).isPlayerRobot(), PlayerActivity.playerList.get(playerNumber).getPlayerName());
+                startTheGame(PlayerSelectionActivity.playerList.get(playerNumber).isPlayerRobot(), PlayerSelectionActivity.playerList.get(playerNumber).getPlayerName());
             }
         }
     }
@@ -726,10 +724,10 @@ public class FishGameActivity extends AppCompatActivity implements
 
     private void definePlayerTurn(int playerNumber) {
         // to define which player should started
-        for (int i = 0; i < PlayerActivity.playerList.size(); i++) {
-            PlayerActivity.playerList.get(i).setPlayerTurn(false);
+        for (int i = 0; i < PlayerSelectionActivity.playerList.size(); i++) {
+            PlayerSelectionActivity.playerList.get(i).setPlayerTurn(false);
             if (i == playerNumber) {
-                PlayerActivity.playerList.get(i).setPlayerTurn(true);
+                PlayerSelectionActivity.playerList.get(i).setPlayerTurn(true);
             }
         }
     }
@@ -749,7 +747,7 @@ public class FishGameActivity extends AppCompatActivity implements
 
                     // show reverse number count
                     if (targetTime == 0) {
-                        startFishMoving(PlayerActivity.playerList.get(playerNumber));
+                        startFishMoving(PlayerSelectionActivity.playerList.get(playerNumber));
                     }
 
                     // after 4 second game started
@@ -903,9 +901,9 @@ public class FishGameActivity extends AppCompatActivity implements
 
     private void resetPlayersFiled() {
         // reset all players score top of the board
-        for (int i = 0; i < PlayerActivity.playerList.size(); i++) {
+        for (int i = 0; i < PlayerSelectionActivity.playerList.size(); i++) {
             playersScoreTxt[i].setText("0");
-            PlayerActivity.playerList.get(i).setPlayerScore(0);
+            PlayerSelectionActivity.playerList.get(i).setPlayerScore(0);
         }
     }
 
@@ -930,16 +928,16 @@ public class FishGameActivity extends AppCompatActivity implements
         runOnUiThread(this::resetTheGame);
 
         // empty all player score
-        for (int i = 0; i < PlayerActivity.playerList.size(); i++) {
-            PlayerActivity.playerList.get(i).setPlayerScore(i);
+        for (int i = 0; i < PlayerSelectionActivity.playerList.size(); i++) {
+            PlayerSelectionActivity.playerList.get(i).setPlayerScore(i);
         }
 
         // if robot game is start with human or game is without robot
         if (!playWithRobot) {
-            runOnUiThread(() -> showDialogFinish(PlayerActivity.playerList.get(playerNumber).isPlayerRobot(), PlayerActivity.playerList.get(playerNumber).getPlayerName()));
+            runOnUiThread(() -> showDialogFinish(PlayerSelectionActivity.playerList.get(playerNumber).isPlayerRobot(), PlayerSelectionActivity.playerList.get(playerNumber).getPlayerName()));
         }
         else {
-            startTheGame(PlayerActivity.playerList.get(playerNumber).isPlayerRobot(), PlayerActivity.playerList.get(playerNumber).getPlayerName());
+            startTheGame(PlayerSelectionActivity.playerList.get(playerNumber).isPlayerRobot(), PlayerSelectionActivity.playerList.get(playerNumber).getPlayerName());
         }
         resetPlayersFiled();
     }

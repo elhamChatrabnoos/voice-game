@@ -33,7 +33,7 @@
             android:exported="true"
             android:screenOrientation="landscape" />
         <activity
-            android:name=".public_classes.activities.PlayerActivity"
+            android:name=".public_classes.activities.PlayerSelectionActivity"
             android:exported="true"
             android:screenOrientation="landscape" />
         <activity

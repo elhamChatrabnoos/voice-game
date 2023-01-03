@@ -49,7 +49,7 @@ public class FinalActivity extends AppCompatActivity {
         playersImageView = new ImageView[]{binding.firstPlayer, binding.secondPlayer,
                 binding.thirdPlayer, binding.fourthPlayer};
 
-        int numberOfPlayer = PlayerActivity.numberOfPlayer;
+        int numberOfPlayer = PlayerSelectionActivity.numberOfPlayer;
 
         for (int i = 0; i < numberOfPlayer; i++) {
 //            switch (i){
@@ -73,13 +73,13 @@ public class FinalActivity extends AppCompatActivity {
 
     
     private void sortPlayers() {
-        Collections.sort(PlayerActivity.playerList, new Comparator<Player>(){
+        Collections.sort(PlayerSelectionActivity.playerList, new Comparator<Player>(){
             public int compare(Player obj1, Player obj2) {
                 return Integer.compare(obj2.getPlayerTotalScore(), obj1.getPlayerTotalScore());
             }
         });
 
-        playerList = PlayerActivity.playerList;
+        playerList = PlayerSelectionActivity.playerList;
     }
     
     

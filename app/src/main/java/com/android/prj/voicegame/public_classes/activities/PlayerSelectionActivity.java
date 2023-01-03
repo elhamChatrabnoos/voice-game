@@ -12,22 +12,23 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.prj.voicegame.R;
 import com.android.prj.voicegame.car_game.CarGameActivity;
-import com.android.prj.voicegame.databinding.ActivityPlayerBinding;
-import com.android.prj.voicegame.public_classes.PlaySound;
-import com.android.prj.voicegame.public_classes.dialogs.SensorSettingDialog;
+import com.android.prj.voicegame.databinding.ActivityPlayerSelectionBinding;
 import com.android.prj.voicegame.fish_game.FishGameActivity;
-import com.android.prj.voicegame.public_classes.model.Player;
+import com.android.prj.voicegame.public_classes.PlaySound;
 import com.android.prj.voicegame.public_classes.PublicSetting;
+import com.android.prj.voicegame.public_classes.dialogs.SensorSettingDialog;
+import com.android.prj.voicegame.public_classes.model.Player;
+import com.android.prj.voicegame.public_classes.services.BackgroundMusicService;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class PlayerActivity extends AppCompatActivity implements SensorSettingDialog.SensitiveSetting {
+public class PlayerSelectionActivity extends AppCompatActivity implements SensorSettingDialog.SensitiveSetting {
 
     String[] robotsName;
     String[] colors;
-    private ActivityPlayerBinding binding;
+    private ActivityPlayerSelectionBinding binding;
     public static int numberOfPlayer;
     private final boolean[] players = new boolean[4];
     public static String[] playersName;
@@ -51,7 +52,7 @@ public class PlayerActivity extends AppCompatActivity implements SensorSettingDi
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivityPlayerBinding.inflate(getLayoutInflater());
+        binding = ActivityPlayerSelectionBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         fillField();
 
@@ -128,17 +129,17 @@ public class PlayerActivity extends AppCompatActivity implements SensorSettingDi
     }
 
     public void botClick(View view) {
-        PlaySound.playClickSound(this, R.raw.click_sound);
+        PlaySound.playSound(this, R.raw.click_sound);
         setImagesResources(R.drawable.robot_image, getString(R.string.robot));
     }
 
     public void humanClick(View view) {
-        PlaySound.playClickSound(this, R.raw.click_sound);
+        PlaySound.playSound(this, R.raw.click_sound);
         setImagesResources(R.drawable.human_image, getString(R.string.human));
     }
 
     public void startGameClick(View view) {
-        PlaySound.playClickSound(this, R.raw.click_sound);
+        PlaySound.playSound(this, R.raw.click_sound);
         if (enableStartButton){
            showSensSettingDialog();
        }
@@ -151,6 +152,8 @@ public class PlayerActivity extends AppCompatActivity implements SensorSettingDi
         // show setting for sound detective sensitive
         SensorSettingDialog dialog = new SensorSettingDialog();
         dialog.show(getSupportFragmentManager(), "sensor setting dialog");
+        Intent soundService = new Intent(PlayerSelectionActivity.this, BackgroundMusicService.class);
+        stopService(soundService);
     }
 
     private void startActivity() {
@@ -171,11 +174,11 @@ public class PlayerActivity extends AppCompatActivity implements SensorSettingDi
         for (int i = 0; i < SelectGameActivity.gamesList.size(); i++) {
             String gameName = SelectGameActivity.gamesList.get(i).getGameName();
             if (gameName.equals(getString(R.string.carGameTitle))){
-                startActivity(new Intent(PlayerActivity.this, CarGameActivity.class));
+                startActivity(new Intent(PlayerSelectionActivity.this, CarGameActivity.class));
                 break;
             }
             else if (gameName.equals(getString(R.string.fishGameTitle))){
-                startActivity(new Intent(PlayerActivity.this, FishGameActivity.class));
+                startActivity(new Intent(PlayerSelectionActivity.this, FishGameActivity.class));
                 break;
             }
         }
@@ -183,27 +186,27 @@ public class PlayerActivity extends AppCompatActivity implements SensorSettingDi
 
     public void backButtonClick(View view) {
         finish();
-        startActivity(new Intent(PlayerActivity.this, SelectGameActivity.class));
-        PlaySound.playClickSound(this, R.raw.click_sound);
+        startActivity(new Intent(PlayerSelectionActivity.this, SelectGameActivity.class));
+        PlaySound.playSound(this, R.raw.click_sound);
     }
 
     public void player1Onclick(View view) {
-        PlaySound.playClickSound(this, R.raw.click_sound);
+        PlaySound.playSound(this, R.raw.click_sound);
         setPlayerField(0, binding.player1Img, binding.player1NameEdt, 0, "" );
     }
 
     public void player2Onclick(View view) {
-        PlaySound.playClickSound(this, R.raw.click_sound);
+        PlaySound.playSound(this, R.raw.click_sound);
         setPlayerField(1, binding.player2Img, binding.player2NameEdt, 0, "");
     }
 
     public void player3Onclick(View view) {
-        PlaySound.playClickSound(this, R.raw.click_sound);
+        PlaySound.playSound(this, R.raw.click_sound);
         setPlayerField(2, binding.player3Img, binding.player3NameEdt, 0, "");
     }
 
     public void player4Onclick(View view) {
-        PlaySound.playClickSound(this, R.raw.click_sound);
+        PlaySound.playSound(this, R.raw.click_sound);
         setPlayerField(3, binding.player4Img, binding.player4NameEdt, 0, "");
     }
 
@@ -384,21 +387,22 @@ public class PlayerActivity extends AppCompatActivity implements SensorSettingDi
 
     // clickable of color box above
     public void redColorClick(View view) {
+        PlaySound.playSound(this, R.raw.click_sound);
         replaceColorToPlayer(0);
     }
 
     public void greenColorClick(View view) {
-        PlaySound.playClickSound(this, R.raw.click_sound);
+        PlaySound.playSound(this, R.raw.click_sound);
         replaceColorToPlayer(1);
     }
 
     public void yellowColorClick(View view) {
-        PlaySound.playClickSound(this, R.raw.click_sound);
+        PlaySound.playSound(this, R.raw.click_sound);
         replaceColorToPlayer(2);
     }
 
     public void blueColorClick(View view) {
-        PlaySound.playClickSound(this, R.raw.click_sound);
+        PlaySound.playSound(this, R.raw.click_sound);
         replaceColorToPlayer(3);
     }
 

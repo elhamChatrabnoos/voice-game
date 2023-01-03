@@ -30,15 +30,17 @@ public class ResultActivity extends AppCompatActivity {
         binding = ActivityResultBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        numberOfPlayer = PlayerActivity.numberOfPlayer;
-        getInfoOfPlayers(PlayerActivity.playerList);
+        numberOfPlayer = PlayerSelectionActivity.numberOfPlayer;
+        getInfoOfPlayers(PlayerSelectionActivity.playerList);
         seFieldOfTextViews();
 
         binding.btnBack.setOnClickListener(view -> {
-            PlaySound.playClickSound(this, R.raw.click_sound);
+            PlaySound.playSound(this, R.raw.click_sound);
             finish();
             startActivity(new Intent(this, SelectGameActivity.class));
         });
+
+        PlaySound.playSound(this, R.raw.main_background_sound);
 
         PublicSetting.setAppLanguage(getApplicationContext().getResources());
 //        PublicSetting.hideBars(this);
@@ -62,19 +64,19 @@ public class ResultActivity extends AppCompatActivity {
 
     private void setFourPlayerField() {
         setThreePlayerField();
-        showResult(PlayerActivity.playerList.get(3), 8000);
-        binding.fourthPlayerName.setText(PlayerActivity.playerList.get(3).getPlayerName());
-        binding.fourthPlayerScore.setText(String.valueOf(PlayerActivity.playerList.get(3).getPlayerScore()));
+        showResult(PlayerSelectionActivity.playerList.get(3), 8000);
+        binding.fourthPlayerName.setText(PlayerSelectionActivity.playerList.get(3).getPlayerName());
+        binding.fourthPlayerScore.setText(String.valueOf(PlayerSelectionActivity.playerList.get(3).getPlayerScore()));
     }
 
     private void setThreePlayerField() {
         setTwoPlayerField();
-        showResult(PlayerActivity.playerList.get(2), 6000);
+        showResult(PlayerSelectionActivity.playerList.get(2), 6000);
         if (numberOfPlayer == 3) {
             binding.wholeLayout.removeView(binding.fourthPlayerLayout);
         }
-        binding.thirdPlayerName.setText(PlayerActivity.playerList.get(2).getPlayerName());
-        binding.thirdPlayerScore.setText(String.valueOf(PlayerActivity.playerList.get(2).getPlayerScore()));
+        binding.thirdPlayerName.setText(PlayerSelectionActivity.playerList.get(2).getPlayerName());
+        binding.thirdPlayerScore.setText(String.valueOf(PlayerSelectionActivity.playerList.get(2).getPlayerScore()));
     }
 
     private void setTwoPlayerField() {
@@ -83,16 +85,16 @@ public class ResultActivity extends AppCompatActivity {
             binding.wholeLayout.removeView(binding.thirdPlayerLayout);
         }
 
-        showResult(PlayerActivity.playerList.get(0), 2000);
-        showResult(PlayerActivity.playerList.get(1), 4000);
+        showResult(PlayerSelectionActivity.playerList.get(0), 2000);
+        showResult(PlayerSelectionActivity.playerList.get(1), 4000);
 
         // set first player info
-        binding.firstPlayerName.setText(PlayerActivity.playerList.get(0).getPlayerName());
-        binding.firstPlayerScore.setText(String.valueOf(PlayerActivity.playerList.get(0).getPlayerScore()));
+        binding.firstPlayerName.setText(PlayerSelectionActivity.playerList.get(0).getPlayerName());
+        binding.firstPlayerScore.setText(String.valueOf(PlayerSelectionActivity.playerList.get(0).getPlayerScore()));
 
         // set player 2 info
-        binding.secondPlayerName.setText(PlayerActivity.playerList.get(1).getPlayerName());
-        binding.secondPlayerScore.setText(String.valueOf(PlayerActivity.playerList.get(1).getPlayerScore()));
+        binding.secondPlayerName.setText(PlayerSelectionActivity.playerList.get(1).getPlayerName());
+        binding.secondPlayerScore.setText(String.valueOf(PlayerSelectionActivity.playerList.get(1).getPlayerScore()));
     }
 
     private void showResult(Player player, int targetTime) {
@@ -153,7 +155,7 @@ public class ResultActivity extends AppCompatActivity {
     public void NextGameButton(View view) {
         boolean allGamesDone = true;
 
-        PlaySound.playClickSound(this, R.raw.click_sound);
+        PlaySound.playSound(this, R.raw.click_sound);
 
         // start next game depend on game list
         for (int i = 0; i < SelectGameActivity.gamesList.size(); i++) {

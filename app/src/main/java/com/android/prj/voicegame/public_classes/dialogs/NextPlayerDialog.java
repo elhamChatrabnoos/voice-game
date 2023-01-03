@@ -54,7 +54,6 @@ public class NextPlayerDialog extends DialogFragment {
         }
 
         bindingCu.yesBtn.setOnClickListener(view -> {
-            PlaySound.playClickSound(getContext(), R.raw.click_sound);
             if (message.equals(getString(R.string.finishMsg))){
                 finish.startTheGame(isPlayerRobot, getString(R.string.finishMsg));
             }
@@ -65,12 +64,12 @@ public class NextPlayerDialog extends DialogFragment {
         });
 
         bindingCu.restartBtn.setOnClickListener(view -> {
-            PlaySound.playClickSound(getContext(), R.raw.click_sound);
+            PlaySound.playSound(getContext(), R.raw.click_sound);
             finish.restartFromNextPlayerDialog(this);
         });
 
         bindingCu.mainMenuBtn.setOnClickListener(view -> {
-            PlaySound.playClickSound(getContext(), R.raw.click_sound);
+            PlaySound.playSound(getContext(), R.raw.click_sound);
             dismiss();
             finish.goMainMenu();
         });
@@ -88,11 +87,10 @@ public class NextPlayerDialog extends DialogFragment {
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
-    //?? commend
+    // this class implement every class that want to show
     public interface Finish{
         void startTheGame(boolean isPlayerRobot, String messageTxt);
         void restartFromNextPlayerDialog(DialogFragment dialogFragment);
         void goMainMenu();
     }
-
 }

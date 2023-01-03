@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="horizontal"
-    tools:context=".public_classes.activities.PlayerActivity"
+    tools:context=".public_classes.activities.PlayerSelectionActivity"
     android:gravity="center"
     android:background="@drawable/player_select_background">
 

@@ -25,7 +25,7 @@ import androidx.fragment.app.DialogFragment;
 import com.android.prj.voicegame.R;
 import com.android.prj.voicegame.public_classes.PlaySound;
 import com.android.prj.voicegame.public_classes.activities.SelectGameActivity;
-import com.android.prj.voicegame.public_classes.activities.PlayerActivity;
+import com.android.prj.voicegame.public_classes.activities.PlayerSelectionActivity;
 import com.android.prj.voicegame.public_classes.activities.ResultActivity;
 import com.android.prj.voicegame.public_classes.dialogs.NextPlayerDialog;
 import com.android.prj.voicegame.public_classes.dialogs.PauseDialog;
@@ -128,7 +128,7 @@ public class CarGameActivity extends AppCompatActivity
         setSeekBarSetting();
         getInformationOfPlayers();
 
-        soundSensitive = PlayerActivity.soundSensitive;
+        soundSensitive = PlayerSelectionActivity.soundSensitive;
         carsFirstPosition = (int) binding.car1.getX();
         startGameAtFirst();
 
@@ -163,9 +163,10 @@ public class CarGameActivity extends AppCompatActivity
         executorService = Executors.newFixedThreadPool(4);
 
         // check first player that is robot or not for starting the game
-        if (PlayerActivity.playerList.get(playerNumber).isPlayerRobot()) {
+        if (PlayerSelectionActivity.playerList.get(playerNumber).isPlayerRobot()) {
             playWithRobot = true;
             tempBoolean = true;
+            PlaySound.playSound(this, R.raw.car_game_sound);
 
             bot = new Bot();
             // when robot wants to play make random numbers for define difficulty
@@ -183,9 +184,9 @@ public class CarGameActivity extends AppCompatActivity
 
         // start game
         if (!playWithRobot) {
-            runOnUiThread(() -> showAlertDialog(PlayerActivity.playerList.get(playerNumber).isPlayerRobot(), PlayerActivity.playerList.get(playerNumber).getPlayerName()));
+            runOnUiThread(() -> showAlertDialog(PlayerSelectionActivity.playerList.get(playerNumber).isPlayerRobot(), PlayerSelectionActivity.playerList.get(playerNumber).getPlayerName()));
         } else {
-            startTheGame(PlayerActivity.playerList.get(playerNumber).isPlayerRobot(), PlayerActivity.playerList.get(playerNumber).getPlayerName());
+            startTheGame(PlayerSelectionActivity.playerList.get(playerNumber).isPlayerRobot(), PlayerSelectionActivity.playerList.get(playerNumber).getPlayerName());
         }
         binding.nitrogenProgressBar.setBackgroundResource(R.drawable.progressbar_background);
     }
@@ -208,7 +209,7 @@ public class CarGameActivity extends AppCompatActivity
 
     private void onClickItems() {
         binding.pauseBtn.setOnClickListener(view -> {
-            PlaySound.playClickSound(this, R.raw.click_sound);
+            PlaySound.playSound(this, R.raw.click_sound);
             if (enablePauseButton && startGame) {
                 mainHandler.removeCallbacksAndMessages(null);
                 PauseDialog dialog = new PauseDialog();
@@ -261,7 +262,7 @@ public class CarGameActivity extends AppCompatActivity
         binding.nitrogenProgressBar.setOnClickListener(view -> {
             showSpeed = true;
             if (binding.nitrogenProgressBar.getProgress() > 0 && !carBoil
-                    && !PlayerActivity.playerList.get(playerNumber).isPlayerRobot()) {
+                    && !PlayerSelectionActivity.playerList.get(playerNumber).isPlayerRobot()) {
                 nitroClick = true;
                 resetNitrogenProgressBar();
             }
@@ -303,14 +304,14 @@ public class CarGameActivity extends AppCompatActivity
     }
 
     private void getInformationOfPlayers() {
-        numberOfPlayer = PlayerActivity.numberOfPlayer;
+        numberOfPlayer = PlayerSelectionActivity.numberOfPlayer;
         // set image for each player depend on its color
         setColorToEachPlayer();
         // define playWithRobot
-        playWithRobot = PlayerActivity.playerList.get(playerNumber).isPlayerRobot();
+        playWithRobot = PlayerSelectionActivity.playerList.get(playerNumber).isPlayerRobot();
         getViews();
         readyPlayerBoard();
-        PlayerActivity.playerList.get(playerNumber).setPlayerTurn(true);
+        PlayerSelectionActivity.playerList.get(playerNumber).setPlayerTurn(true);
     }
 
     private void getViews() {
@@ -327,34 +328,34 @@ public class CarGameActivity extends AppCompatActivity
     }
 
     private void setColorToEachPlayer() {
-        for (int i = 0; i < PlayerActivity.playerList.size(); i++) {
-            PlayerActivity.playerList.get(i).setPlayerScore(0);
-            String playerColor = PlayerActivity.playerList.get(i).getPlayerColor();
+        for (int i = 0; i < PlayerSelectionActivity.playerList.size(); i++) {
+            PlayerSelectionActivity.playerList.get(i).setPlayerScore(0);
+            String playerColor = PlayerSelectionActivity.playerList.get(i).getPlayerColor();
             if (playerColor.equals(getString(R.string.blue_color))) {
-                PlayerActivity.playerList.get(i).setPlayerGif(R.drawable.blue_car_gif);
-                PlayerActivity.playerList.get(i).setPlayerImage(R.drawable.blue_car_r);
+                PlayerSelectionActivity.playerList.get(i).setPlayerGif(R.drawable.blue_car_gif);
+                PlayerSelectionActivity.playerList.get(i).setPlayerImage(R.drawable.blue_car_r);
             } else if (playerColor.equals(getString(R.string.green_color))) {
-                PlayerActivity.playerList.get(i).setPlayerGif(R.drawable.green_car_gif);
-                PlayerActivity.playerList.get(i).setPlayerImage(R.drawable.green_car_r);
+                PlayerSelectionActivity.playerList.get(i).setPlayerGif(R.drawable.green_car_gif);
+                PlayerSelectionActivity.playerList.get(i).setPlayerImage(R.drawable.green_car_r);
             } else if (playerColor.equals(getString(R.string.red_color))) {
-                PlayerActivity.playerList.get(i).setPlayerGif(R.drawable.red_car_gif);
-                PlayerActivity.playerList.get(i).setPlayerImage(R.drawable.red_car_r);
+                PlayerSelectionActivity.playerList.get(i).setPlayerGif(R.drawable.red_car_gif);
+                PlayerSelectionActivity.playerList.get(i).setPlayerImage(R.drawable.red_car_r);
             } else if (playerColor.equals(getString(R.string.yellow_color))) {
-                PlayerActivity.playerList.get(i).setPlayerGif(R.drawable.yellow_car_gif);
-                PlayerActivity.playerList.get(i).setPlayerImage(R.drawable.yellow_car_r);
+                PlayerSelectionActivity.playerList.get(i).setPlayerGif(R.drawable.yellow_car_gif);
+                PlayerSelectionActivity.playerList.get(i).setPlayerImage(R.drawable.yellow_car_r);
             }
         }
     }
 
     private void readyPlayerBoard() {
         // save image of player and their score to a array
-        for (int i = 0; i < PlayerActivity.playerList.size(); i++) {
-            playersCar[i].setImageResource(PlayerActivity.playerList.get(i).getPlayerImage());
-            playerScoreImage[i].setImageResource(PlayerActivity.playerList.get(i).getPlayerImage());
+        for (int i = 0; i < PlayerSelectionActivity.playerList.size(); i++) {
+            playersCar[i].setImageResource(PlayerSelectionActivity.playerList.get(i).getPlayerImage());
+            playerScoreImage[i].setImageResource(PlayerSelectionActivity.playerList.get(i).getPlayerImage());
         }
 
         // remove additional layout
-        for (int i = PlayerActivity.playerList.size(); i < 4; i++) {
+        for (int i = PlayerSelectionActivity.playerList.size(); i < 4; i++) {
             binding.allPlayersLayout.removeView(playersLayout[i]);
             binding.scoresLayout.removeView(playerScoreLayout[i]);
         }
@@ -368,7 +369,7 @@ public class CarGameActivity extends AppCompatActivity
                         roadHeight = binding.player1InnerLayout.getHeight();
                         roadWidth = binding.player1InnerLayout.getWidth();
                         // change view size
-                        for (int i = 0; i < PlayerActivity.playerList.size(); i++) {
+                        for (int i = 0; i < PlayerSelectionActivity.playerList.size(); i++) {
                             screenRelative.makeViewResponsive((int)((int)roadWidth/25),
                                     (int)((int)roadHeight/1.5), playersCar[i]);
                         }
@@ -390,10 +391,10 @@ public class CarGameActivity extends AppCompatActivity
 
     private void definePlayerTurn(int playerNumber) {
         // to define which player should started
-        for (int i = 0; i < PlayerActivity.playerList.size(); i++) {
-            PlayerActivity.playerList.get(i).setPlayerTurn(false);
+        for (int i = 0; i < PlayerSelectionActivity.playerList.size(); i++) {
+            PlayerSelectionActivity.playerList.get(i).setPlayerTurn(false);
             if (i == playerNumber) {
-                PlayerActivity.playerList.get(i).setPlayerTurn(true);
+                PlayerSelectionActivity.playerList.get(i).setPlayerTurn(true);
             }
         }
     }
@@ -414,7 +415,7 @@ public class CarGameActivity extends AppCompatActivity
                     // startThread for one time
                     if (targetTime == 0) {
                         moveSeekBar(playersCar[playerNumber], playersCarLayout[playerNumber], playersScrollView[playerNumber]
-                                , PlayerActivity.playerList.get(playerNumber));
+                                , PlayerSelectionActivity.playerList.get(playerNumber));
                     }
 
                     // after 4 second game started
@@ -626,8 +627,6 @@ public class CarGameActivity extends AppCompatActivity
             // stop handlers and threads
             stopHandlers();
 
-            Log.d("rfrf", "first: " + playerNumber);
-
             // if seekbar received spoil point and sound interrupt refresh variables
             runOnUiThread(() -> imageView.setImageResource(player.getPlayerImage()));
 
@@ -644,11 +643,11 @@ public class CarGameActivity extends AppCompatActivity
 
                 // robot start playing
                 if (!playWithRobot) {
-                    runOnUiThread(() -> showAlertDialog(PlayerActivity.playerList.get(playerNumber).isPlayerRobot(), PlayerActivity.playerList.get(playerNumber).getPlayerName()));
+                    runOnUiThread(() -> showAlertDialog(PlayerSelectionActivity.playerList.get(playerNumber).isPlayerRobot(), PlayerSelectionActivity.playerList.get(playerNumber).getPlayerName()));
                 }
                 // robot start playing
                 else {
-                    startTheGame(PlayerActivity.playerList.get(playerNumber).isPlayerRobot(), PlayerActivity.playerList.get(playerNumber).getPlayerName());
+                    startTheGame(PlayerSelectionActivity.playerList.get(playerNumber).isPlayerRobot(), PlayerSelectionActivity.playerList.get(playerNumber).getPlayerName());
                 }
             }
         }
@@ -677,14 +676,19 @@ public class CarGameActivity extends AppCompatActivity
         playWithRobot = false;
         nitroClick = false;
         fastSpeedNumber = 2;
-        if (PlayerActivity.playerList.get(playerNumber).isPlayerRobot()) {
+        if (PlayerSelectionActivity.playerList.get(playerNumber).isPlayerRobot()) {
             playWithRobot = true;
             tempBoolean = true;
             bot = new Bot();
             bot.prepareBotField();
+            PlaySound.playSound(this, R.raw.car_game_sound);
         } else {
             playWithRobot = false;
+            PlaySound.stopSound();
         }
+
+        // play loose sound
+        PlaySound.playSound(this, R.raw.game_over);
 
         generateNitrogen();
         changeImageResource = false;
@@ -715,11 +719,11 @@ public class CarGameActivity extends AppCompatActivity
         }
 
         // move car depend on each player turn
-        for (int i = 0; i < PlayerActivity.playerList.size(); i++) {
-            if (PlayerActivity.playerList.get(i).isPlayerTurn()) {
-                PlayerActivity.playerList.get(i).setPlayerScore
+        for (int i = 0; i < PlayerSelectionActivity.playerList.size(); i++) {
+            if (PlayerSelectionActivity.playerList.get(i).isPlayerTurn()) {
+                PlayerSelectionActivity.playerList.get(i).setPlayerScore
                         (startMoving(playersCar[playerNumber], playersCarLayout[i],
-                                PlayerActivity.playerList.get(i), playersScoreTxt[i], playersInnerLayout[i]));
+                                PlayerSelectionActivity.playerList.get(i), playersScoreTxt[i], playersInnerLayout[i]));
                 break;
             }
         }
@@ -816,16 +820,16 @@ public class CarGameActivity extends AppCompatActivity
                             runOnUiThread(() -> {
                                 speedImage.setImageResource(R.drawable.speed);
                                 speedImage.setId(View.generateViewId());
-                                Log.d("rggr", "startMoving: " + screenWidth*0.09);
-                                ViewGroup.LayoutParams params = new ViewGroup.LayoutParams((int)((int) screenWidth*0.1)
-                                        , (int)((int) screenWidth*0.1));
+                                ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(
+                                        (int)((int) playerImgLayout.getHeight())
+                                        , (int)((int) playerImgLayout.getHeight()));
                                 speedImage.setLayoutParams(params);
                                 playerImgLayout.addView(speedImage);
                                 // connect image constraint to layout
                                 ConstraintSet set = new ConstraintSet();
                                 set.clone(playerImgLayout);
                                 set.connect(speedImage.getId(), ConstraintSet.END, playerImage.getId(), ConstraintSet.START, 0);
-                                set.connect(speedImage.getId(), ConstraintSet.START, playerImgLayout.getId(), ConstraintSet.START, 0);
+                                set.connect(speedImage.getId(), ConstraintSet.START, playerImgLayout.getId(), ConstraintSet.START, 5);
                                 set.connect(speedImage.getId(), ConstraintSet.TOP, playerImgLayout.getId(), ConstraintSet.TOP, 0);
                                 set.connect(speedImage.getId(), ConstraintSet.BOTTOM, playerImgLayout.getId(), ConstraintSet.BOTTOM, 0);
                                 set.applyTo(playerImgLayout);
@@ -970,7 +974,7 @@ public class CarGameActivity extends AppCompatActivity
 
     @Override
     public void restartFromNextPlayerDialog(DialogFragment dialogFragment) {
-        // ???? if current player is not first player restart button work
+        // if current player is not first player restart button work
         if (playerNumber > 0) {
             restartGame();
             dialogFragment.dismiss();
@@ -1004,12 +1008,12 @@ public class CarGameActivity extends AppCompatActivity
     // make all players empty
     private void resetPlayersFiled() {
        runOnUiThread(() -> {
-           for (int i = 0; i < PlayerActivity.playerList.size(); i++) {
+           for (int i = 0; i < PlayerSelectionActivity.playerList.size(); i++) {
                playersScoreTxt[i].setText("0");
                playersCarLayout[i].setX(carsFirstPosition);
-               playersCar[i].setImageResource(PlayerActivity.playerList.get(i).getPlayerImage());
+               playersCar[i].setImageResource(PlayerSelectionActivity.playerList.get(i).getPlayerImage());
                playersScrollView[i].setScrollX(0);
-               PlayerActivity.playerList.get(i).setPlayerScore(0);
+               PlayerSelectionActivity.playerList.get(i).setPlayerScore(0);
            }
        });
     }

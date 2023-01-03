@@ -7,7 +7,7 @@ public class PlaySound {
 
     private static MediaPlayer mediaPlayer;
 
-    public static void playClickSound(Context context, int mediaSource){
+    public static void playSound(Context context, int mediaSource){
         mediaPlayer = MediaPlayer.create(context, mediaSource);
         mediaPlayer.start();
     }

@@ -118,7 +118,7 @@ public class SensorSettingDialog extends DialogFragment {
     private void onClickObject() {
         binding.startGame.setOnClickListener(view -> {
             // start game activity
-            PlaySound.playClickSound(getContext(), R.raw.click_sound);
+            PlaySound.playSound(getContext(), R.raw.click_sound);
             loopVar = false;
             check.getSensInfo(sliderValue);
             dismiss();
