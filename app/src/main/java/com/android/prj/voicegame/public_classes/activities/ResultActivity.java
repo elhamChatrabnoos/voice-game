@@ -35,12 +35,12 @@ public class ResultActivity extends AppCompatActivity {
         seFieldOfTextViews();
 
         binding.btnBack.setOnClickListener(view -> {
-            PlaySound.playSound(this, R.raw.click_sound);
+            PlaySound.playSound(this, R.raw.click_sound, false);
             finish();
             startActivity(new Intent(this, SelectGameActivity.class));
         });
 
-        PlaySound.playSound(this, R.raw.main_background_sound);
+        PlaySound.playSound(this, R.raw.main_background_sound, true);
 
         PublicSetting.setAppLanguage(getApplicationContext().getResources());
 //        PublicSetting.hideBars(this);
@@ -155,7 +155,7 @@ public class ResultActivity extends AppCompatActivity {
     public void NextGameButton(View view) {
         boolean allGamesDone = true;
 
-        PlaySound.playSound(this, R.raw.click_sound);
+        PlaySound.playSound(this, R.raw.click_sound, false);
 
         // start next game depend on game list
         for (int i = 0; i < SelectGameActivity.gamesList.size(); i++) {

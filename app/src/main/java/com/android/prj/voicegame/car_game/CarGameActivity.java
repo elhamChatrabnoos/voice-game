@@ -2,6 +2,7 @@ package com.android.prj.voicegame.car_game;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.os.Build;
 import android.os.Bundle;
@@ -73,7 +74,7 @@ public class CarGameActivity extends AppCompatActivity
     private boolean carBoil;
     private int counter;
     private float sound;
-    boolean loose = false;
+    boolean looseGame = false;
     private float soundSensitive;
     private boolean carCollision;
     private Nitrogen nitrogen;
@@ -116,6 +117,12 @@ public class CarGameActivity extends AppCompatActivity
     private ScreenRelative screenRelative;
     private int roadHeight;
     private int roadWidth;
+    private boolean startGameTmp;
+    private static boolean pauseMedia;
+    private MediaPlayer backgroundSound;
+    private MediaPlayer accelerateSound;
+    private boolean accelerateOn;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -143,13 +150,15 @@ public class CarGameActivity extends AppCompatActivity
     }
 
     private void startGameAtFirst() {
+        startGameTmp = true;
         threadDelay = 50;
         handlerDelay = 50;
         playerNumber = 0;
+        pauseMedia = false;
         counter = 0;
         enablePauseButton = true;
         startGame = false;
-        loose = false;
+        looseGame = false;
         looseSound = 900;
         tempBoolean = true;
         changeImageResource = false;
@@ -166,8 +175,6 @@ public class CarGameActivity extends AppCompatActivity
         if (PlayerSelectionActivity.playerList.get(playerNumber).isPlayerRobot()) {
             playWithRobot = true;
             tempBoolean = true;
-            PlaySound.playSound(this, R.raw.car_game_sound);
-
             bot = new Bot();
             // when robot wants to play make random numbers for define difficulty
             bot.prepareBotField();
@@ -209,8 +216,8 @@ public class CarGameActivity extends AppCompatActivity
 
     private void onClickItems() {
         binding.pauseBtn.setOnClickListener(view -> {
-            PlaySound.playSound(this, R.raw.click_sound);
             if (enablePauseButton && startGame) {
+                PlaySound.playSound(this, R.raw.click_sound, false);
                 mainHandler.removeCallbacksAndMessages(null);
                 PauseDialog dialog = new PauseDialog();
                 dialog.show(getSupportFragmentManager(), "pause dialog");
@@ -370,8 +377,8 @@ public class CarGameActivity extends AppCompatActivity
                         roadWidth = binding.player1InnerLayout.getWidth();
                         // change view size
                         for (int i = 0; i < PlayerSelectionActivity.playerList.size(); i++) {
-                            screenRelative.makeViewResponsive((int)((int)roadWidth/25),
-                                    (int)((int)roadHeight/1.5), playersCar[i]);
+                            screenRelative.makeViewResponsive((int) ((int) roadWidth / 30),
+                                    (int) ((int) roadHeight / 1.5), playersCar[i]);
                         }
                         // remove listener when we are done with it.
                         binding.player1InnerLayout.getViewTreeObserver().removeOnGlobalLayoutListener(this);
@@ -399,7 +406,6 @@ public class CarGameActivity extends AppCompatActivity
         }
     }
 
-
     private void showNumberToStart(int targetTime, String targetStr) {
         Timer timer = new Timer();
         timer.schedule(new TimerTask() {
@@ -423,6 +429,13 @@ public class CarGameActivity extends AppCompatActivity
                         binding.reverseCount.setVisibility(View.INVISIBLE);
                         binding.fadeLayout.setVisibility(View.INVISIBLE);
                         startGame = true;
+                        if (playWithRobot) {
+                            PlaySound.stopSound();
+                            PlaySound.playSound(CarGameActivity.this, R.raw.car_game_background, true);
+                            accelerateSound = MediaPlayer.create(CarGameActivity.this, R.raw.move_car_sound);
+                            accelerateSound.setLooping(true);
+                            accelerateSound.start();
+                        }
                     }
                 });
             }
@@ -451,7 +464,6 @@ public class CarGameActivity extends AppCompatActivity
                 mainHandler.postDelayed(this, handlerDelay);
                 // when bot playing
                 if (recorder != null) {
-                    Log.d(TAG, "sound: " + sound);
                     if (playWithRobot) {
                         getSoundVolume(soundVolume, true);
                     } else {
@@ -501,7 +513,7 @@ public class CarGameActivity extends AppCompatActivity
         }
         // when seekbar is on green1 part
         else if (seekBarThumbPos >= 150 && seekBarThumbPos < 300) {
-            loose = true;
+            looseGame = true;
             enablePauseButton = false;
             binding.pauseBtn.setImageResource(R.drawable.disable_pause_icon);
             moveSeekbar(2000, 3000);
@@ -521,7 +533,7 @@ public class CarGameActivity extends AppCompatActivity
         binding.seekBar.setProgress(movingThumbStep);
 
         // when sound volume go below  900 player loose and when player receive target point of page in robot player
-        if ((sound < looseSound && loose && startGame && !carBoil)
+        if ((sound < looseSound && looseGame && startGame && !carBoil)
                 || (playWithRobot && carPosition >= bot.getLoosePoint() && !carBoil)) {
             checkSoundCut(playerCar, player);
         }
@@ -610,7 +622,17 @@ public class CarGameActivity extends AppCompatActivity
             @Override
             public void run() {
                 tempBoolean = false;
+                int accelerateCurrentPos = 0;
                 robotSound = bot.generateSound();
+                if (seekBarThumbPos < 150 && looseGame){
+                    accelerateCurrentPos = accelerateSound.getCurrentPosition();
+                    accelerateSound.pause();
+                    accelerateOn = true;
+                }
+                else if (accelerateOn){
+                    accelerateSound.seekTo(accelerateCurrentPos);
+                    accelerateOn = false;
+                }
                 robotHandler.postDelayed(this, 1000);
             }
         });
@@ -639,6 +661,13 @@ public class CarGameActivity extends AppCompatActivity
             } else {
                 // when next player turn show suitable dialog depend on robot or human
                 isNext = true;
+
+                if (playWithRobot) {
+                    PlaySound.stopSound();
+                    accelerateSound.stop();
+                    accelerateSound.release();
+                }
+
                 resetTheGame();
 
                 // robot start playing
@@ -676,19 +705,18 @@ public class CarGameActivity extends AppCompatActivity
         playWithRobot = false;
         nitroClick = false;
         fastSpeedNumber = 2;
+
         if (PlayerSelectionActivity.playerList.get(playerNumber).isPlayerRobot()) {
             playWithRobot = true;
             tempBoolean = true;
             bot = new Bot();
             bot.prepareBotField();
-            PlaySound.playSound(this, R.raw.car_game_sound);
         } else {
             playWithRobot = false;
-            PlaySound.stopSound();
         }
 
         // play loose sound
-        PlaySound.playSound(this, R.raw.game_over);
+        PlaySound.playSound(this, R.raw.game_over, false);
 
         generateNitrogen();
         changeImageResource = false;
@@ -731,7 +759,7 @@ public class CarGameActivity extends AppCompatActivity
 
 
     private int startMoving(ImageView playerImg, ConstraintLayout playerImgLayout,
-                             Player player, TextView playerScoreTxt, ConstraintLayout layout) {
+                            Player player, TextView playerScoreTxt, ConstraintLayout layout) {
         carOnCLickListener(playerImgLayout, layout);
         currentLayout = layout;
 
@@ -744,8 +772,7 @@ public class CarGameActivity extends AppCompatActivity
             // when capsule behind the car make carCollision true
             if (carCollision) {
                 carCollision = nitrogen.checkNitrogenCrossCar(playerImgLayout, playWithRobot);
-            }
-            else {
+            } else {
                 getNitrogen = false;
                 // if car receive target point generate capsule
                 carCollision = nitrogen.generateCapsule(carPosition, movingStep, layout, carPoints[playerNumber], roadHeight);
@@ -767,16 +794,16 @@ public class CarGameActivity extends AppCompatActivity
                     smoke = new GifImageView(this);
                     smoke.setImageResource(R.drawable.smoke);
                     smoke.setId(View.generateViewId());
-                    Log.d("rggr", "startMoving: " + screenWidth*0.09);
-                    ViewGroup.LayoutParams params = new ViewGroup.LayoutParams((int)((int) screenWidth*0.09)
-                            , (int)((int) screenWidth*0.09));
+                    ViewGroup.LayoutParams params = new ViewGroup.LayoutParams((int) ((int) screenWidth * 0.07)
+                            , (int) ((int) screenWidth * 0.07));
                     smoke.setLayoutParams(params);
                     playerImgLayout.addView(smoke);
+
                     // connect image constraint to layout
                     ConstraintSet set = new ConstraintSet();
                     set.clone(playerImgLayout);
-                    set.connect(smoke.getId(), ConstraintSet.END, playerImgLayout.getId(), ConstraintSet.END, -8);
-                    set.connect(smoke.getId(), ConstraintSet.TOP, playerImgLayout.getId(), ConstraintSet.TOP, 0);
+                    set.connect(smoke.getId(), ConstraintSet.END, playerImg.getId(),
+                            ConstraintSet.END, 1);
                     set.applyTo(playerImgLayout);
                 });
                 counter++;
@@ -803,7 +830,6 @@ public class CarGameActivity extends AppCompatActivity
         if (nitroClick) {
             // add to player score when it go fast
             // show speed back of car when click on nitrogen
-            //???
             Thread speedUpCar = new Thread(() -> {
                 movingCarStep = progressValue;
                 while (nitroClick) {
@@ -821,8 +847,8 @@ public class CarGameActivity extends AppCompatActivity
                                 speedImage.setImageResource(R.drawable.speed);
                                 speedImage.setId(View.generateViewId());
                                 ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(
-                                        (int)((int) playerImgLayout.getHeight())
-                                        , (int)((int) playerImgLayout.getHeight()));
+                                        (int) ((int) playerImgLayout.getHeight())
+                                        , (int) ((int) playerImgLayout.getHeight()));
                                 speedImage.setLayoutParams(params);
                                 playerImgLayout.addView(speedImage);
                                 // connect image constraint to layout
@@ -871,11 +897,9 @@ public class CarGameActivity extends AppCompatActivity
 
     private void scrollBackground(View scrollView) {
         if (scrollX < windowWidth) {
+
             // car moving sooner background
             // when car receive target point, scrolling background starting
-
-//            scrollX = carPosition - windowWidth/25;
-
             scrollX = carPosition - screenHeight / 2;
 
             // move background
@@ -898,6 +922,11 @@ public class CarGameActivity extends AppCompatActivity
 
     private void finishTheGame() {
         stopHandlers();
+        if (playWithRobot) {
+            PlaySound.stopSound();
+            accelerateSound.stop();
+            accelerateSound.release();
+        }
         if (recorder != null) {
             try {
                 recorder.stop();
@@ -932,7 +961,7 @@ public class CarGameActivity extends AppCompatActivity
         } else {
             playWithRobot = isPlayerRobot;
             startGame = false;
-            loose = false;
+            looseGame = false;
             if (isNext) {
                 // reset the page
                 runOnUiThread(() -> binding.fadeLayout.setVisibility(View.VISIBLE));
@@ -945,6 +974,9 @@ public class CarGameActivity extends AppCompatActivity
 
             // show reverse number
             runOnUiThread(() -> {
+                if (playWithRobot && !startGame) {
+                    PlaySound.playSound(this, R.raw.accelerate, true);
+                }
                 showNumberToStart(0, "3");
                 showNumberToStart(1000, "2");
                 showNumberToStart(2000, "1");
@@ -952,7 +984,7 @@ public class CarGameActivity extends AppCompatActivity
                 if (playWithRobot) {
                     showNumberToStart(3000, getString(R.string.robot_play));
                 } else {
-                    showNumberToStart(3000, "start");
+                    showNumberToStart(3000, getString(R.string.start_txt));
                 }
                 showNumberToStart(4000, "");
             });
@@ -964,7 +996,7 @@ public class CarGameActivity extends AppCompatActivity
                 public void run() {
                     looseTimer++;
                     if (looseTimer > 14) {
-                        loose = true;
+                        looseGame = true;
                         timer.cancel();
                     }
                 }
@@ -996,7 +1028,7 @@ public class CarGameActivity extends AppCompatActivity
     public void restartGame() {
         looseTimer = 0;
         timer.cancel();
-        loose = false;
+        looseGame = false;
         stopHandlers();
 
         resetNitrogenProgressBar();
@@ -1007,15 +1039,29 @@ public class CarGameActivity extends AppCompatActivity
 
     // make all players empty
     private void resetPlayersFiled() {
-       runOnUiThread(() -> {
-           for (int i = 0; i < PlayerSelectionActivity.playerList.size(); i++) {
-               playersScoreTxt[i].setText("0");
-               playersCarLayout[i].setX(carsFirstPosition);
-               playersCar[i].setImageResource(PlayerSelectionActivity.playerList.get(i).getPlayerImage());
-               playersScrollView[i].setScrollX(0);
-               PlayerSelectionActivity.playerList.get(i).setPlayerScore(0);
-           }
-       });
+        runOnUiThread(() -> {
+            for (int i = 0; i < PlayerSelectionActivity.playerList.size(); i++) {
+                playersScoreTxt[i].setText("0");
+                playersCarLayout[i].setX(carsFirstPosition);
+                playersCar[i].setImageResource(PlayerSelectionActivity.playerList.get(i).getPlayerImage());
+                playersScrollView[i].setScrollX(0);
+                PlayerSelectionActivity.playerList.get(i).setPlayerScore(0);
+            }
+        });
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        PlaySound.pauseSound();
+        pauseMedia = true;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        pauseMedia = false;
+        PlaySound.continueSound();
     }
 
 }

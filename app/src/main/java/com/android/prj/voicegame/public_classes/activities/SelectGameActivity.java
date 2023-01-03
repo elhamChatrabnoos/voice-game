@@ -66,7 +66,7 @@ public class SelectGameActivity extends AppCompatActivity {
             addOrRemoveGameToList(carGame, binding.carCheck, 0,true);
         }
 
-        PlaySound.playSound(this, R.raw.click_sound);
+        PlaySound.playSound(this, R.raw.click_sound, false);
     }
 
     //
@@ -78,7 +78,7 @@ public class SelectGameActivity extends AppCompatActivity {
             fishGame = new Game(getString(R.string.fishGameTitle), false);
             addOrRemoveGameToList(fishGame, binding.fishCheck, 3, true);
         }
-       PlaySound.playSound(this, R.raw.click_sound);
+       PlaySound.playSound(this, R.raw.click_sound, false);
     }
 
     // when click on a game image add it to games list or remove it from game list
@@ -121,7 +121,7 @@ public class SelectGameActivity extends AppCompatActivity {
     }
 
     public void exitGame(View view) {
-        PlaySound.playSound(this, R.raw.click_sound);
+        PlaySound.playSound(this, R.raw.click_sound, false);
         finish();
     }
 
@@ -131,6 +131,6 @@ public class SelectGameActivity extends AppCompatActivity {
         if(selectAnyGame){
             startPlayerActivity();
         }
-        PlaySound.playSound(this, R.raw.click_sound);
+        PlaySound.playSound(this, R.raw.click_sound, false);
     }
 }

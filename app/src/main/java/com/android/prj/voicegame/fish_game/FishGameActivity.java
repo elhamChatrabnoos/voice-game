@@ -174,7 +174,7 @@ public class FishGameActivity extends AppCompatActivity implements
 
     private void clickItem() {
         binding.pauseBtn.setOnClickListener(view -> {
-            PlaySound.playSound(this, R.raw.click_sound);
+            PlaySound.playSound(this, R.raw.click_sound, false);
             if (enablePauseButton && startGame) {
                 stopHandlers();
                 pauseDialog = new PauseDialog();

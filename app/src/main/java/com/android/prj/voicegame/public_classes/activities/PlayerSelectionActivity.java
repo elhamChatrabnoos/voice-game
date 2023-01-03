@@ -129,17 +129,17 @@ public class PlayerSelectionActivity extends AppCompatActivity implements Sensor
     }
 
     public void botClick(View view) {
-        PlaySound.playSound(this, R.raw.click_sound);
+        PlaySound.playSound(this, R.raw.click_sound, false);
         setImagesResources(R.drawable.robot_image, getString(R.string.robot));
     }
 
     public void humanClick(View view) {
-        PlaySound.playSound(this, R.raw.click_sound);
+        PlaySound.playSound(this, R.raw.click_sound, false);
         setImagesResources(R.drawable.human_image, getString(R.string.human));
     }
 
     public void startGameClick(View view) {
-        PlaySound.playSound(this, R.raw.click_sound);
+        PlaySound.playSound(this, R.raw.click_sound, false);
         if (enableStartButton){
            showSensSettingDialog();
        }
@@ -187,26 +187,26 @@ public class PlayerSelectionActivity extends AppCompatActivity implements Sensor
     public void backButtonClick(View view) {
         finish();
         startActivity(new Intent(PlayerSelectionActivity.this, SelectGameActivity.class));
-        PlaySound.playSound(this, R.raw.click_sound);
+        PlaySound.playSound(this, R.raw.click_sound, false);
     }
 
     public void player1Onclick(View view) {
-        PlaySound.playSound(this, R.raw.click_sound);
+        PlaySound.playSound(this, R.raw.click_sound, false);
         setPlayerField(0, binding.player1Img, binding.player1NameEdt, 0, "" );
     }
 
     public void player2Onclick(View view) {
-        PlaySound.playSound(this, R.raw.click_sound);
+        PlaySound.playSound(this, R.raw.click_sound, false);
         setPlayerField(1, binding.player2Img, binding.player2NameEdt, 0, "");
     }
 
     public void player3Onclick(View view) {
-        PlaySound.playSound(this, R.raw.click_sound);
+        PlaySound.playSound(this, R.raw.click_sound, false);
         setPlayerField(2, binding.player3Img, binding.player3NameEdt, 0, "");
     }
 
     public void player4Onclick(View view) {
-        PlaySound.playSound(this, R.raw.click_sound);
+        PlaySound.playSound(this, R.raw.click_sound, false);
         setPlayerField(3, binding.player4Img, binding.player4NameEdt, 0, "");
     }
 
@@ -387,22 +387,22 @@ public class PlayerSelectionActivity extends AppCompatActivity implements Sensor
 
     // clickable of color box above
     public void redColorClick(View view) {
-        PlaySound.playSound(this, R.raw.click_sound);
+        PlaySound.playSound(this, R.raw.click_sound, false);
         replaceColorToPlayer(0);
     }
 
     public void greenColorClick(View view) {
-        PlaySound.playSound(this, R.raw.click_sound);
+        PlaySound.playSound(this, R.raw.click_sound, false);
         replaceColorToPlayer(1);
     }
 
     public void yellowColorClick(View view) {
-        PlaySound.playSound(this, R.raw.click_sound);
+        PlaySound.playSound(this, R.raw.click_sound, false);
         replaceColorToPlayer(2);
     }
 
     public void blueColorClick(View view) {
-        PlaySound.playSound(this, R.raw.click_sound);
+        PlaySound.playSound(this, R.raw.click_sound, false);
         replaceColorToPlayer(3);
     }
 

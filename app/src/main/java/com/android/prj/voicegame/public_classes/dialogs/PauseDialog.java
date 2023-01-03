@@ -37,19 +37,19 @@ public class PauseDialog extends DialogFragment {
         builder.setView(binding.getRoot());
 
         binding.btnBack.setOnClickListener(view -> {
-            PlaySound.playSound(getContext(), R.raw.click_sound);
+            PlaySound.playSound(getContext(), R.raw.click_sound, false);
             dismiss();
             actions.continueGame();
         });
 
         binding.btnHome.setOnClickListener(view -> {
-            PlaySound.playSound(getContext(), R.raw.click_sound);
+            PlaySound.playSound(getContext(), R.raw.click_sound, false);
             dismiss();
             actions.goMainMenu();
         });
 
         binding.btnRetry.setOnClickListener(view -> {
-            PlaySound.playSound(getContext(), R.raw.click_sound);
+            PlaySound.playSound(getContext(), R.raw.click_sound, false);
             dismiss();
             actions.restartGame();
         });

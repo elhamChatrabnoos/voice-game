@@ -64,12 +64,12 @@ public class NextPlayerDialog extends DialogFragment {
         });
 
         bindingCu.restartBtn.setOnClickListener(view -> {
-            PlaySound.playSound(getContext(), R.raw.click_sound);
+            PlaySound.playSound(getContext(), R.raw.click_sound, false);
             finish.restartFromNextPlayerDialog(this);
         });
 
         bindingCu.mainMenuBtn.setOnClickListener(view -> {
-            PlaySound.playSound(getContext(), R.raw.click_sound);
+            PlaySound.playSound(getContext(), R.raw.click_sound, false);
             dismiss();
             finish.goMainMenu();
         });
