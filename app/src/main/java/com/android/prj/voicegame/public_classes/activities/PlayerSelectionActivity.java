@@ -149,11 +149,11 @@ public class PlayerSelectionActivity extends AppCompatActivity implements Sensor
     }
 
     private void showSensSettingDialog() {
+        Intent soundService = new Intent(PlayerSelectionActivity.this, BackgroundMusicService.class);
+        stopService(soundService);
         // show setting for sound detective sensitive
         SensorSettingDialog dialog = new SensorSettingDialog();
         dialog.show(getSupportFragmentManager(), "sensor setting dialog");
-        Intent soundService = new Intent(PlayerSelectionActivity.this, BackgroundMusicService.class);
-        stopService(soundService);
     }
 
     private void startActivity() {
@@ -336,7 +336,6 @@ public class PlayerSelectionActivity extends AppCompatActivity implements Sensor
         else{
             binding.humanBorder.setVisibility(View.INVISIBLE);
         }
-        Log.d("4r4r", "checkEnableStartButton: " + humanCountForShowingBorder);
     }
 
     public void player1ColorClick(View view) {

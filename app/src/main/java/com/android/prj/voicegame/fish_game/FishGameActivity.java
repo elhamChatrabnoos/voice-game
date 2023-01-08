@@ -7,6 +7,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.os.Bundle;
 import android.os.Handler;
@@ -119,6 +120,7 @@ public class FishGameActivity extends AppCompatActivity implements
     private int scrollViewWidth;
     private int loosePoint;
     private boolean confusedFish;
+    private MediaPlayer backgroundSound;
 
 
     @SuppressLint("ClickableViewAccessibility")
@@ -136,7 +138,6 @@ public class FishGameActivity extends AppCompatActivity implements
 
         ScreenRelative.getScreenSize(this);
         defineField();
-        defineSize();
 
         // if robot game is start with human or game is without robot
         if (!playWithRobot) {
@@ -147,9 +148,7 @@ public class FishGameActivity extends AppCompatActivity implements
         }
 
         clickItem();
-
         ScreenRelative screenRelative = new ScreenRelative();
-
         // change fish size depend on screen size
         screenRelative.makeViewResponsive((int)((int)ScreenRelative.screenWidth*0.11),
                 (int)((int)ScreenRelative.screenWidth*0.11), binding.fishImage);
@@ -181,14 +180,6 @@ public class FishGameActivity extends AppCompatActivity implements
                 pauseDialog.show(getSupportFragmentManager(), "pause dialog");
             }
         });
-    }
-
-    private void defineSize() {
-//        binding.fishLayout.setMaxWidth(ScreenRelative.screenWidth / 2);
-//        binding.fishLayout.setMaxHeight(screenHeight / 2);
-//
-//        binding.sharkImage.setMaxWidth((int) (ScreenRelative.screenWidth * 0.15));
-//        binding.sharkImage.setMaxHeight((int) (screenHeight * 0.15));
     }
 
     private void getAndSetPlayerInfo() {
@@ -352,12 +343,7 @@ public class FishGameActivity extends AppCompatActivity implements
 
                         // when seekbar thumb go above 100 disable pause button
                         if (seekBarThumbPos >= 100) {
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    binding.pauseBtn.setImageResource(R.drawable.disable_pause_icon);
-                                }
-                            });
+                            runOnUiThread(() -> binding.pauseBtn.setImageResource(R.drawable.disable_pause_icon));
                             FishGameActivity.enablePauseButton = false;
                         }
                     }
@@ -644,10 +630,13 @@ public class FishGameActivity extends AppCompatActivity implements
     }
 
     private void stopHandlers() {
+        PlaySound.playSound(this, R.raw.game_over, false);
         fishMovingHandler.removeCallbacksAndMessages(null);
         sharkMovingHandler.removeCallbacksAndMessages(null);
         if (robotPlaying) {
             robotHandler.removeCallbacksAndMessages(null);
+            backgroundSound.stop();
+            backgroundSound.release();
         }
     }
 
@@ -862,6 +851,11 @@ public class FishGameActivity extends AppCompatActivity implements
             }
             // show reverse number
             runOnUiThread(() -> {
+                if (playWithRobot && !startGame) {
+                    backgroundSound = MediaPlayer.create(this, R.raw.fish_game_background);
+                    backgroundSound.setLooping(true);
+                    backgroundSound.start();
+                }
                 showNumberToStart(0, "3");
                 showNumberToStart(1000, "2");
                 showNumberToStart(2000, "1");

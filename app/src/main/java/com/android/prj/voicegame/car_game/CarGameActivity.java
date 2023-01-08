@@ -117,12 +117,10 @@ public class CarGameActivity extends AppCompatActivity
     private ScreenRelative screenRelative;
     private int roadHeight;
     private int roadWidth;
-    private boolean startGameTmp;
     private static boolean pauseMedia;
     private MediaPlayer backgroundSound;
-    private MediaPlayer accelerateSound;
+    private MediaPlayer moveCarSound;
     private boolean accelerateOn;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -150,7 +148,6 @@ public class CarGameActivity extends AppCompatActivity
     }
 
     private void startGameAtFirst() {
-        startGameTmp = true;
         threadDelay = 50;
         handlerDelay = 50;
         playerNumber = 0;
@@ -166,6 +163,7 @@ public class CarGameActivity extends AppCompatActivity
         backgroundWidth = windowWidth - 200;
         showSpeed = true;
         looseTimer = 0;
+        accelerateOn = false;
         binding.fadeLayout.setVisibility(View.VISIBLE);
 
         // define threads with threadPool for execute parallel
@@ -431,10 +429,9 @@ public class CarGameActivity extends AppCompatActivity
                         startGame = true;
                         if (playWithRobot) {
                             PlaySound.stopSound();
-                            PlaySound.playSound(CarGameActivity.this, R.raw.car_game_background, true);
-                            accelerateSound = MediaPlayer.create(CarGameActivity.this, R.raw.move_car_sound);
-                            accelerateSound.setLooping(true);
-                            accelerateSound.start();
+                            moveCarSound = MediaPlayer.create(CarGameActivity.this, R.raw.move_car_sound);
+                            moveCarSound.setLooping(true);
+                            moveCarSound.start();
                         }
                     }
                 });
@@ -525,7 +522,7 @@ public class CarGameActivity extends AppCompatActivity
         // when seekbar is on orange part
         else if (seekBarThumbPos >= 400) {
             if (seekBarThumbPos >= 480) {
-                checkBoilCar(playerCar, player);
+                carBoiling(playerCar, player);
             } else {
                 moveSeekbar(4000, 6000);
             }
@@ -561,12 +558,14 @@ public class CarGameActivity extends AppCompatActivity
         }
     }
 
-    private void checkBoilCar(ImageView carImage, Player player) {
+    private void carBoiling(ImageView carImage, Player player) {
         // if seekbar thumb go very up go back down
         carBoil = true;
-
         //increase handler delay to stop main thread
         handlerDelay = 1000;
+
+        // when car boil sound stop
+
         // check if sound cut
         // to suppressLint the 0 numbers sound
         Thread checkSpoilThread = new Thread(() -> {
@@ -596,6 +595,8 @@ public class CarGameActivity extends AppCompatActivity
                 }
                 if (seekBarThumbPos <= 210) {
                     handlerDelay = 50;
+//                    moveCarSound = MediaPlayer.create(this, R.raw.move_car_sound);
+//                    moveCarSound.start();
                 }
             }
         });
@@ -622,15 +623,15 @@ public class CarGameActivity extends AppCompatActivity
             @Override
             public void run() {
                 tempBoolean = false;
-                int accelerateCurrentPos = 0;
                 robotSound = bot.generateSound();
-                if (seekBarThumbPos < 150 && looseGame){
-                    accelerateCurrentPos = accelerateSound.getCurrentPosition();
-                    accelerateSound.pause();
+                if (seekBarThumbPos < 150 && looseGame && !accelerateOn){
+                    moveCarSound.stop();
+                    moveCarSound.release();
                     accelerateOn = true;
                 }
                 else if (accelerateOn){
-                    accelerateSound.seekTo(accelerateCurrentPos);
+                    moveCarSound = MediaPlayer.create(CarGameActivity.this, R.raw.move_car_sound);
+                    moveCarSound.start();
                     accelerateOn = false;
                 }
                 robotHandler.postDelayed(this, 1000);
@@ -644,10 +645,15 @@ public class CarGameActivity extends AppCompatActivity
 
         // if sound cut for "looseNumber" time player lost ******
         if (interruptNumber >= looseNumber || carPosition >= backgroundWidth) {
-            playerNumber++;
+            playerNumber ++;
+
+            // play loose sound
+            PlaySound.playSound(this, R.raw.game_over, false);
 
             // stop handlers and threads
-            stopHandlers();
+//            stopHandlers();
+
+            finishTheGame();
 
             // if seekbar received spoil point and sound interrupt refresh variables
             runOnUiThread(() -> imageView.setImageResource(player.getPlayerImage()));
@@ -662,11 +668,14 @@ public class CarGameActivity extends AppCompatActivity
                 // when next player turn show suitable dialog depend on robot or human
                 isNext = true;
 
-                if (playWithRobot) {
-                    PlaySound.stopSound();
-                    accelerateSound.stop();
-                    accelerateSound.release();
-                }
+//                if (playWithRobot) {
+//                    // stop background sound
+//                    backgroundSound.stop();
+//                    backgroundSound.release();
+//                    // stop accelerate while car moving
+//                    moveCarSound.stop();
+//                    moveCarSound.release();
+//                }
 
                 resetTheGame();
 
@@ -682,10 +691,13 @@ public class CarGameActivity extends AppCompatActivity
         }
     }
 
+    // when next player want to play this method run
     private void resetTheGame() {
+        ////// if car boiling and player game finished
         if (carBoil) {
             carBoil = false;
             handlerDelay = 50;
+            runOnUiThread(() -> playersCarLayout[playerNumber].removeView(smoke));
         }
 
         executorService = Executors.newFixedThreadPool(4);
@@ -705,6 +717,7 @@ public class CarGameActivity extends AppCompatActivity
         playWithRobot = false;
         nitroClick = false;
         fastSpeedNumber = 2;
+        accelerateOn = false;
 
         if (PlayerSelectionActivity.playerList.get(playerNumber).isPlayerRobot()) {
             playWithRobot = true;
@@ -714,9 +727,6 @@ public class CarGameActivity extends AppCompatActivity
         } else {
             playWithRobot = false;
         }
-
-        // play loose sound
-        PlaySound.playSound(this, R.raw.game_over, false);
 
         generateNitrogen();
         changeImageResource = false;
@@ -806,7 +816,7 @@ public class CarGameActivity extends AppCompatActivity
                             ConstraintSet.END, 1);
                     set.applyTo(playerImgLayout);
                 });
-                counter++;
+                counter ++;
             } else if (counter == 1 && seekBarThumbPos <= 210) {
                 runOnUiThread(() -> {
                     // remove smoke and return own car image
@@ -923,9 +933,14 @@ public class CarGameActivity extends AppCompatActivity
     private void finishTheGame() {
         stopHandlers();
         if (playWithRobot) {
-            PlaySound.stopSound();
-            accelerateSound.stop();
-            accelerateSound.release();
+            // stop background sound
+            backgroundSound.reset();
+            backgroundSound.stop();
+            backgroundSound.release();
+
+            // stop accelaration
+            moveCarSound.stop();
+            moveCarSound.release();
         }
         if (recorder != null) {
             try {
@@ -948,7 +963,6 @@ public class CarGameActivity extends AppCompatActivity
     @Override
     public void startTheGame(boolean isPlayerRobot, String messageTxt) {
         if (messageTxt.equals(getString(R.string.finishMsg))) {
-            finish();
             // check all game list and make carGameDone true to not start this game again
             for (int i = 0; i < SelectGameActivity.gamesList.size(); i++) {
                 if (SelectGameActivity.gamesList.get(i).getGameName().equals(getString(R.string.carGameTitle))) {
@@ -957,6 +971,7 @@ public class CarGameActivity extends AppCompatActivity
                 }
             }
             // show result activity
+            finish();
             startActivity(new Intent(CarGameActivity.this, ResultActivity.class));
         } else {
             playWithRobot = isPlayerRobot;
@@ -975,6 +990,9 @@ public class CarGameActivity extends AppCompatActivity
             // show reverse number
             runOnUiThread(() -> {
                 if (playWithRobot && !startGame) {
+                    backgroundSound = MediaPlayer.create(this, R.raw.car_game_background);
+                    backgroundSound.start();
+//                    PlaySound.playSound(CarGameActivity.this, R.raw.car_game_background, true);
                     PlaySound.playSound(this, R.raw.accelerate, true);
                 }
                 showNumberToStart(0, "3");
@@ -1024,6 +1042,7 @@ public class CarGameActivity extends AppCompatActivity
         startActivity(new Intent(CarGameActivity.this, SelectGameActivity.class));
     }
 
+    // when restart button click from pause dialog
     @Override
     public void restartGame() {
         looseTimer = 0;

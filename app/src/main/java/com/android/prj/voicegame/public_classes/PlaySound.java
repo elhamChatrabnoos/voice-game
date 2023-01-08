@@ -8,6 +8,7 @@ public class PlaySound {
 
     private static MediaPlayer mediaPlayer;
     private static int length = 0;
+    private static boolean loopVar;
 
     public static void playSound(Context context, int mediaSource, boolean enableLooping){
         mediaPlayer = MediaPlayer.create(context, mediaSource);
@@ -16,6 +17,7 @@ public class PlaySound {
     }
 
     public static void stopSound(){
+        mediaPlayer.reset();
         mediaPlayer.stop();
         mediaPlayer.release();
     }
