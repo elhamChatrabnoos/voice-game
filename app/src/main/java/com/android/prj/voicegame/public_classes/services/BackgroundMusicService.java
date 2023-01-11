@@ -15,7 +15,7 @@ public class BackgroundMusicService extends Service {
         super.onCreate();
         mediaPlayer = MediaPlayer.create(this, R.raw.main_background_sound);
         mediaPlayer.setLooping(true);
-        mediaPlayer.setVolume(100, 100);
+        mediaPlayer.setVolume(1, 1);
     }
 
     @Override

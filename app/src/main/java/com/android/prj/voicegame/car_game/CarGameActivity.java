@@ -120,7 +120,9 @@ public class CarGameActivity extends AppCompatActivity
     private static boolean pauseMedia;
     private MediaPlayer backgroundSound;
     private MediaPlayer moveCarSound;
+    private MediaPlayer speedSound;
     private boolean accelerateOn;
+    private float musicVolume = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -133,6 +135,7 @@ public class CarGameActivity extends AppCompatActivity
         setSeekBarSetting();
         getInformationOfPlayers();
 
+        // get sound sensitive value
         soundSensitive = PlayerSelectionActivity.soundSensitive;
         carsFirstPosition = (int) binding.car1.getX();
         startGameAtFirst();
@@ -565,6 +568,10 @@ public class CarGameActivity extends AppCompatActivity
         handlerDelay = 1000;
 
         // when car boil sound stop
+        if (playWithRobot){
+            Log.d(TAG, "carBoiling sound down: ");
+            moveCarSound.setVolume(0,0);
+        }
 
         // check if sound cut
         // to suppressLint the 0 numbers sound
@@ -595,8 +602,10 @@ public class CarGameActivity extends AppCompatActivity
                 }
                 if (seekBarThumbPos <= 210) {
                     handlerDelay = 50;
-//                    moveCarSound = MediaPlayer.create(this, R.raw.move_car_sound);
-//                    moveCarSound.start();
+                    if (playWithRobot){
+                        Log.d(TAG, "carBoiling sound up: ");
+                        moveCarSound.setVolume(musicVolume, musicVolume);
+                    }
                 }
             }
         });
@@ -625,13 +634,13 @@ public class CarGameActivity extends AppCompatActivity
                 tempBoolean = false;
                 robotSound = bot.generateSound();
                 if (seekBarThumbPos < 150 && looseGame && !accelerateOn){
-                    moveCarSound.stop();
-                    moveCarSound.release();
+                    Log.d(TAG, "seek bar below 150 sound down: ");
+                    moveCarSound.setVolume(0, 0);
                     accelerateOn = true;
                 }
                 else if (accelerateOn){
-                    moveCarSound = MediaPlayer.create(CarGameActivity.this, R.raw.move_car_sound);
-                    moveCarSound.start();
+                    Log.d(TAG, "seek bar below 150 sound up: ");
+                    moveCarSound.setVolume(musicVolume, musicVolume);
                     accelerateOn = false;
                 }
                 robotHandler.postDelayed(this, 1000);
@@ -651,9 +660,7 @@ public class CarGameActivity extends AppCompatActivity
             PlaySound.playSound(this, R.raw.game_over, false);
 
             // stop handlers and threads
-//            stopHandlers();
-
-            finishTheGame();
+            stopHandlers();
 
             // if seekbar received spoil point and sound interrupt refresh variables
             runOnUiThread(() -> imageView.setImageResource(player.getPlayerImage()));
@@ -667,18 +674,7 @@ public class CarGameActivity extends AppCompatActivity
             } else {
                 // when next player turn show suitable dialog depend on robot or human
                 isNext = true;
-
-//                if (playWithRobot) {
-//                    // stop background sound
-//                    backgroundSound.stop();
-//                    backgroundSound.release();
-//                    // stop accelerate while car moving
-//                    moveCarSound.stop();
-//                    moveCarSound.release();
-//                }
-
                 resetTheGame();
-
                 // robot start playing
                 if (!playWithRobot) {
                     runOnUiThread(() -> showAlertDialog(PlayerSelectionActivity.playerList.get(playerNumber).isPlayerRobot(), PlayerSelectionActivity.playerList.get(playerNumber).getPlayerName()));
@@ -851,6 +847,11 @@ public class CarGameActivity extends AppCompatActivity
 
                         // show speed back of car when click on nitrogen
                         if (showSpeed) {
+                            if (playWithRobot){
+                                moveCarSound.setVolume(0,0);
+                                speedSound = MediaPlayer.create(this, R.raw.speed);
+                                speedSound.start();
+                            }
                             showSpeed = false;
                             speedImage = new GifImageView(this);
                             runOnUiThread(() -> {
@@ -880,6 +881,12 @@ public class CarGameActivity extends AppCompatActivity
                         if (fastSpeedNumber == 2) {
                             robotNitrogenCounter = 0;
                             robotNitrogenFeed = nitrogen.robotNitroRandomNumber();
+                            // return sound volume of acceleration when speed off
+                            if (playWithRobot){
+                                moveCarSound.setVolume(musicVolume, musicVolume);
+//                                speedSound.stop();
+//                                speedSound.release();
+                            }
                             runOnUiThread(() -> playerImgLayout.removeView(speedImage));
                             break;
                         }
@@ -931,17 +938,8 @@ public class CarGameActivity extends AppCompatActivity
     }
 
     private void finishTheGame() {
-        stopHandlers();
-        if (playWithRobot) {
-            // stop background sound
-            backgroundSound.reset();
-            backgroundSound.stop();
-            backgroundSound.release();
+//        stopHandlers();
 
-            // stop accelaration
-            moveCarSound.stop();
-            moveCarSound.release();
-        }
         if (recorder != null) {
             try {
                 recorder.stop();
@@ -955,6 +953,15 @@ public class CarGameActivity extends AppCompatActivity
     }
 
     private void stopHandlers() {
+        if (playWithRobot) {
+            // stop background sound
+            backgroundSound.stop();
+            backgroundSound.release();
+
+            // stop accelaration
+            moveCarSound.stop();
+            moveCarSound.release();
+        }
         mainHandler.removeCallbacksAndMessages(null);
         robotHandler.removeCallbacksAndMessages(null);
         executorService.shutdown();

@@ -117,10 +117,10 @@ public class FishGameActivity extends AppCompatActivity implements
     private ImageView[] playerScoreImage;
     private LinearLayout[] playerScoreLayout;
     private TextView[] playersScoreTxt;
-    private int scrollViewWidth;
     private int loosePoint;
     private boolean confusedFish;
     private MediaPlayer backgroundSound;
+    private MediaPlayer confusedSound;
 
 
     @SuppressLint("ClickableViewAccessibility")
@@ -149,6 +149,7 @@ public class FishGameActivity extends AppCompatActivity implements
 
         clickItem();
         ScreenRelative screenRelative = new ScreenRelative();
+
         // change fish size depend on screen size
         screenRelative.makeViewResponsive((int)((int)ScreenRelative.screenWidth*0.11),
                 (int)((int)ScreenRelative.screenWidth*0.11), binding.fishImage);
@@ -308,7 +309,7 @@ public class FishGameActivity extends AppCompatActivity implements
                 if (sharkFistY == 0) {
                     sharkFistY = binding.sharkImage.getY();
                 }
-                if (scrollViewWidth == 0){
+                if (loosePoint == 0){
                     loosePoint = binding.gameScrollView.getWidth() * 7;
                 }
 
@@ -340,7 +341,6 @@ public class FishGameActivity extends AppCompatActivity implements
                         if (seekBarThumbPos > 50 && !delayRunning) {
                             setPlayerScore(player);
                         }
-
                         // when seekbar thumb go above 100 disable pause button
                         if (seekBarThumbPos >= 100) {
                             runOnUiThread(() -> binding.pauseBtn.setImageResource(R.drawable.disable_pause_icon));
@@ -508,6 +508,8 @@ public class FishGameActivity extends AppCompatActivity implements
                     fish.stopFish();
                     // change fish image to confused image and a little backward
                     runOnUiThread(() -> {
+                        confusedSound = MediaPlayer.create(this, R.raw.confused_sound);
+                        confusedSound.start();
                         binding.fishImage.setImageResource(player.getPlayerSecondGif());
                         makeDelay(player);
                     });
@@ -630,6 +632,9 @@ public class FishGameActivity extends AppCompatActivity implements
     }
 
     private void stopHandlers() {
+        if(playWithRobot){
+            PlaySound.stopSound();
+        }
         PlaySound.playSound(this, R.raw.game_over, false);
         fishMovingHandler.removeCallbacksAndMessages(null);
         sharkMovingHandler.removeCallbacksAndMessages(null);
@@ -646,6 +651,8 @@ public class FishGameActivity extends AppCompatActivity implements
         Thread thread = new Thread(() -> {
             for (int i = 0; i < 5; i++) {
                 if (i == 2) {
+                    confusedSound.stop();
+                    confusedSound.release();
                     confusedFish = false;
                     fishHandlerDelay = 50;
                     delayRunning = false;
@@ -707,7 +714,6 @@ public class FishGameActivity extends AppCompatActivity implements
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        stopHandlers();
     }
 
 
@@ -909,7 +915,7 @@ public class FishGameActivity extends AppCompatActivity implements
 
     @Override
     public void goMainMenu() {
-        stopHandlers();
+//        stopHandlers();
         finish();
         startActivity(new Intent(FishGameActivity.this, SelectGameActivity.class));
     }
