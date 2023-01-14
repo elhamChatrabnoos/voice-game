@@ -1,4 +1,4 @@
-package com.android.prj.voicegame.car_game;
+package com.android.prj.voicegame.car_game.models;
 
 import java.util.Random;
 

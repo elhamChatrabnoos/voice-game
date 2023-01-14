@@ -71,7 +71,7 @@ public class NextPlayerDialog extends DialogFragment {
         bindingCu.mainMenuBtn.setOnClickListener(view -> {
             PlaySound.playSound(getContext(), R.raw.click_sound, false);
             dismiss();
-            finish.goMainMenu();
+            finish.goMenuFromNextPlayerDialog();
         });
 
         return dialog.create();
@@ -91,6 +91,7 @@ public class NextPlayerDialog extends DialogFragment {
     public interface Finish{
         void startTheGame(boolean isPlayerRobot, String messageTxt);
         void restartFromNextPlayerDialog(DialogFragment dialogFragment);
-        void goMainMenu();
+        void goMenuFromNextPlayerDialog();
     }
+
 }

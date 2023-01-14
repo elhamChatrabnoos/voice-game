@@ -632,9 +632,6 @@ public class FishGameActivity extends AppCompatActivity implements
     }
 
     private void stopHandlers() {
-        if(playWithRobot){
-            PlaySound.stopSound();
-        }
         PlaySound.playSound(this, R.raw.game_over, false);
         fishMovingHandler.removeCallbacksAndMessages(null);
         sharkMovingHandler.removeCallbacksAndMessages(null);
@@ -899,6 +896,12 @@ public class FishGameActivity extends AppCompatActivity implements
         }
     }
 
+    @Override
+    public void goMenuFromNextPlayerDialog() {
+        finish();
+        startActivity(new Intent(FishGameActivity.this, SelectGameActivity.class));
+    }
+
     private void resetPlayersFiled() {
         // reset all players score top of the board
         for (int i = 0; i < PlayerSelectionActivity.playerList.size(); i++) {
@@ -915,7 +918,7 @@ public class FishGameActivity extends AppCompatActivity implements
 
     @Override
     public void goMainMenu() {
-//        stopHandlers();
+        stopHandlers();
         finish();
         startActivity(new Intent(FishGameActivity.this, SelectGameActivity.class));
     }

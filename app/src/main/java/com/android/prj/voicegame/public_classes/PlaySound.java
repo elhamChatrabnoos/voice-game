@@ -17,7 +17,6 @@ public class PlaySound {
     }
 
     public static void stopSound(){
-        mediaPlayer.reset();
         mediaPlayer.stop();
         mediaPlayer.release();
     }

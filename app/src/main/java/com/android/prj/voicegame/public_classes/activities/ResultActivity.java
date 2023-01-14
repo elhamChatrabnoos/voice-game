@@ -1,6 +1,7 @@
 package com.android.prj.voicegame.public_classes.activities;
 
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
 
@@ -23,6 +24,7 @@ public class ResultActivity extends AppCompatActivity {
 
     private ActivityResultBinding binding;
     private int numberOfPlayer;
+    private MediaPlayer lightOnSound;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +37,6 @@ public class ResultActivity extends AppCompatActivity {
         seFieldOfTextViews();
 
         binding.btnBack.setOnClickListener(view -> {
-            PlaySound.playSound(this, R.raw.click_sound, false);
             finish();
             startActivity(new Intent(this, SelectGameActivity.class));
         });
@@ -64,14 +65,14 @@ public class ResultActivity extends AppCompatActivity {
 
     private void setFourPlayerField() {
         setThreePlayerField();
-        showResult(PlayerSelectionActivity.playerList.get(3), 8000);
+        showResult(PlayerSelectionActivity.playerList.get(3), 4000);
         binding.fourthPlayerName.setText(PlayerSelectionActivity.playerList.get(3).getPlayerName());
         binding.fourthPlayerScore.setText(String.valueOf(PlayerSelectionActivity.playerList.get(3).getPlayerScore()));
     }
 
     private void setThreePlayerField() {
         setTwoPlayerField();
-        showResult(PlayerSelectionActivity.playerList.get(2), 6000);
+        showResult(PlayerSelectionActivity.playerList.get(2), 3000);
         if (numberOfPlayer == 3) {
             binding.wholeLayout.removeView(binding.fourthPlayerLayout);
         }
@@ -85,8 +86,8 @@ public class ResultActivity extends AppCompatActivity {
             binding.wholeLayout.removeView(binding.thirdPlayerLayout);
         }
 
-        showResult(PlayerSelectionActivity.playerList.get(0), 2000);
-        showResult(PlayerSelectionActivity.playerList.get(1), 4000);
+        showResult(PlayerSelectionActivity.playerList.get(0), 1000);
+        showResult(PlayerSelectionActivity.playerList.get(1), 2000);
 
         // set first player info
         binding.firstPlayerName.setText(PlayerSelectionActivity.playerList.get(0).getPlayerName());
@@ -105,7 +106,7 @@ public class ResultActivity extends AppCompatActivity {
                 // show sticker , name and score
                 runOnUiThread(() -> {
                     switch (targetTime) {
-                        case 2000:
+                        case 1000:
                             binding.firstPlayerLayout.setBackgroundResource(player.getPlayerResultStyle());
                             // if player get any score add to his score
                             // show player score on textview  // change image resources of star
@@ -114,8 +115,9 @@ public class ResultActivity extends AppCompatActivity {
                                 binding.firstPlayerTotalScore.setText(String.valueOf(player.getPlayerTotalScore()));
                                 binding.firstPersonSticker.setImageResource(R.drawable.three_star);
                             }
+                            startLightOnSound();
                             break;
-                        case 4000:
+                        case 2000:
                             binding.secondPlayerLayout.setBackgroundResource(player.getPlayerResultStyle());
                             // show player score on textview
                             if (player.getPlayerScore() > 0){
@@ -123,8 +125,9 @@ public class ResultActivity extends AppCompatActivity {
                                 binding.secondPlayerTotalScore.setText(String.valueOf(player.getPlayerTotalScore()));
                                 binding.secondPersonSticker.setImageResource(R.drawable.two_star);
                             }
+                            startLightOnSound();
                             break;
-                        case 6000:
+                        case 3000:
                             binding.thirdPlayerLayout.setBackgroundResource(player.getPlayerResultStyle());
                             // show player score on textview
                             if (player.getPlayerScore() > 0){
@@ -132,18 +135,25 @@ public class ResultActivity extends AppCompatActivity {
                                 binding.thirdPlayerTotalScore.setText(String.valueOf(player.getPlayerTotalScore()));
                                 binding.thirdPersonSticker.setImageResource(R.drawable.one_star);
                             }
+                            startLightOnSound();
                             break;
-                        case 8000:
+                        case 4000:
                             binding.fourthPlayerLayout.setBackgroundResource(player.getPlayerResultStyle());
                             // show player score on textview
                             player.setPlayerTotalScore(player.getPlayerTotalScore());
                             binding.fourthPlayerTotalScore.setText(String.valueOf(player.getPlayerTotalScore()));
                             binding.fourthPersonSticker.setImageResource(R.drawable.no_star);
+                            startLightOnSound();
                             break;
                     }
                 });
             }
         }, targetTime);
+    }
+
+    private void startLightOnSound() {
+        lightOnSound = MediaPlayer.create(ResultActivity.this, R.raw.result_ding);
+        lightOnSound.start();
     }
 
     //sort playerList depend on each player score
@@ -155,7 +165,7 @@ public class ResultActivity extends AppCompatActivity {
     public void NextGameButton(View view) {
         boolean allGamesDone = true;
 
-        PlaySound.playSound(this, R.raw.click_sound, false);
+        PlaySound.stopSound();
 
         // start next game depend on game list
         for (int i = 0; i < SelectGameActivity.gamesList.size(); i++) {

@@ -1,4 +1,4 @@
-package com.android.prj.voicegame.car_game;
+package com.android.prj.voicegame.car_game.models;
 
 import android.content.Context;
 import android.graphics.Rect;
@@ -10,6 +10,7 @@ import android.widget.ProgressBar;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.android.prj.voicegame.R;
+import com.android.prj.voicegame.car_game.CarGameActivity;
 import com.android.prj.voicegame.public_classes.customs.CustomViews;
 
 import java.util.Random;
