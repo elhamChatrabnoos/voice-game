@@ -20,7 +20,6 @@ import java.util.ArrayList;
 
 public class SelectGameActivity extends AppCompatActivity {
 
-    public static final String SELECTED_GAME = "selected game";
     private ActivitySelectGameBinding binding;
     private boolean selectAnyGame = false;
     private int number = 4;
@@ -44,7 +43,7 @@ public class SelectGameActivity extends AppCompatActivity {
         SoundPermission soundPermission = new SoundPermission(this, SelectGameActivity.this);
         soundPermission.getPermission();
         PublicSetting.setAppLanguage(getApplicationContext().getResources());
-//        PublicSetting.hideBars(this);
+        PublicSetting.hideBars(this);
     }
 
     @Override

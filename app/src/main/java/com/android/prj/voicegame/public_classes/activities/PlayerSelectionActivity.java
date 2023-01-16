@@ -57,7 +57,7 @@ public class PlayerSelectionActivity extends AppCompatActivity implements Sensor
         fillField();
 
         PublicSetting.setAppLanguage(getApplicationContext().getResources());
-//        PublicSetting.hideBars(this);
+        PublicSetting.hideBars(this);
     }
 
     @Override

@@ -27,15 +27,15 @@ import com.android.prj.voicegame.R;
 import com.android.prj.voicegame.car_game.models.Bot;
 import com.android.prj.voicegame.car_game.models.Nitrogen;
 import com.android.prj.voicegame.public_classes.PlaySound;
-import com.android.prj.voicegame.public_classes.activities.SelectGameActivity;
-import com.android.prj.voicegame.public_classes.activities.PlayerSelectionActivity;
-import com.android.prj.voicegame.public_classes.activities.ResultActivity;
-import com.android.prj.voicegame.public_classes.dialogs.NextPlayerDialog;
-import com.android.prj.voicegame.public_classes.dialogs.PauseDialog;
-import com.android.prj.voicegame.public_classes.model.Player;
 import com.android.prj.voicegame.public_classes.PublicSetting;
 import com.android.prj.voicegame.public_classes.ScreenRelative;
 import com.android.prj.voicegame.public_classes.SoundDetector;
+import com.android.prj.voicegame.public_classes.activities.PlayerSelectionActivity;
+import com.android.prj.voicegame.public_classes.activities.ResultActivity;
+import com.android.prj.voicegame.public_classes.activities.SelectGameActivity;
+import com.android.prj.voicegame.public_classes.dialogs.NextPlayerDialog;
+import com.android.prj.voicegame.public_classes.dialogs.PauseDialog;
+import com.android.prj.voicegame.public_classes.model.Player;
 
 import java.util.Arrays;
 import java.util.Random;
@@ -144,7 +144,7 @@ public class CarGameActivity extends AppCompatActivity
         startGameAtFirst();
 
         PublicSetting.setAppLanguage(getApplicationContext().getResources());
-//        PublicSetting.hideBars(this);
+        PublicSetting.hideBars(this);
     }
 
     // to remove action from back press bottom
@@ -172,6 +172,8 @@ public class CarGameActivity extends AppCompatActivity
         accelerateOn = false;
         binding.fadeLayout.setVisibility(View.VISIBLE);
         speedHandler = new Handler();
+
+        moveCarSound = MediaPlayer.create(CarGameActivity.this, R.raw.move_car_sound);
 
         // define threads with threadPool for execute parallel
         executorService = Executors.newFixedThreadPool(4);
@@ -885,8 +887,10 @@ public class CarGameActivity extends AppCompatActivity
                     }
 
                     if (fastSpeedNumber == 9) {
+                        CarGameActivity.this.runOnUiThread(() -> {
+                            playerImgLayout.removeView(speedImage);
+                        });
                         fastSpeedNumber = 0;
-                        speedHandler.removeCallbacksAndMessages(null);
                         nitroClick = false;
                         robotNitrogenCounter = 0;
                         robotNitrogenFeed = nitrogen.robotNitroRandomNumber();
@@ -894,9 +898,7 @@ public class CarGameActivity extends AppCompatActivity
                         if (playWithRobot) {
                             moveCarSound.setVolume(musicVolume, musicVolume);
                         }
-                        CarGameActivity.this.runOnUiThread(() -> {
-                            playerImgLayout.removeView(speedImage);
-                        });
+                        speedHandler.removeCallbacksAndMessages(null);
                     }
                 }
             });
