@@ -18,8 +18,6 @@ public class SoundPermission {
 
     private Context context;
     private Activity activity;
-    private static final int PERMISSION_REQUEST_CODE = 100;
-    public static boolean permissionGranted = false;
 
     public SoundPermission(Context context, Activity activity){
         this.context = context;

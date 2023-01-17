@@ -1,5 +1,6 @@
 package com.android.prj.voicegame.public_classes.dialogs;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
@@ -19,9 +20,10 @@ import com.android.prj.voicegame.fish_game.SeekBarMoving;
 import com.android.prj.voicegame.public_classes.PlaySound;
 import com.android.prj.voicegame.public_classes.SoundDetector;
 
+import java.util.Objects;
+
 public class SensorSettingDialog extends DialogFragment {
 
-    //?? commend all method class
     private SensitiveSettingLayoutBinding binding;
     private int seekBarThumbPos;
     private float soundVolume;
@@ -44,11 +46,13 @@ public class SensorSettingDialog extends DialogFragment {
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
 
+        // make alert dialog
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         binding = SensitiveSettingLayoutBinding.inflate(getLayoutInflater());
         builder.setCancelable(false);
         builder.setView(binding.getRoot());
 
+        // get sound from micro
         SoundDetector soundDetector = new SoundDetector();
         recorder = soundDetector.startVoiceListening(getContext());
 
@@ -62,6 +66,7 @@ public class SensorSettingDialog extends DialogFragment {
     private void moveSpeedPointer(){
         seekBarThumbPos = binding.mainSeekbar.getProgress();
 
+        // change speed pointer position
         if (seekBarThumbPos >= 0 && seekBarThumbPos < 50){
             moveSeekbar(100, 1000);
         }
@@ -120,29 +125,30 @@ public class SensorSettingDialog extends DialogFragment {
             // start game activity
             PlaySound.playSound(getContext(), R.raw.click_sound, false);
             loopVar = false;
-            check.getSensInfo(sliderValue);
-            dismiss();
+            check.getSensInfo(sliderValue, this);
         });
 
         binding.sensitiveSeekbar.addOnChangeListener((slider, value, fromUser) -> sliderValue = value);
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     private void setSeekBarSetting() {
         int seekBarWidth = 500;
         binding.mainSeekbar.setMax(seekBarWidth);
         binding.mainSeekbar.setOnTouchListener((view, motionEvent) -> true);
     }
 
+    // to prevent close dialog by click on page
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        getDialog().requestWindowFeature(STYLE_NO_TITLE);
+        Objects.requireNonNull(getDialog()).requestWindowFeature(STYLE_NO_TITLE);
         getDialog().setCancelable(false);
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
     public interface SensitiveSetting {
-        void getSensInfo(float sliderValue);
+        void getSensInfo(float sliderValue, DialogFragment dialogFragment);
     }
 
 }

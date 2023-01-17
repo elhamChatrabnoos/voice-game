@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.DialogFragment;
 
 import com.android.prj.voicegame.R;
 import com.android.prj.voicegame.car_game.CarGameActivity;
@@ -448,8 +449,9 @@ public class PlayerSelectionActivity extends AppCompatActivity implements Sensor
     }
 
     @Override
-    public void getSensInfo(float sliderValue) {
+    public void getSensInfo(float sliderValue, DialogFragment dialogFragment) {
         soundSensitive = sliderValue;
+        dialogFragment.dismiss();
         finish();
         startActivity();
     }

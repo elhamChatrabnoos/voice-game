@@ -25,8 +25,6 @@ public class PublicSetting {
         // the system bars are hidden or revealed.
         activity.getWindow().getDecorView().setOnApplyWindowInsetsListener((view, windowInsets) -> {
             // You can hide the caption bar even when the other system bars are visible.
-            // To account for this, explicitly check the visibility of navigationBars()
-            // and statusBars() rather than checking the visibility of systemBars().
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
                 if (windowInsets.isVisible(WindowInsetsCompat.Type.navigationBars())
                         || windowInsets.isVisible(WindowInsetsCompat.Type.statusBars())) {

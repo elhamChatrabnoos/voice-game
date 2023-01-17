@@ -124,7 +124,6 @@ public class CarGameActivity extends AppCompatActivity
     private MediaPlayer speedSound;
     private boolean accelerateOn;
     private float musicVolume = 1;
-    private boolean gameFinished;
     private Handler speedHandler;
 
     @Override
@@ -433,7 +432,6 @@ public class CarGameActivity extends AppCompatActivity
 
                     // after 4 second game started
                     if (targetTime == 4000) {
-                        gameFinished = false;
                         binding.reverseCount.setVisibility(View.INVISIBLE);
                         binding.fadeLayout.setVisibility(View.INVISIBLE);
                         startGame = true;
