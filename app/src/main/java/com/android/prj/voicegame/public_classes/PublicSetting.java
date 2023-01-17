@@ -1,9 +1,12 @@
 package com.android.prj.voicegame.public_classes;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Build;
+import android.view.View;
+import android.view.WindowManager;
 
 import androidx.core.view.WindowCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -40,6 +43,15 @@ public class PublicSetting {
         Configuration configuration = resources.getConfiguration();
         configuration.setLayoutDirection(new Locale("en"));
         resources.updateConfiguration(configuration, resources.getDisplayMetrics());
+    }
+
+    public static void hideSystemNavigation(Dialog dialog) {
+        dialog.getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE, WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE);
+        dialog.getWindow().getDecorView().setSystemUiVisibility(
+                View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+                        | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
+        //Clear the not focusable flag from the window
+        dialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE);
     }
 
 }

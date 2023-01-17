@@ -164,7 +164,7 @@ public class FishGameActivity extends AppCompatActivity implements
         soundSensitive = PlayerSelectionActivity.soundSensitive;
 
         PublicSetting.setAppLanguage(getApplicationContext().getResources());
-//        PublicSetting.hideBars(this);
+        PublicSetting.hideBars(this);
     }
 
     @Override
@@ -177,8 +177,7 @@ public class FishGameActivity extends AppCompatActivity implements
             PlaySound.playSound(this, R.raw.click_sound, false);
             if (enablePauseButton && startGame) {
                 stopHandlers();
-                pauseDialog = new PauseDialog();
-                pauseDialog.show(getSupportFragmentManager(), "pause dialog");
+                pauseDialog = new PauseDialog(this, this);
             }
         });
     }

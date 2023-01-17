@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -33,7 +34,7 @@ public class NextPlayerDialog extends DialogFragment {
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         NextPlayerDialogBinding bindingCu;
-        bindingCu = NextPlayerDialogBinding.inflate(LayoutInflater.from(getContext()));
+        bindingCu = NextPlayerDialogBinding.inflate(LayoutInflater.from(getContext()), null, false);
         androidx.appcompat.app.AlertDialog.Builder dialog = new AlertDialog.Builder(requireContext());
         dialog.setView(bindingCu.getRoot());
 
@@ -73,6 +74,8 @@ public class NextPlayerDialog extends DialogFragment {
             dismiss();
             finish.goMenuFromNextPlayerDialog();
         });
+
+        requireActivity().getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
 
         return dialog.create();
     }

@@ -44,7 +44,7 @@ public class ResultActivity extends AppCompatActivity {
         PlaySound.playSound(this, R.raw.main_background_sound, true);
 
         PublicSetting.setAppLanguage(getApplicationContext().getResources());
-//        PublicSetting.hideBars(this);
+        PublicSetting.hideBars(this);
     }
 
     @Override

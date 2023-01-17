@@ -197,9 +197,11 @@ public class CarGameActivity extends AppCompatActivity
 
         // start game
         if (!playWithRobot) {
-            runOnUiThread(() -> showAlertDialog(PlayerSelectionActivity.playerList.get(playerNumber).isPlayerRobot(), PlayerSelectionActivity.playerList.get(playerNumber).getPlayerName()));
+            showAlertDialog(PlayerSelectionActivity.playerList.get(playerNumber)
+                    .isPlayerRobot(), PlayerSelectionActivity.playerList.get(playerNumber).getPlayerName());
         } else {
-            startTheGame(PlayerSelectionActivity.playerList.get(playerNumber).isPlayerRobot(), PlayerSelectionActivity.playerList.get(playerNumber).getPlayerName());
+            startTheGame(PlayerSelectionActivity.playerList.get(playerNumber)
+                    .isPlayerRobot(), PlayerSelectionActivity.playerList.get(playerNumber).getPlayerName());
         }
         binding.nitrogenProgressBar.setBackgroundResource(R.drawable.progressbar_background);
     }
@@ -225,8 +227,7 @@ public class CarGameActivity extends AppCompatActivity
             if (enablePauseButton && startGame) {
                 PlaySound.playSound(this, R.raw.click_sound, false);
                 mainHandler.removeCallbacksAndMessages(null);
-                PauseDialog dialog = new PauseDialog();
-                dialog.show(getSupportFragmentManager(), "pause dialog");
+                new PauseDialog(this, this);
             }
         });
     }
@@ -284,14 +285,15 @@ public class CarGameActivity extends AppCompatActivity
     }
 
     private void resetNitrogenProgressBar() {
-        runOnUiThread(() -> {
-            binding.nitrogenProgressBar.setBackgroundResource(R.drawable.progressbar_background);
-            binding.nitrogenTxt.setText(getString(R.string.nitrogen_txt));
+        binding.nitrogenProgressBar.setBackgroundResource(R.drawable.progressbar_background);
+        binding.nitrogenTxt.setText(getString(R.string.nitrogen_txt));
 
-            Nitrogen.nitrogenProgress = 0;
-            progressValue = binding.nitrogenProgressBar.getProgress();
-            binding.nitrogenProgressBar.setProgress(0);
-        });
+        Nitrogen.nitrogenProgress = 0;
+        progressValue = binding.nitrogenProgressBar.getProgress();
+        binding.nitrogenProgressBar.setProgress(0);
+//        runOnUiThread(() -> {
+//
+//        });
     }
 
     // features for not scrolling background
@@ -475,7 +477,8 @@ public class CarGameActivity extends AppCompatActivity
                         soundVolume = recorder.getMaxAmplitude();
                         getSoundVolume(soundVolume, false);
                     }
-                    runOnUiThread(() -> moveSpeedPointer(playerCar, player));
+//                    runOnUiThread(() -> );
+                    moveSpeedPointer(playerCar, player);
                     scrollBackground(scrollView);
                     if (startGame) {
                         carPositionDependOnSeekbar();
@@ -498,14 +501,16 @@ public class CarGameActivity extends AppCompatActivity
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            runOnUiThread(() -> playerCar.setImageResource(player.getPlayerGif()));
+            playerCar.setImageResource(player.getPlayerGif());
+//            runOnUiThread(() -> );
             changeImageResource = true;
         }
 
         // when car back to yellow point change imageResource to static one
         if (seekBarThumbPos < 150 && changeImageResource) {
             changeImageResource = false;
-            runOnUiThread(() -> playerCar.setImageResource(player.getPlayerImage()));
+            playerCar.setImageResource(player.getPlayerImage());
+//            runOnUiThread(() -> );
         }
 
         // when seekbar is on red part
@@ -666,20 +671,22 @@ public class CarGameActivity extends AppCompatActivity
             stopHandlers();
 
             // if seekbar received spoil point and sound interrupt reset player car image
-            runOnUiThread(() -> imageView.setImageResource(player.getPlayerImage()));
+            imageView.setImageResource(player.getPlayerImage());
+//            runOnUiThread(() -> );
 
             // when last player play finish the game with show dialog
             if (playerNumber == numberOfPlayer) {
-                runOnUiThread(() -> {
-                    showAlertDialog(false, getString(R.string.finishMsg));
-                });
+                  showAlertDialog(false, getString(R.string.finishMsg));
+//                runOnUiThread(() -> {
+//                });
             } else {
                 // when next player turn show suitable dialog depend on robot or human
                 isNext = true;
                 resetTheGame();
                 // robot start playing
                 if (!playWithRobot) {
-                    runOnUiThread(() -> showAlertDialog(PlayerSelectionActivity.playerList.get(playerNumber).isPlayerRobot(), PlayerSelectionActivity.playerList.get(playerNumber).getPlayerName()));
+                    showAlertDialog(PlayerSelectionActivity.playerList.get(playerNumber).isPlayerRobot(), PlayerSelectionActivity.playerList.get(playerNumber).getPlayerName());
+//                    runOnUiThread(() -> );
                 }
                 // robot start playing
                 else {
@@ -693,14 +700,16 @@ public class CarGameActivity extends AppCompatActivity
     private void resetTheGame() {
         // if show speed is true and player lost game remove speed image from page and stop its handler
         if (fastSpeedNumber > 0){
-            runOnUiThread(() -> playersCarLayout[playerNumber - 1].removeView(speedImage));
+            playersCarLayout[playerNumber - 1].removeView(speedImage);
+//            runOnUiThread(() -> );
             speedHandler.removeCallbacksAndMessages(null);
         }
         ////// if car boiling and player game finished
         if (carBoil) {
             carBoil = false;
             handlerDelay = 50;
-            runOnUiThread(() -> playersCarLayout[playerNumber-1].removeView(smoke));
+            playersCarLayout[playerNumber-1].removeView(smoke);
+//            runOnUiThread(() -> );
         }
 
         executorService = Executors.newFixedThreadPool(4);
@@ -708,10 +717,11 @@ public class CarGameActivity extends AppCompatActivity
 
         invisibleCarPoint();
 
-        runOnUiThread(() -> {
-            binding.seekBar.setProgress(0);
-            binding.pauseBtn.setImageResource(R.drawable.pause_icon);
-        });
+        binding.seekBar.setProgress(0);
+        binding.pauseBtn.setImageResource(R.drawable.pause_icon);
+//        runOnUiThread(() -> {
+//
+//        });
 
         interruptNumber = 0;
         looseTimer = 0;
@@ -736,11 +746,12 @@ public class CarGameActivity extends AppCompatActivity
     }
 
     private void invisibleCarPoint() {
-        runOnUiThread(() -> {
-            for (int i = 0; i < numberOfPlayer; i++) {
-                carPoints[i].setVisibility(View.INVISIBLE);
-            }
-        });
+        for (int i = 0; i < numberOfPlayer; i++) {
+            carPoints[i].setVisibility(View.INVISIBLE);
+        }
+//        runOnUiThread(() -> {
+//
+//        });
     }
 
     private void carPositionDependOnSeekbar() {
@@ -912,7 +923,8 @@ public class CarGameActivity extends AppCompatActivity
         }
 
         int finalPlayerScore = playerScore;
-        runOnUiThread(() -> playerScoreTxt.setText(String.valueOf(finalPlayerScore)));
+        playerScoreTxt.setText(String.valueOf(finalPlayerScore));
+//        runOnUiThread(() -> );
 
         return playerScore;
     }
@@ -990,7 +1002,8 @@ public class CarGameActivity extends AppCompatActivity
             looseGame = false;
             if (isNext) {
                 // reset the page
-                runOnUiThread(() -> binding.fadeLayout.setVisibility(View.VISIBLE));
+                binding.fadeLayout.setVisibility(View.VISIBLE);
+//                runOnUiThread(() -> );
                 definePlayerTurn(playerNumber);
 
                 nitrogen = new Nitrogen(this, binding.mainLayout, screenWidth, screenHeight);
@@ -999,24 +1012,26 @@ public class CarGameActivity extends AppCompatActivity
             }
 
             // show reverse number
-            runOnUiThread(() -> {
-                if (playWithRobot && !startGame) {
-                    backgroundSound = MediaPlayer.create(this, R.raw.car_game_background);
-                    backgroundSound.start();
+            if (playWithRobot && !startGame) {
+                backgroundSound = MediaPlayer.create(this, R.raw.car_game_background);
+                backgroundSound.start();
 //                    PlaySound.playSound(CarGameActivity.this, R.raw.car_game_background, true);
-                    PlaySound.playSound(this, R.raw.accelerate, true);
-                }
-                showNumberToStart(0, "3");
-                showNumberToStart(1000, "2");
-                showNumberToStart(2000, "1");
+                PlaySound.playSound(this, R.raw.accelerate, true);
+            }
+            showNumberToStart(0, "3");
+            showNumberToStart(1000, "2");
+            showNumberToStart(2000, "1");
 
-                if (playWithRobot) {
-                    showNumberToStart(3000, getString(R.string.robot_play));
-                } else {
-                    showNumberToStart(3000, getString(R.string.start_txt));
-                }
-                showNumberToStart(4000, "");
-            });
+            if (playWithRobot) {
+                showNumberToStart(3000, getString(R.string.robot_play));
+            } else {
+                showNumberToStart(3000, getString(R.string.start_txt));
+            }
+            showNumberToStart(4000, "");
+
+//            runOnUiThread(() -> {
+//
+//            });
 
             // loose boolean being active after 10 second
             timer = new Timer();
@@ -1075,15 +1090,16 @@ public class CarGameActivity extends AppCompatActivity
 
     // make all players empty
     private void resetPlayersFiled() {
-        runOnUiThread(() -> {
-            for (int i = 0; i < PlayerSelectionActivity.playerList.size(); i++) {
-                playersScoreTxt[i].setText("0");
-                playersCarLayout[i].setX(carsFirstPosition);
-                playersCar[i].setImageResource(PlayerSelectionActivity.playerList.get(i).getPlayerImage());
-                playersScrollView[i].setScrollX(0);
-                PlayerSelectionActivity.playerList.get(i).setPlayerScore(0);
-            }
-        });
+        for (int i = 0; i < PlayerSelectionActivity.playerList.size(); i++) {
+            playersScoreTxt[i].setText("0");
+            playersCarLayout[i].setX(carsFirstPosition);
+            playersCar[i].setImageResource(PlayerSelectionActivity.playerList.get(i).getPlayerImage());
+            playersScrollView[i].setScrollX(0);
+            PlayerSelectionActivity.playerList.get(i).setPlayerScore(0);
+        }
+//        runOnUiThread(() -> {
+//
+//        });
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.android.prj.voicegame.public_classes.activities;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -153,11 +154,12 @@ public class PlayerSelectionActivity extends AppCompatActivity implements Sensor
         Intent soundService = new Intent(PlayerSelectionActivity.this, BackgroundMusicService.class);
         stopService(soundService);
         // show setting for sound detective sensitive
-        SensorSettingDialog dialog = new SensorSettingDialog();
-        dialog.show(getSupportFragmentManager(), "sensor setting dialog");
+        new SensorSettingDialog(this, this);
+//        dialog.show(getSupportFragmentManager(), "sensor setting dialog");
     }
 
     private void startActivity() {
+        finish();
         int playerListSize =  playerList.size();
         int playerListSizeTmp =  playerList.size();
 
@@ -449,10 +451,9 @@ public class PlayerSelectionActivity extends AppCompatActivity implements Sensor
     }
 
     @Override
-    public void getSensInfo(float sliderValue, DialogFragment dialogFragment) {
+    public void getSensInfo(float sliderValue, Dialog dialogFragment) {
         soundSensitive = sliderValue;
         dialogFragment.dismiss();
-        finish();
         startActivity();
     }
 }

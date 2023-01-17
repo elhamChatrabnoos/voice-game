@@ -47,7 +47,7 @@ public class FinalActivity extends AppCompatActivity {
             startActivity(new Intent(this, SelectGameActivity.class));
         });
         PublicSetting.setAppLanguage(getApplicationContext().getResources());
-//        PublicSetting.hideBars(this);
+        PublicSetting.hideBars(this);
     }
 
     @Override
