@@ -117,14 +117,19 @@ public class Shark {
         // when sound cut speed up shark moving and change its y depend on fish y
         movingSharkStep = 50;
         finishGame = true;
+//        sharkImage.setY(fishPosition);
+        Log.d("2121", "position of fish: " + fishPosition);
+        Log.d("2121", "position of shark: " + sharkImage.getY());
+
         // change shark y position depend on fish image position up or down
         // if fish y is down page
-        if (fishPosition >= screenHeight - sharkImage.getHeight()) {
-            sharkImage.setY(fishPosition - sharkImage.getHeight() / 2);
+        if (fishPosition >= screenHeight / 2) {
+            Log.d("2121", "changePosition: ");
+            sharkImage.setY(fishPosition - sharkImage.getHeight() / 3);
         }
         // if fish y is up page
         else if (fishPosition <= sharkImage.getHeight()) {
-            sharkImage.setY(fishPosition - sharkImage.getHeight() / 3);
+            sharkImage.setY(fishPosition);
         }
     }
 

@@ -1,13 +1,11 @@
 package com.android.prj.voicegame.public_classes.activities;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
@@ -22,11 +20,10 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import pl.droidsonroids.gif.GifImageView;
-
 public class FinalActivity extends AppCompatActivity {
-    
-    private GifImageView[] playersImageView;
+
+    private LinearLayout[] playersLayout;
+    private TextView[] playersScore;
     private ActivityFinalBinding binding;
     private List<Player> playerList;
 
@@ -43,11 +40,13 @@ public class FinalActivity extends AppCompatActivity {
         showPlayersImage();
 
         binding.btnBack.setOnClickListener(view -> {
+            PlaySound.stopSound();
             finish();
             startActivity(new Intent(this, SelectGameActivity.class));
         });
+
         PublicSetting.setAppLanguage(getApplicationContext().getResources());
-        PublicSetting.hideBars(this);
+//        PublicSetting.hideBars(this);
     }
 
     @Override
@@ -56,40 +55,45 @@ public class FinalActivity extends AppCompatActivity {
     }
 
 
-
     @RequiresApi(api = Build.VERSION_CODES.M)
     private void showPlayersImage() {
-        playersImageView = new GifImageView[]{binding.firstPlayer, binding.secondPlayer,
-                binding.thirdPlayer, binding.fourthPlayer};
+        playersLayout = new LinearLayout[]{
+                binding.firstPlayerLayout,
+                binding.secondPlayerLayout,
+                binding.thirdPlayerLayout,
+                binding.fourthPlayerLayout};
+
+        playersScore = new TextView[]{
+                binding.firstPlayerScore,
+                binding.secondPlayerScore,
+                binding.thirdPlayerScore,
+                binding.fourthPlayerScore};
 
         int numberOfPlayer = PlayerSelectionActivity.numberOfPlayer;
 
         for (int i = 0; i < numberOfPlayer; i++) {
             String playerColor = playerList.get(i).getPlayerColor();
             if (playerColor.equals(getString(R.string.blue_color))) {
-                Log.d("2020", "showPlayersImage: ");
-                playersImageView[i].setBackgroundColor(getColor(R.color.blue_color));
+                playersLayout[i].setBackgroundColor(getColor(R.color.blue_color));
             }
             if (playerColor.equals(getString(R.string.green_color))) {
-                Log.d("2020", "showPlayersImage2: ");
-                playersImageView[i].setBackgroundColor(getColor(R.color.green_color));
+                playersLayout[i].setBackgroundColor(getColor(R.color.green_color));
             }
             if (playerColor.equals(getString(R.string.red_color))) {
-                Log.d("2020", "showPlayersImage3: ");
-                playersImageView[i].setBackgroundColor(getColor(R.color.red_color));
+                playersLayout[i].setBackgroundColor(getColor(R.color.red_color));
             }
             if (playerColor.equals(getString(R.string.yellow_color))) {
-                Log.d("2020", "showPlayersImage4: ");
-                playersImageView[i].setBackgroundColor(getColor(R.color.yellow_color));
+                playersLayout[i].setBackgroundColor(getColor(R.color.yellow_color));
             }
-            playersImageView[i].setVisibility(View.VISIBLE);
+            playersLayout[i].setVisibility(View.VISIBLE);
+            playersScore[i].setText(String.valueOf(playerList.get(i).getPlayerTotalScore()));
         }
 
     }
 
-    
+
     private void sortPlayers() {
-        Collections.sort(PlayerSelectionActivity.playerList, new Comparator<Player>(){
+        Collections.sort(PlayerSelectionActivity.playerList, new Comparator<Player>() {
             public int compare(Player obj1, Player obj2) {
                 return Integer.compare(obj2.getPlayerTotalScore(), obj1.getPlayerTotalScore());
             }

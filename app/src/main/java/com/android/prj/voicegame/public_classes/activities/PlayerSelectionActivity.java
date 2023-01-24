@@ -2,6 +2,7 @@ package com.android.prj.voicegame.public_classes.activities;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -48,7 +49,7 @@ public class PlayerSelectionActivity extends AppCompatActivity implements Sensor
     private int robotHumanCount ;
     private int playerColorCount;
     private long humanCountForShowingBorder;
-    public static float soundSensitive;
+    public static float soundSensitive = 2;
     private int humanColorToShowBorder;
 
     @Override
@@ -59,7 +60,8 @@ public class PlayerSelectionActivity extends AppCompatActivity implements Sensor
         fillField();
 
         PublicSetting.setAppLanguage(getApplicationContext().getResources());
-        PublicSetting.hideBars(this);
+
+//        PublicSetting.hideBars(this);
     }
 
     @Override
@@ -76,8 +78,7 @@ public class PlayerSelectionActivity extends AppCompatActivity implements Sensor
                 getString(R.string.player1_txt),
                 getString(R.string.player2_txt),
                 getString(R.string.player3_txt),
-                getString(R.string.player4_txt)
-        };
+                getString(R.string.player4_txt)};
 
         robotsName = new String[]{
                getString(R.string.robot1),
@@ -106,15 +107,13 @@ public class PlayerSelectionActivity extends AppCompatActivity implements Sensor
                 R.drawable.selection_red,
                 R.drawable.selection_green,
                 R.drawable.selection_yellow,
-                R.drawable.selection_blue
-        };
+                R.drawable.selection_blue};
 
         boxStyleColor = new int[]{
                 R.drawable.red_circle,
                 R.drawable.green_circle,
                 R.drawable.yellow_circle,
-                R.drawable.blue_circle
-        };
+                R.drawable.blue_circle};
 
         playerResultStyle = new int[]{R.drawable.result_image_red, R.drawable.result_image_green,
                 R.drawable.result_image_yellow, R.drawable.result_image_blue};
@@ -143,23 +142,23 @@ public class PlayerSelectionActivity extends AppCompatActivity implements Sensor
     public void startGameClick(View view) {
         PlaySound.playSound(this, R.raw.click_sound, false);
         if (enableStartButton){
-           showSensSettingDialog();
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+                // show setting for sound detective sensitive
+                new SensorSettingDialog(this, this);
+            }
+            else{
+                startActivity();
+            }
        }
        else{
            Toast.makeText(this, R.string.select_players_feild, Toast.LENGTH_SHORT).show();
        }
     }
 
-    private void showSensSettingDialog() {
-        Intent soundService = new Intent(PlayerSelectionActivity.this, BackgroundMusicService.class);
-        stopService(soundService);
-        // show setting for sound detective sensitive
-        new SensorSettingDialog(this, this);
-//        dialog.show(getSupportFragmentManager(), "sensor setting dialog");
-    }
 
     private void startActivity() {
-        finish();
+        stopService(SelectGameActivity.intentBackgroundSound);
+
         int playerListSize =  playerList.size();
         int playerListSizeTmp =  playerList.size();
 
@@ -173,6 +172,8 @@ public class PlayerSelectionActivity extends AppCompatActivity implements Sensor
             }
         }
 
+        PlaySound.stopSound();
+        finish();
         // start game activity depend on game selected
         for (int i = 0; i < SelectGameActivity.gamesList.size(); i++) {
             String gameName = SelectGameActivity.gamesList.get(i).getGameName();
@@ -189,6 +190,7 @@ public class PlayerSelectionActivity extends AppCompatActivity implements Sensor
 
     public void backButtonClick(View view) {
         finish();
+        stopService(SelectGameActivity.intentBackgroundSound);
         startActivity(new Intent(PlayerSelectionActivity.this, SelectGameActivity.class));
         PlaySound.playSound(this, R.raw.click_sound, false);
     }
@@ -456,4 +458,30 @@ public class PlayerSelectionActivity extends AppCompatActivity implements Sensor
         dialogFragment.dismiss();
         startActivity();
     }
+
+
+    @Override
+    protected void onStop() {
+        Log.d("drdr", "onStop: ");
+        super.onStop();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.d("drdr", "onResume: ");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.d("drdr", "onPause: ");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.d("drdr", "onDestroy: ");
+    }
+
 }

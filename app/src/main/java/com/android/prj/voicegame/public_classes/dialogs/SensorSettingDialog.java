@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.media.MediaRecorder;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 
@@ -33,6 +34,7 @@ public class SensorSettingDialog extends Dialog {
     public SensorSettingDialog(@NonNull Context context, SensitiveSetting sensitiveSetting) {
         super(context);
         this.sensitiveSetting = sensitiveSetting;
+
         Dialog dialog = new Dialog(getContext());
         binding = SensitiveSettingLayoutBinding.inflate(getLayoutInflater());
         dialog.setContentView(binding.getRoot());
@@ -76,7 +78,6 @@ public class SensorSettingDialog extends Dialog {
 
     private void moveSeekbar(int minSound, int maxSound) {
         float sound = 1;
-
         if (soundVolume > 10){
             sound = (soundVolume/((sliderValue +1)*0.3f));
         }
@@ -110,6 +111,8 @@ public class SensorSettingDialog extends Dialog {
 
     private void onClickObject() {
         binding.startGame.setOnClickListener(view -> {
+            dismiss();
+            Log.d("drdr", "onClickObject: ");
             // start game activity
             PlaySound.playSound(getContext(), R.raw.click_sound, false);
             loopVar = false;
@@ -118,7 +121,6 @@ public class SensorSettingDialog extends Dialog {
         binding.sensitiveSeekbar.addOnChangeListener((slider, value, fromUser) -> sliderValue = value);
     }
 
-    @SuppressLint("ClickableViewAccessibility")
     private void setSeekBarSetting() {
         int seekBarWidth = 500;
         binding.mainSeekbar.setMax(seekBarWidth);
@@ -129,4 +131,24 @@ public class SensorSettingDialog extends Dialog {
         void getSensInfo(float sliderValue, Dialog dialogFragment);
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (recorder != null) {
+            try {
+                recorder.stop();
+                recorder.reset();
+                recorder.release();
+                recorder = null;
+            } catch (Exception e) {
+                Log.d("2020", "onDestroy: " + e.getMessage());
+            }
+        }
+    }
+
+    @Override
+    public void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+
+    }
 }

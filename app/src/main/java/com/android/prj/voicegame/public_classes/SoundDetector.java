@@ -12,9 +12,9 @@ import java.io.IOException;
 public class SoundDetector {
 
     public MediaRecorder startVoiceListening(Context context) {
+
         // we are here initializing our filename variable
         // with the path of the recorded audio file.
-
         MediaRecorder recorder = new MediaRecorder();
         recorder.setAudioSource(MediaRecorder.AudioSource.MIC);
         recorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
@@ -25,6 +25,7 @@ public class SoundDetector {
                 File file = File.createTempFile("prefix", ".extensions", context.getCacheDir());
                 recorder.setOutputFile(file);
             }
+            // ??
             else{
                 String mFileName = Environment.getExternalStorageDirectory().getAbsolutePath();
                 mFileName += "/AudioRecording.3gp";
@@ -43,4 +44,7 @@ public class SoundDetector {
 
         return recorder;
     }
+
+
+
 }

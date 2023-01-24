@@ -1,6 +1,7 @@
 package com.android.prj.voicegame.car_game;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
@@ -143,7 +144,7 @@ public class CarGameActivity extends AppCompatActivity
         startGameAtFirst();
 
         PublicSetting.setAppLanguage(getApplicationContext().getResources());
-        PublicSetting.hideBars(this);
+//        PublicSetting.hideBars(this);
     }
 
     // to remove action from back press bottom
@@ -225,7 +226,6 @@ public class CarGameActivity extends AppCompatActivity
     private void onClickItems() {
         binding.pauseBtn.setOnClickListener(view -> {
             if (enablePauseButton && startGame) {
-                PlaySound.playSound(this, R.raw.click_sound, false);
                 mainHandler.removeCallbacksAndMessages(null);
                 new PauseDialog(this, this);
             }
@@ -842,7 +842,6 @@ public class CarGameActivity extends AppCompatActivity
 
             // check if nitrogen progressbar clicked
             nitrogenProgressClicked(playerImg, playerImgLayout, player, playerScoreTxt);
-
             score = addPlayerScore(playerScoreTxt, player);
         }
 
@@ -895,7 +894,7 @@ public class CarGameActivity extends AppCompatActivity
                         });
                     }
 
-                    if (fastSpeedNumber == 9) {
+                    if (fastSpeedNumber == 20) {
                         CarGameActivity.this.runOnUiThread(() -> {
                             playerImgLayout.removeView(speedImage);
                         });
@@ -969,6 +968,7 @@ public class CarGameActivity extends AppCompatActivity
 
     private void stopHandlers() {
         if (playWithRobot) {
+
             // stop background sound
             backgroundSound.stop();
             backgroundSound.release();
@@ -1015,7 +1015,6 @@ public class CarGameActivity extends AppCompatActivity
             if (playWithRobot && !startGame) {
                 backgroundSound = MediaPlayer.create(this, R.raw.car_game_background);
                 backgroundSound.start();
-//                    PlaySound.playSound(CarGameActivity.this, R.raw.car_game_background, true);
                 PlaySound.playSound(this, R.raw.accelerate, true);
             }
             showNumberToStart(0, "3");
@@ -1097,24 +1096,21 @@ public class CarGameActivity extends AppCompatActivity
             playersScrollView[i].setScrollX(0);
             PlayerSelectionActivity.playerList.get(i).setPlayerScore(0);
         }
-//        runOnUiThread(() -> {
-//
-//        });
     }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-        PlaySound.pauseSound();
-        pauseMedia = true;
-    }
+//    @Override
+//    protected void onPause() {
+//        super.onPause();
+//        PlaySound.pauseSound();
+//        pauseMedia = true;
+//    }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        pauseMedia = false;
-        PlaySound.continueSound();
-    }
+//    @Override
+//    protected void onResume() {
+//        super.onResume();
+//        pauseMedia = false;
+//        PlaySound.continueSound();
+//    }
 
 }
 

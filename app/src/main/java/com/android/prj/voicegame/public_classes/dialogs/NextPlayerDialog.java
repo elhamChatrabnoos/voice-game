@@ -75,8 +75,6 @@ public class NextPlayerDialog extends DialogFragment {
             finish.goMenuFromNextPlayerDialog();
         });
 
-        requireActivity().getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
-
         return dialog.create();
     }
 

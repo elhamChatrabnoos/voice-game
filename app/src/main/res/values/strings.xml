@@ -63,4 +63,5 @@
     <string name="select_players_feild">select players and colors first</string>
     <string name="restart">Restart</string>
     <string name="start_txt">start</string>
+    <string name="final_score_txt">score:</string>
 </resources>

@@ -164,7 +164,7 @@ public class FishGameActivity extends AppCompatActivity implements
         soundSensitive = PlayerSelectionActivity.soundSensitive;
 
         PublicSetting.setAppLanguage(getApplicationContext().getResources());
-        PublicSetting.hideBars(this);
+//        PublicSetting.hideBars(this);
     }
 
     @Override
@@ -238,10 +238,10 @@ public class FishGameActivity extends AppCompatActivity implements
         delayRunning = false;
         showProgress = true;
         maxProgressValue = 6;
+
         addProgressBar();
 
         binding.fishImage.setImageResource(PlayerSelectionActivity.playerList.get(playerNumber).getPlayerGif());
-
         // check first player that is robot or not for starting the game
         if (PlayerSelectionActivity.playerList.get(playerNumber).isPlayerRobot()) {
             playWithRobot = true;
@@ -278,7 +278,7 @@ public class FishGameActivity extends AppCompatActivity implements
         hookList = barriers.getHookList();
         hammerFishList = barriers.getHammerFishList();
 
-        //???
+        ////// ???
         for (int i = 0; i < hookList.size(); i++) {
             Log.d("MyHooksX", "hooks x: " + hookList.get(i).getImageView().getX());
         }
@@ -348,6 +348,7 @@ public class FishGameActivity extends AppCompatActivity implements
                     }
                     // when player lost shark receive it self to fish
                     else if (!gameFinished) {
+                        Log.d(TAG, "gameFinished is false: ");
                         shark.changePosition(binding.sharkImage, fishPosition);
                         delayRunning = false;
                         gameFinished = true;

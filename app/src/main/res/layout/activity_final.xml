@@ -17,44 +17,143 @@
 
 
     <LinearLayout
+        android:id="@+id/wholeLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal">
 
-        <pl.droidsonroids.gif.GifImageView
-            android:id="@+id/first_player"
-            style="@style/final_players_style"
-            android:src="@drawable/one_player"
-            tools:ignore="MissingConstraints"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"/>
+        <LinearLayout
+            android:id="@+id/firstPlayerLayout"
+            style="@style/final_player_layout"
+            android:background="@color/blue_color">
 
-        <pl.droidsonroids.gif.GifImageView
-            android:id="@+id/second_player"
-            style="@style/final_players_style"
-            android:src="@drawable/two_player"
-            app:layout_constraintStart_toEndOf="@+id/first_player"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent" />
+            <TextView
+                android:text="1"
+                style="@style/grade_style" />
 
-        <pl.droidsonroids.gif.GifImageView
-            android:id="@+id/third_player"
-            style="@style/final_players_style"
-            android:src="@drawable/three_player"
-            app:layout_constraintStart_toEndOf="@id/second_player"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            tools:ignore="MissingConstraints" />
+            <pl.droidsonroids.gif.GifImageView
+                android:id="@+id/first_player"
+                style="@style/final_players_style"
+                android:src="@drawable/one_player" />
 
-        <pl.droidsonroids.gif.GifImageView
-            android:id="@+id/fourth_player"
-            style="@style/final_players_style"
-            android:src="@drawable/four_player"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@id/third_player"
-            tools:ignore="MissingConstraints" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="3.9"
+                android:gravity="center">
+
+                <TextView
+                    android:text="@string/final_score_txt"
+                    style="@style/score_txt_style" />
+
+                <TextView
+                    android:text="12"
+                    android:id="@+id/first_player_score"
+                    style="@style/final_score_style" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/secondPlayerLayout"
+            style="@style/final_player_layout"
+            android:background="@color/green_color">
+
+            <TextView
+                android:text="2"
+                style="@style/grade_style" />
+
+            <pl.droidsonroids.gif.GifImageView
+                android:id="@+id/second_player"
+                style="@style/final_players_style"
+                android:src="@drawable/two_player" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="3.9"
+                android:gravity="center">
+
+                <TextView
+                    android:text="@string/final_score_txt"
+                    style="@style/score_txt_style" />
+
+                <TextView
+                    android:text="10"
+                    android:id="@+id/second_player_score"
+                    style="@style/final_score_style" />
+
+            </LinearLayout>
+
+    </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/thirdPlayerLayout"
+            style="@style/final_player_layout"
+            android:background="@color/yellow_color">
+
+            <TextView
+                android:text="3"
+                style="@style/grade_style" />
+
+            <pl.droidsonroids.gif.GifImageView
+                android:id="@+id/third_player"
+                style="@style/final_players_style"
+                android:src="@drawable/three_player" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="3.9"
+                android:gravity="center">
+
+                <TextView
+                    android:text="@string/final_score_txt"
+                    style="@style/score_txt_style" />
+
+                <TextView
+                    android:text="8"
+                    android:id="@+id/third_player_score"
+                    style="@style/final_score_style" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/fourthPlayerLayout"
+            style="@style/final_player_layout"
+            android:background="@color/red_color">
+
+            <TextView
+                android:text="4"
+                style="@style/grade_style" />
+
+            <pl.droidsonroids.gif.GifImageView
+                android:id="@+id/fourth_player"
+                style="@style/final_players_style"
+                android:src="@drawable/four_player"
+                tools:ignore="MissingConstraints" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="3.9"
+                android:gravity="center">
+
+                <TextView
+                    android:text="@string/final_score_txt"
+                    style="@style/score_txt_style" />
+
+                <TextView
+                    android:text="3"
+                    android:id="@+id/fourth_player_score"
+                    style="@style/final_score_style" />
+
+            </LinearLayout>
+
+    </LinearLayout>
 
         <ImageView
             android:id="@+id/btn_next_game"
