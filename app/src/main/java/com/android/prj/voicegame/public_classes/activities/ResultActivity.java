@@ -38,6 +38,8 @@ public class ResultActivity extends AppCompatActivity {
 
         binding.btnBack.setOnClickListener(view -> {
             PlaySound.stopSound();
+            lightOnSound.stop();
+            lightOnSound.release();
             finish();
             startActivity(new Intent(this, SelectGameActivity.class));
         });
