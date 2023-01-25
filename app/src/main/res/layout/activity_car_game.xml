@@ -58,7 +58,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toEndOf="@id/seekBarLayout"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:background="@drawable/car_score_background">
+                >
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"

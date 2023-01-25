@@ -3,6 +3,8 @@ package com.android.prj.voicegame.public_classes.dialogs;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,6 +32,7 @@ public class PauseDialog extends Dialog {
         binding = PauseDialogBinding.inflate(getLayoutInflater());
         Dialog dialog = new Dialog(context);
         dialog.setContentView(binding.getRoot());
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.show();
 
         PublicSetting.hideSystemNavigation(dialog);

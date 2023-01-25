@@ -52,11 +52,13 @@ public class Shark {
             moveShark(sharkImage, false, true, false);
             downAnimation = true;
         }
+        
         // go down if fish is below of middle page
         if (fishPosition > height / 2 && sharkPositionY < screenHeight
                 - sharkImage.getHeight()*1.5 && followFish && SeekBarMoving.startGame) {
             moveShark(sharkImage, false, false, true);
             upAnimation = true;
+
         }
     }
 
@@ -77,7 +79,6 @@ public class Shark {
                 // set y to take image up
                 sharkPositionY -= movingSharkStep - 2;
                 sharkImage.setY(sharkPositionY);
-                Log.d("5656", "go up shark image y is " + sharkPositionY);
                 // rotate shark head up
                 if (upAnimation) {
                     new Handler(Looper.getMainLooper()).post(() -> {
@@ -116,21 +117,17 @@ public class Shark {
     public void changePosition(ImageView sharkImage, int fishPosition) {
         // when sound cut speed up shark moving and change its y depend on fish y
         movingSharkStep = 50;
-        finishGame = true;
-//        sharkImage.setY(fishPosition);
-        Log.d("2121", "position of fish: " + fishPosition);
-        Log.d("2121", "position of shark: " + sharkImage.getY());
+//        finishGame = true;
 
         // change shark y position depend on fish image position up or down
         // if fish y is down page
-        if (fishPosition >= screenHeight / 2) {
-            Log.d("2121", "changePosition: ");
-            sharkImage.setY(fishPosition - sharkImage.getHeight() / 3);
-        }
-        // if fish y is up page
-        else if (fishPosition <= sharkImage.getHeight()) {
-            sharkImage.setY(fishPosition);
-        }
+//        if (fishPosition >= screenHeight / 2) {
+//            sharkImage.setY(fishPosition - sharkImage.getHeight() / 3);
+//        }
+//        // if fish y is up page
+//        else {
+//            sharkImage.setY(fishPosition);
+//        }
     }
 
 }

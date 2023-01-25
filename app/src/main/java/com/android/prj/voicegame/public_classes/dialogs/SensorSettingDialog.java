@@ -4,6 +4,8 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.media.MediaRecorder;
 import android.util.Log;
 import android.view.View;
@@ -39,6 +41,7 @@ public class SensorSettingDialog extends Dialog {
         binding = SensitiveSettingLayoutBinding.inflate(getLayoutInflater());
         dialog.setContentView(binding.getRoot());
         dialog.setCancelable(false);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.show();
 
         PublicSetting.hideSystemNavigation(dialog);

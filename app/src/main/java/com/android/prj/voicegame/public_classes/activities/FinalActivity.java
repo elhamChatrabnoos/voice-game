@@ -46,7 +46,7 @@ public class FinalActivity extends AppCompatActivity {
         });
 
         PublicSetting.setAppLanguage(getApplicationContext().getResources());
-//        PublicSetting.hideBars(this);
+        PublicSetting.hideBars(this);
     }
 
     @Override

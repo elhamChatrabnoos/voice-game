@@ -77,7 +77,7 @@ public class CarGameActivity extends AppCompatActivity
     private boolean carBoil;
     private int counter;
     private float sound;
-    boolean looseGame = false;
+    boolean seekBarPointerGoUp = false;
     private float soundSensitive;
     private boolean carCollision;
     private Nitrogen nitrogen;
@@ -126,6 +126,7 @@ public class CarGameActivity extends AppCompatActivity
     private boolean accelerateOn;
     private float musicVolume = 1;
     private Handler speedHandler;
+    private boolean moveCarSoundPlay;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -144,7 +145,7 @@ public class CarGameActivity extends AppCompatActivity
         startGameAtFirst();
 
         PublicSetting.setAppLanguage(getApplicationContext().getResources());
-//        PublicSetting.hideBars(this);
+        PublicSetting.hideBars(this);
     }
 
     // to remove action from back press bottom
@@ -154,24 +155,7 @@ public class CarGameActivity extends AppCompatActivity
     }
 
     private void startGameAtFirst() {
-        threadDelay = 50;
-        handlerDelay = 50;
-        playerNumber = 0;
-        pauseMedia = false;
-        counter = 0;
-        enablePauseButton = true;
-        startGame = false;
-        looseGame = false;
-        looseSound = 900;
-        tempBoolean = true;
-        changeImageResource = false;
-        playWithRobot = false;
-        backgroundWidth = windowWidth - 200;
-        showSpeed = true;
-        looseTimer = 0;
-        accelerateOn = false;
-        binding.fadeLayout.setVisibility(View.VISIBLE);
-        speedHandler = new Handler();
+        initialVariables();
 
         moveCarSound = MediaPlayer.create(CarGameActivity.this, R.raw.move_car_sound);
 
@@ -207,6 +191,28 @@ public class CarGameActivity extends AppCompatActivity
         binding.nitrogenProgressBar.setBackgroundResource(R.drawable.progressbar_background);
     }
 
+    private void initialVariables() {
+        threadDelay = 50;
+        handlerDelay = 50;
+        playerNumber = 0;
+        moveCarSoundPlay = false;
+        pauseMedia = false;
+        counter = 0;
+        enablePauseButton = true;
+        startGame = false;
+        seekBarPointerGoUp = false;
+        looseSound = 900;
+        tempBoolean = true;
+        changeImageResource = false;
+        playWithRobot = false;
+        backgroundWidth = windowWidth - 200;
+        showSpeed = true;
+        looseTimer = 0;
+        accelerateOn = false;
+        binding.fadeLayout.setVisibility(View.VISIBLE);
+        speedHandler = new Handler();
+    }
+
     private void generateNitrogen() {
         nitrogen = new Nitrogen(this, binding.mainLayout, screenWidth, screenHeight);
         nitrogen.generateRandomNumber();
@@ -226,6 +232,11 @@ public class CarGameActivity extends AppCompatActivity
     private void onClickItems() {
         binding.pauseBtn.setOnClickListener(view -> {
             if (enablePauseButton && startGame) {
+                if (playWithRobot){
+                    backgroundSound.stop();
+                    backgroundSound.release();
+                    PlaySound.stopSound();
+                }
                 mainHandler.removeCallbacksAndMessages(null);
                 new PauseDialog(this, this);
             }
@@ -241,7 +252,8 @@ public class CarGameActivity extends AppCompatActivity
     }
 
     private void carOnCLickListener(ConstraintLayout carLayout, ConstraintLayout playerLayout) {
-        carLayout.setOnClickListener(view -> nitrogen.removeViewFrom(playerLayout, binding.nitrogenProgressBar, carLayout, carBoil));
+        carLayout.setOnClickListener(view -> nitrogen.removeViewFrom(
+                playerLayout, binding.nitrogenProgressBar, carLayout, carBoil));
 
         // when a robot eat nitrogen
         if (playWithRobot) {
@@ -285,15 +297,14 @@ public class CarGameActivity extends AppCompatActivity
     }
 
     private void resetNitrogenProgressBar() {
-        binding.nitrogenProgressBar.setBackgroundResource(R.drawable.progressbar_background);
-        binding.nitrogenTxt.setText(getString(R.string.nitrogen_txt));
+        runOnUiThread(() -> {
+            binding.nitrogenProgressBar.setBackgroundResource(R.drawable.progressbar_background);
+            binding.nitrogenTxt.setText(getString(R.string.nitrogen_txt));
 
-        Nitrogen.nitrogenProgress = 0;
-        progressValue = binding.nitrogenProgressBar.getProgress();
-        binding.nitrogenProgressBar.setProgress(0);
-//        runOnUiThread(() -> {
-//
-//        });
+            Nitrogen.nitrogenProgress = 0;
+            progressValue = binding.nitrogenProgressBar.getProgress();
+            binding.nitrogenProgressBar.setProgress(0);
+        });
     }
 
     // features for not scrolling background
@@ -395,13 +406,7 @@ public class CarGameActivity extends AppCompatActivity
     }
 
     private void showAlertDialog(boolean isPlayerRobot, String messageTxt) {
-        NextPlayerDialog nextPlayerDialog = new NextPlayerDialog();
-        Bundle bundle = new Bundle();
-        bundle.putString(MESSAGE, messageTxt);
-        bundle.putBoolean(IS_PLAYER_ROBOT, isPlayerRobot);
-        nextPlayerDialog.setArguments(bundle);
-        nextPlayerDialog.getActivity();
-        nextPlayerDialog.show(getSupportFragmentManager(), "dialog");
+       new NextPlayerDialog(this, this, messageTxt, isPlayerRobot);
     }
 
     private void definePlayerTurn(int playerNumber) {
@@ -439,9 +444,6 @@ public class CarGameActivity extends AppCompatActivity
                         startGame = true;
                         if (playWithRobot) {
                             PlaySound.stopSound();
-                            moveCarSound = MediaPlayer.create(CarGameActivity.this, R.raw.move_car_sound);
-                            moveCarSound.setLooping(true);
-                            moveCarSound.start();
                         }
                     }
                 });
@@ -477,12 +479,14 @@ public class CarGameActivity extends AppCompatActivity
                         soundVolume = recorder.getMaxAmplitude();
                         getSoundVolume(soundVolume, false);
                     }
-//                    runOnUiThread(() -> );
-                    moveSpeedPointer(playerCar, player);
-                    scrollBackground(scrollView);
-                    if (startGame) {
-                        carPositionDependOnSeekbar();
-                    }
+                    runOnUiThread(() -> {
+                        moveSpeedPointer(playerCar, player);
+                        scrollBackground(scrollView);
+                        if (startGame) {
+                            carPositionDependOnSeekbar();
+                        }
+                    });
+
                 }
             }
         });
@@ -502,7 +506,6 @@ public class CarGameActivity extends AppCompatActivity
                 e.printStackTrace();
             }
             playerCar.setImageResource(player.getPlayerGif());
-//            runOnUiThread(() -> );
             changeImageResource = true;
         }
 
@@ -510,7 +513,6 @@ public class CarGameActivity extends AppCompatActivity
         if (seekBarThumbPos < 150 && changeImageResource) {
             changeImageResource = false;
             playerCar.setImageResource(player.getPlayerImage());
-//            runOnUiThread(() -> );
         }
 
         // when seekbar is on red part
@@ -523,9 +525,14 @@ public class CarGameActivity extends AppCompatActivity
         }
         // when seekbar is on green1 part
         else if (seekBarThumbPos >= 150 && seekBarThumbPos < 300) {
-            looseGame = true;
+            seekBarPointerGoUp = true;
             enablePauseButton = false;
             binding.pauseBtn.setImageResource(R.drawable.disable_pause_icon);
+            // play sound of car moving when seekbar point go upper yellow part
+            if(!moveCarSoundPlay && playWithRobot){
+                startMoveCarSound();
+                moveCarSoundPlay = true;
+            }
             moveSeekbar(2000, 3000);
         }
         // when seekbar is on green2 part
@@ -543,10 +550,16 @@ public class CarGameActivity extends AppCompatActivity
         binding.seekBar.setProgress(movingThumbStep);
 
         // when sound volume go below  900 player loose and when player receive target point of page in robot player
-        if ((sound < looseSound && looseGame && startGame && !carBoil)
+        if ((sound < looseSound && seekBarPointerGoUp && startGame && !carBoil)
                 || (playWithRobot && carPosition >= bot.getLoosePoint() && !carBoil)) {
             checkSoundCut(playerCar, player);
         }
+    }
+
+    private void startMoveCarSound() {
+        moveCarSound = MediaPlayer.create(CarGameActivity.this, R.raw.move_car_sound);
+        moveCarSound.setLooping(true);
+        moveCarSound.start();
     }
 
     private void moveSeekbar(int minSound, int maxSound) {
@@ -599,11 +612,13 @@ public class CarGameActivity extends AppCompatActivity
                         getSoundVolume(soundVolume, false);
                     }
                 }
-                if (sound < looseSound) {
-                    checkSoundCut(carImage, player);
-                }
-                binding.seekBar.setProgress(movingThumbStep);
-                seekBarThumbPos = binding.seekBar.getProgress();
+               runOnUiThread(() -> {
+                   if (sound < looseSound) {
+                       checkSoundCut(carImage, player);
+                   }
+                   binding.seekBar.setProgress(movingThumbStep);
+                   seekBarThumbPos = binding.seekBar.getProgress();
+               });
                 try {
                     Thread.sleep(20);
                 } catch (InterruptedException e) {
@@ -641,12 +656,10 @@ public class CarGameActivity extends AppCompatActivity
             public void run() {
                 tempBoolean = false;
                 robotSound = bot.generateSound();
-                if (seekBarThumbPos < 150 && looseGame && !accelerateOn) {
-                    Log.d(TAG, "seek bar below 150 sound down: ");
+                if (seekBarThumbPos < 150 && seekBarPointerGoUp && !accelerateOn) {
                     moveCarSound.setVolume(0, 0);
                     accelerateOn = true;
                 } else if (accelerateOn) {
-                    Log.d(TAG, "seek bar below 150 sound up: ");
                     moveCarSound.setVolume(musicVolume, musicVolume);
                     accelerateOn = false;
                 }
@@ -657,7 +670,7 @@ public class CarGameActivity extends AppCompatActivity
     }
 
     private void checkSoundCut(ImageView imageView, Player player) {
-        interruptNumber++;
+        interruptNumber ++;
 
         // if sound cut for "looseNumber" time player lost ******
         if (interruptNumber >= looseNumber || carPosition >= backgroundWidth) {
@@ -672,25 +685,23 @@ public class CarGameActivity extends AppCompatActivity
 
             // if seekbar received spoil point and sound interrupt reset player car image
             imageView.setImageResource(player.getPlayerImage());
-//            runOnUiThread(() -> );
 
             // when last player play finish the game with show dialog
             if (playerNumber == numberOfPlayer) {
                   showAlertDialog(false, getString(R.string.finishMsg));
-//                runOnUiThread(() -> {
-//                });
             } else {
                 // when next player turn show suitable dialog depend on robot or human
                 isNext = true;
                 resetTheGame();
                 // robot start playing
                 if (!playWithRobot) {
-                    showAlertDialog(PlayerSelectionActivity.playerList.get(playerNumber).isPlayerRobot(), PlayerSelectionActivity.playerList.get(playerNumber).getPlayerName());
-//                    runOnUiThread(() -> );
+                    showAlertDialog(PlayerSelectionActivity.playerList.get(playerNumber).isPlayerRobot(),
+                            PlayerSelectionActivity.playerList.get(playerNumber).getPlayerName());
                 }
                 // robot start playing
                 else {
-                    startTheGame(PlayerSelectionActivity.playerList.get(playerNumber).isPlayerRobot(), PlayerSelectionActivity.playerList.get(playerNumber).getPlayerName());
+                    startTheGame(PlayerSelectionActivity.playerList.get(playerNumber).isPlayerRobot(),
+                            PlayerSelectionActivity.playerList.get(playerNumber).getPlayerName());
                 }
             }
         }
@@ -698,10 +709,10 @@ public class CarGameActivity extends AppCompatActivity
 
     // when next player want to play this method run
     private void resetTheGame() {
+        moveCarSoundPlay = false;
         // if show speed is true and player lost game remove speed image from page and stop its handler
         if (fastSpeedNumber > 0){
             playersCarLayout[playerNumber - 1].removeView(speedImage);
-//            runOnUiThread(() -> );
             speedHandler.removeCallbacksAndMessages(null);
         }
         ////// if car boiling and player game finished
@@ -719,9 +730,6 @@ public class CarGameActivity extends AppCompatActivity
 
         binding.seekBar.setProgress(0);
         binding.pauseBtn.setImageResource(R.drawable.pause_icon);
-//        runOnUiThread(() -> {
-//
-//        });
 
         interruptNumber = 0;
         looseTimer = 0;
@@ -872,32 +880,33 @@ public class CarGameActivity extends AppCompatActivity
                             speedSound.start();
                         }
                         showSpeed = false;
-                        speedImage = new GifImageView(CarGameActivity.this);
-                        CarGameActivity.this.runOnUiThread(() -> {
-                            speedImage.setImageResource(R.drawable.speed);
-                            speedImage.setId(View.generateViewId());
-                            ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(
-                                    (int) ((int) playerImgLayout.getHeight())
-                                    , (int) ((int) playerImgLayout.getHeight()));
-                            speedImage.setLayoutParams(params);
-                            playerImgLayout.removeView(speedImage);
-                            playerImgLayout.addView(speedImage);
-
-                            // connect image constraint to layout
-                            ConstraintSet set = new ConstraintSet();
-                            set.clone(playerImgLayout);
-                            set.connect(speedImage.getId(), ConstraintSet.END, playerImage.getId(), ConstraintSet.START, 0);
-                            set.connect(speedImage.getId(), ConstraintSet.START, playerImgLayout.getId(), ConstraintSet.START, 5);
-                            set.connect(speedImage.getId(), ConstraintSet.TOP, playerImgLayout.getId(), ConstraintSet.TOP, 0);
-                            set.connect(speedImage.getId(), ConstraintSet.BOTTOM, playerImgLayout.getId(), ConstraintSet.BOTTOM, 0);
-                            set.applyTo(playerImgLayout);
-                        });
+//                        speedImage = new GifImageView(CarGameActivity.this);
+//                        CarGameActivity.this.runOnUiThread(() -> {
+//                            speedImage.setImageResource(R.drawable.speed);
+//                            speedImage.setId(View.generateViewId());
+//                            ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(
+//                                    (int) ((int) playerImgLayout.getHeight())
+//                                    , (int) ((int) playerImgLayout.getHeight()));
+//                            speedImage.setLayoutParams(params);
+//                            playerImgLayout.removeView(speedImage);
+//                            playerImgLayout.addView(speedImage);
+//
+//                            // connect image constraint to layout
+//                            ConstraintSet set = new ConstraintSet();
+//                            set.clone(playerImgLayout);
+//                            set.connect(speedImage.getId(), ConstraintSet.END, playerImage.getId(), ConstraintSet.START, 0);
+//                            set.connect(speedImage.getId(), ConstraintSet.START, playerImgLayout.getId(), ConstraintSet.START, 5);
+//                            set.connect(speedImage.getId(), ConstraintSet.TOP, playerImgLayout.getId(), ConstraintSet.TOP, 0);
+//                            set.connect(speedImage.getId(), ConstraintSet.BOTTOM, playerImgLayout.getId(), ConstraintSet.BOTTOM, 0);
+//                            set.applyTo(playerImgLayout);
+//                        });
                     }
 
                     if (fastSpeedNumber == 20) {
-                        CarGameActivity.this.runOnUiThread(() -> {
-                            playerImgLayout.removeView(speedImage);
-                        });
+//                        Log.d(TAG, "remove speed");
+//                        runOnUiThread(() -> {
+//                            playerImgLayout.removeView(speedImage);
+//                        });
                         fastSpeedNumber = 0;
                         nitroClick = false;
                         robotNitrogenCounter = 0;
@@ -922,15 +931,14 @@ public class CarGameActivity extends AppCompatActivity
         }
 
         int finalPlayerScore = playerScore;
-        playerScoreTxt.setText(String.valueOf(finalPlayerScore));
-//        runOnUiThread(() -> );
+
+        runOnUiThread(() -> playerScoreTxt.setText(String.valueOf(finalPlayerScore)));
 
         return playerScore;
     }
 
     private void scrollBackground(View scrollView) {
         if (scrollX < windowWidth) {
-
             // car moving sooner background
             // when car receive target point, scrolling background starting
             scrollX = carPosition - screenHeight / 2;
@@ -968,12 +976,11 @@ public class CarGameActivity extends AppCompatActivity
 
     private void stopHandlers() {
         if (playWithRobot) {
-
             // stop background sound
             backgroundSound.stop();
             backgroundSound.release();
 
-            // stop accelaration
+            // stop acceleration
             moveCarSound.stop();
             moveCarSound.release();
             robotHandler.removeCallbacksAndMessages(null);
@@ -999,11 +1006,10 @@ public class CarGameActivity extends AppCompatActivity
         } else {
             playWithRobot = isPlayerRobot;
             startGame = false;
-            looseGame = false;
+            seekBarPointerGoUp = false;
             if (isNext) {
                 // reset the page
-                binding.fadeLayout.setVisibility(View.VISIBLE);
-//                runOnUiThread(() -> );
+                runOnUiThread(() -> binding.fadeLayout.setVisibility(View.VISIBLE));
                 definePlayerTurn(playerNumber);
 
                 nitrogen = new Nitrogen(this, binding.mainLayout, screenWidth, screenHeight);
@@ -1028,10 +1034,6 @@ public class CarGameActivity extends AppCompatActivity
             }
             showNumberToStart(4000, "");
 
-//            runOnUiThread(() -> {
-//
-//            });
-
             // loose boolean being active after 10 second
             timer = new Timer();
             timer.schedule(new TimerTask() {
@@ -1039,7 +1041,7 @@ public class CarGameActivity extends AppCompatActivity
                 public void run() {
                     looseTimer++;
                     if (looseTimer > 14) {
-                        looseGame = true;
+                        seekBarPointerGoUp = true;
                         timer.cancel();
                     }
                 }
@@ -1048,17 +1050,18 @@ public class CarGameActivity extends AppCompatActivity
     }
 
     @Override
-    public void restartFromNextPlayerDialog(DialogFragment dialogFragment) {
+    public void restartFromNextPlayerDialog(Dialog dialog) {
         // if current player is not first player restart button work
         if (playerNumber > 0) {
             restartGame();
-            dialogFragment.dismiss();
+            dialog.dismiss();
         }
     }
 
     @Override
     public void goMenuFromNextPlayerDialog() {
         finishTheGame();
+        finish();
         startActivity(new Intent(CarGameActivity.this, SelectGameActivity.class));
     }
 
@@ -1071,6 +1074,7 @@ public class CarGameActivity extends AppCompatActivity
     public void goMainMenu() {
         stopHandlers();
         finishTheGame();
+        finish();
         startActivity(new Intent(CarGameActivity.this, SelectGameActivity.class));
     }
 
@@ -1079,7 +1083,7 @@ public class CarGameActivity extends AppCompatActivity
     public void restartGame() {
         looseTimer = 0;
         timer.cancel();
-        looseGame = false;
+        seekBarPointerGoUp = false;
 
         resetNitrogenProgressBar();
         resetPlayersFiled();

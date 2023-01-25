@@ -4,6 +4,7 @@ import static com.android.prj.voicegame.public_classes.ScreenRelative.screenHeig
 import static java.lang.Thread.sleep;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
@@ -164,7 +165,7 @@ public class FishGameActivity extends AppCompatActivity implements
         soundSensitive = PlayerSelectionActivity.soundSensitive;
 
         PublicSetting.setAppLanguage(getApplicationContext().getResources());
-//        PublicSetting.hideBars(this);
+        PublicSetting.hideBars(this);
     }
 
     @Override
@@ -703,7 +704,8 @@ public class FishGameActivity extends AppCompatActivity implements
             public void run() {
                 // define witch time start game
                 sharkMovingHandler.postDelayed(this, sharkHandlerDelay);
-                shark.determineSharkPosition(sharkImage, seekBarThumbPos, fishPosition, binding.gameScrollView.getHeight());
+                shark.determineSharkPosition(sharkImage, seekBarThumbPos,
+                        fishPosition, binding.gameScrollView.getHeight());
             }
         });
     }
@@ -813,14 +815,7 @@ public class FishGameActivity extends AppCompatActivity implements
     }
 
     private void showDialogFinish(boolean isPlayerRobot, String message) {
-        NextPlayerDialog nextPlayerDialog = new NextPlayerDialog();
-        Bundle bundle = new Bundle();
-        bundle.putString(MESSAGE, message);
-        String IS_PLAYER_ROBOT = "is player robot";
-        bundle.putBoolean(IS_PLAYER_ROBOT, isPlayerRobot);
-        nextPlayerDialog.setArguments(bundle);
-        nextPlayerDialog.getActivity();
-        nextPlayerDialog.show(getSupportFragmentManager(), "dialog");
+        new NextPlayerDialog(this, this, message, isPlayerRobot);
     }
 
     @Override
@@ -888,11 +883,11 @@ public class FishGameActivity extends AppCompatActivity implements
 
 
     @Override
-    public void restartFromNextPlayerDialog(DialogFragment dialogFragment) {
+    public void restartFromNextPlayerDialog(Dialog dialog) {
         // if current player is not first player
         if (playerNumber > 0) {
             restartGame();
-            dialogFragment.dismiss();
+            dialog.dismiss();
         }
     }
 

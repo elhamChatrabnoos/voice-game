@@ -40,16 +40,13 @@ public class SelectGameActivity extends AppCompatActivity {
         // start background music
         intentBackgroundSound = new Intent(this, BackgroundMusicService.class);
         startService(intentBackgroundSound);
-
-//        PlaySound.playSound(this, R.raw.main_background_sound, true);
-
         gamesList = new ArrayList<>();
 
         // get requirement of sound permission when activity start
         SoundPermission soundPermission = new SoundPermission(this, SelectGameActivity.this);
         soundPermission.getPermission();
         PublicSetting.setAppLanguage(getApplicationContext().getResources());
-//        PublicSetting.hideBars(this);
+        PublicSetting.hideBars(this);
     }
 
     @Override

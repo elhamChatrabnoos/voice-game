@@ -61,7 +61,7 @@ public class PlayerSelectionActivity extends AppCompatActivity implements Sensor
 
         PublicSetting.setAppLanguage(getApplicationContext().getResources());
 
-//        PublicSetting.hideBars(this);
+        PublicSetting.hideBars(this);
     }
 
     @Override
@@ -140,6 +140,7 @@ public class PlayerSelectionActivity extends AppCompatActivity implements Sensor
     }
 
     public void startGameClick(View view) {
+        stopService(SelectGameActivity.intentBackgroundSound);
         PlaySound.playSound(this, R.raw.click_sound, false);
         if (enableStartButton){
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
@@ -157,7 +158,6 @@ public class PlayerSelectionActivity extends AppCompatActivity implements Sensor
 
 
     private void startActivity() {
-        stopService(SelectGameActivity.intentBackgroundSound);
 
         int playerListSize =  playerList.size();
         int playerListSizeTmp =  playerList.size();

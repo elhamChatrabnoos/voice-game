@@ -1,90 +1,99 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:gravity="center"
-    android:background="@drawable/alerts_background">
+    app:cardCornerRadius="@dimen/dialog_radius">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:background="@drawable/alerts_background">
 
-        <com.h6ah4i.android.widget.verticalseekbar.VerticalSeekBarWrapper
-            android:id="@+id/verticalSeekBarWrapper"
-            android:layout_width="40dp"
-            android:layout_height="300dp"
-            android:background="@drawable/seekbar_back_img"
-            android:layout_margin="@dimen/normalSize"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            tools:ignore="MissingConstraints">
-
-            <com.h6ah4i.android.widget.verticalseekbar.VerticalSeekBar
-                android:id="@+id/mainSeekbar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:clickable="false"
-                android:contextClickable="false"
-                android:progressDrawable="@android:color/transparent"
-                android:splitTrack="false"
-                android:thumb="@drawable/little_car"
-                app:seekBarRotation="CW270" />
-
-        </com.h6ah4i.android.widget.verticalseekbar.VerticalSeekBarWrapper>
-
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/verticalSeekBarWrapper"
-            app:layout_constraintTop_toTopOf="parent">
+            android:layout_height="wrap_content">
 
-
-            <TextView
-                android:id="@+id/titleTextView"
-                style="@style/titleStyle"
-                android:layout_width="wrap_content"
-                android:layout_margin="16dp"
-                android:layout_weight="2"
-                android:text="sound sensitive"
-                android:textSize="30dp"
-                app:layout_constraintEnd_toEndOf="parent"
+            <com.h6ah4i.android.widget.verticalseekbar.VerticalSeekBarWrapper
+                android:id="@+id/verticalSeekBarWrapper"
+                android:layout_width="40dp"
+                android:layout_height="300dp"
+                android:background="@drawable/seekbar_back_img"
+                android:layout_margin="@dimen/normalSize"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                tools:ignore="MissingConstraints">
 
-            <com.google.android.material.slider.Slider
-                android:id="@+id/sensitiveSeekbar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_margin="@dimen/bigSize"
-                android:layout_weight="0.1"
-                android:contentDescription="1"
-                android:stepSize="1"
-                android:value="2"
-                android:valueFrom="0"
-                android:valueTo="10"
-                app:layout_constraintEnd_toEndOf="@+id/titleTextView"
-                app:layout_constraintHorizontal_bias="0.177"
-                app:layout_constraintStart_toStartOf="@+id/titleTextView"
-                app:layout_constraintTop_toBottomOf="@+id/titleTextView"
-                app:thumbColor="#00FF04"
-                app:trackColor="#B9E1A9" />
+                <com.h6ah4i.android.widget.verticalseekbar.VerticalSeekBar
+                    android:id="@+id/mainSeekbar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:clickable="false"
+                    android:contextClickable="false"
+                    android:progressDrawable="@android:color/transparent"
+                    android:splitTrack="false"
+                    android:thumb="@drawable/little_car"
+                    app:seekBarRotation="CW270" />
 
-            <ImageView
-                android:id="@+id/startGame"
-                android:layout_width="match_parent"
+            </com.h6ah4i.android.widget.verticalseekbar.VerticalSeekBarWrapper>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_weight="2"
-                android:src="@drawable/ok_button" />
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/verticalSeekBarWrapper"
+                app:layout_constraintTop_toTopOf="parent">
 
-        </LinearLayout>
+
+                <TextView
+                    android:id="@+id/titleTextView"
+                    style="@style/titleStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_margin="16dp"
+                    android:layout_weight="2"
+                    android:text="sound sensitive"
+                    android:textSize="30dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <com.google.android.material.slider.Slider
+                    android:id="@+id/sensitiveSeekbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="@dimen/bigSize"
+                    android:layout_weight="0.1"
+                    android:contentDescription="1"
+                    android:stepSize="1"
+                    android:value="2"
+                    android:valueFrom="0"
+                    android:valueTo="10"
+                    app:layout_constraintEnd_toEndOf="@+id/titleTextView"
+                    app:layout_constraintHorizontal_bias="0.177"
+                    app:layout_constraintStart_toStartOf="@+id/titleTextView"
+                    app:layout_constraintTop_toBottomOf="@+id/titleTextView"
+                    app:thumbColor="#00FF04"
+                    app:trackColor="#B9E1A9" />
+
+                <ImageView
+                    android:id="@+id/startGame"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"
+                    android:src="@drawable/ok_button" />
+
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-</LinearLayout>
+
+</androidx.cardview.widget.CardView>

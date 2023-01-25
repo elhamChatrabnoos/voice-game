@@ -32,6 +32,11 @@ public class ResultActivity extends AppCompatActivity {
         binding = ActivityResultBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        defineFields();
+        PublicSetting.hideBars(this);
+    }
+
+    private void defineFields() {
         numberOfPlayer = PlayerSelectionActivity.numberOfPlayer;
         getInfoOfPlayers(PlayerSelectionActivity.playerList);
         seFieldOfTextViews();
@@ -45,9 +50,7 @@ public class ResultActivity extends AppCompatActivity {
         });
 
         PlaySound.playSound(this, R.raw.main_background_sound, true);
-
         PublicSetting.setAppLanguage(getApplicationContext().getResources());
-//        PublicSetting.hideBars(this);
     }
 
     @Override
@@ -169,6 +172,8 @@ public class ResultActivity extends AppCompatActivity {
         boolean allGamesDone = true;
 
         PlaySound.stopSound();
+        lightOnSound.stop();
+        lightOnSound.release();
 
         // start next game depend on game list
         for (int i = 0; i < SelectGameActivity.gamesList.size(); i++) {
@@ -187,6 +192,7 @@ public class ResultActivity extends AppCompatActivity {
             }
         }
 
+        // start selection activity when all games finish
         if (allGamesDone){
             finish();
             startActivity(new Intent(ResultActivity.this, FinalActivity.class));
