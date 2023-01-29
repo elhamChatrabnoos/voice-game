@@ -11,7 +11,6 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.DialogFragment;
 
 import com.android.prj.voicegame.R;
 import com.android.prj.voicegame.car_game.CarGameActivity;
@@ -21,7 +20,6 @@ import com.android.prj.voicegame.public_classes.PlaySound;
 import com.android.prj.voicegame.public_classes.PublicSetting;
 import com.android.prj.voicegame.public_classes.dialogs.SensorSettingDialog;
 import com.android.prj.voicegame.public_classes.model.Player;
-import com.android.prj.voicegame.public_classes.services.BackgroundMusicService;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -140,9 +138,9 @@ public class PlayerSelectionActivity extends AppCompatActivity implements Sensor
     }
 
     public void startGameClick(View view) {
-        stopService(SelectGameActivity.intentBackgroundSound);
-        PlaySound.playSound(this, R.raw.click_sound, false);
         if (enableStartButton){
+            stopService(SelectGameActivity.intentBackgroundSound);
+            PlaySound.playSound(this, R.raw.click_sound, false);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
                 // show setting for sound detective sensitive
                 new SensorSettingDialog(this, this);
@@ -457,31 +455,6 @@ public class PlayerSelectionActivity extends AppCompatActivity implements Sensor
         soundSensitive = sliderValue;
         dialogFragment.dismiss();
         startActivity();
-    }
-
-
-    @Override
-    protected void onStop() {
-        Log.d("drdr", "onStop: ");
-        super.onStop();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        Log.d("drdr", "onResume: ");
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        Log.d("drdr", "onPause: ");
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        Log.d("drdr", "onDestroy: ");
     }
 
 }

@@ -25,6 +25,8 @@ public class ResultActivity extends AppCompatActivity {
     private ActivityResultBinding binding;
     private int numberOfPlayer;
     private MediaPlayer lightOnSound;
+    private Timer timer;
+    private boolean finishShowResult;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,12 +43,17 @@ public class ResultActivity extends AppCompatActivity {
         getInfoOfPlayers(PlayerSelectionActivity.playerList);
         seFieldOfTextViews();
 
-        binding.btnBack.setOnClickListener(view -> {
-            PlaySound.stopSound();
-            lightOnSound.stop();
-            lightOnSound.release();
-            finish();
-            startActivity(new Intent(this, SelectGameActivity.class));
+        finishShowResult = false;
+
+        binding.btnGoHome.setOnClickListener(view -> {
+            if (finishShowResult){
+                PlaySound.stopSound();
+                lightOnSound.stop();
+                lightOnSound.release();
+                timer.cancel();
+                finish();
+                startActivity(new Intent(this, SelectGameActivity.class));
+            }
         });
 
         PlaySound.playSound(this, R.raw.main_background_sound, true);
@@ -72,6 +79,7 @@ public class ResultActivity extends AppCompatActivity {
     private void setFourPlayerField() {
         setThreePlayerField();
         showResult(PlayerSelectionActivity.playerList.get(3), 4000);
+        showResult(PlayerSelectionActivity.playerList.get(3), 5000);
         binding.fourthPlayerName.setText(PlayerSelectionActivity.playerList.get(3).getPlayerName());
         binding.fourthPlayerScore.setText(String.valueOf(PlayerSelectionActivity.playerList.get(3).getPlayerScore()));
     }
@@ -79,7 +87,8 @@ public class ResultActivity extends AppCompatActivity {
     private void setThreePlayerField() {
         setTwoPlayerField();
         showResult(PlayerSelectionActivity.playerList.get(2), 3000);
-        if (numberOfPlayer == 3) {
+        showResult(PlayerSelectionActivity.playerList.get(2), 5000);
+        if (numberOfPlayer == 3){
             binding.wholeLayout.removeView(binding.fourthPlayerLayout);
         }
         binding.thirdPlayerName.setText(PlayerSelectionActivity.playerList.get(2).getPlayerName());
@@ -87,13 +96,15 @@ public class ResultActivity extends AppCompatActivity {
     }
 
     private void setTwoPlayerField() {
-        if (numberOfPlayer == 2) {
+        // when enter this method from two player do it
+        if(numberOfPlayer == 2){
             binding.wholeLayout.removeView(binding.fourthPlayerLayout);
             binding.wholeLayout.removeView(binding.thirdPlayerLayout);
         }
 
         showResult(PlayerSelectionActivity.playerList.get(0), 1000);
         showResult(PlayerSelectionActivity.playerList.get(1), 2000);
+        showResult(PlayerSelectionActivity.playerList.get(1), 5000);
 
         // set first player info
         binding.firstPlayerName.setText(PlayerSelectionActivity.playerList.get(0).getPlayerName());
@@ -105,11 +116,11 @@ public class ResultActivity extends AppCompatActivity {
     }
 
     private void showResult(Player player, int targetTime) {
-        Timer timer = new Timer();
+        timer = new Timer();
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
-                // show sticker , name and score
+                // show sticker, name and score
                 runOnUiThread(() -> {
                     switch (targetTime) {
                         case 1000:
@@ -151,6 +162,8 @@ public class ResultActivity extends AppCompatActivity {
                             binding.fourthPersonSticker.setImageResource(R.drawable.no_star);
                             startLightOnSound();
                             break;
+                        case 5000:
+                            finishShowResult = true;
                     }
                 });
             }
@@ -169,33 +182,37 @@ public class ResultActivity extends AppCompatActivity {
     }
 
     public void NextGameButton(View view) {
-        boolean allGamesDone = true;
+        if (finishShowResult){
+            boolean allGamesDone = true;
 
-        PlaySound.stopSound();
-        lightOnSound.stop();
-        lightOnSound.release();
+            PlaySound.stopSound();
+            lightOnSound.stop();
+            lightOnSound.release();
 
-        // start next game depend on game list
-        for (int i = 0; i < SelectGameActivity.gamesList.size(); i++) {
-            String gameName = SelectGameActivity.gamesList.get(i).getGameName();
-            if (!SelectGameActivity.gamesList.get(i).isGameDone()) {
-                if (SelectGameActivity.gamesList.get(i).getGameName().equals(getString(R.string.carGameTitle))){
-                    startActivity(new Intent(this, CarGameActivity.class));
-                    allGamesDone = false;
-                    break;
+            timer.cancel();
+            finish();
+            // start next game depend on game list
+            for (int i = 0; i < SelectGameActivity.gamesList.size(); i++) {
+                String gameName = SelectGameActivity.gamesList.get(i).getGameName();
+                if (!SelectGameActivity.gamesList.get(i).isGameDone()) {
+                    if (SelectGameActivity.gamesList.get(i).getGameName().equals(getString(R.string.carGameTitle))){
+                        allGamesDone = false;
+                        startActivity(new Intent(this, CarGameActivity.class));
+                        break;
+                    }
+                    else if (gameName.equals(getString(R.string.fishGameTitle))){
+                        allGamesDone = false;
+                        startActivity(new Intent(ResultActivity.this, FishGameActivity.class));
+                        break;
+                    }
                 }
-                else if (gameName.equals(getString(R.string.fishGameTitle))){
-                    startActivity(new Intent(ResultActivity.this, FishGameActivity.class));
-                    allGamesDone = false;
-                    break;
-                }
+            }
+
+            // start selection activity when all games finish
+            if (allGamesDone){
+                startActivity(new Intent(ResultActivity.this, FinalActivity.class));
             }
         }
 
-        // start selection activity when all games finish
-        if (allGamesDone){
-            finish();
-            startActivity(new Intent(ResultActivity.this, FinalActivity.class));
-        }
     }
 }

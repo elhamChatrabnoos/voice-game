@@ -22,7 +22,6 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.ConstraintSet;
-import androidx.fragment.app.DialogFragment;
 
 import com.android.prj.voicegame.R;
 import com.android.prj.voicegame.car_game.models.Bot;
@@ -530,8 +529,9 @@ public class CarGameActivity extends AppCompatActivity
             binding.pauseBtn.setImageResource(R.drawable.disable_pause_icon);
             // play sound of car moving when seekbar point go upper yellow part
             if(!moveCarSoundPlay && playWithRobot){
-                startMoveCarSound();
                 moveCarSoundPlay = true;
+                Log.d(TAG, "moveSpeedPointer: ");
+                startMoveCarSound();
             }
             moveSeekbar(2000, 3000);
         }
@@ -1019,8 +1019,7 @@ public class CarGameActivity extends AppCompatActivity
 
             // show reverse number
             if (playWithRobot && !startGame) {
-                backgroundSound = MediaPlayer.create(this, R.raw.car_game_background);
-                backgroundSound.start();
+                playBackgroundSound();
                 PlaySound.playSound(this, R.raw.accelerate, true);
             }
             showNumberToStart(0, "3");
@@ -1049,6 +1048,11 @@ public class CarGameActivity extends AppCompatActivity
         }
     }
 
+    private void playBackgroundSound() {
+        backgroundSound = MediaPlayer.create(this, R.raw.car_game_background);
+        backgroundSound.start();
+    }
+
     @Override
     public void restartFromNextPlayerDialog(Dialog dialog) {
         // if current player is not first player restart button work
@@ -1068,6 +1072,9 @@ public class CarGameActivity extends AppCompatActivity
     @Override
     public void continueGame() {
         mainHandler.postDelayed(seekbarPosThread, threadDelay);
+        if (playWithRobot){
+            playBackgroundSound();
+        }
     }
 
     @Override

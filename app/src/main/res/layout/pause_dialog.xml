@@ -3,32 +3,38 @@
 <androidx.cardview.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     app:cardCornerRadius="@dimen/dialog_radius">
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:background="@drawable/alerts_background"
-        android:gravity="center">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        style="@style/dialog_style">
 
-        <ImageView
-            android:id="@+id/btn_home"
-            android:src="@drawable/home_button"
-            style="@style/dialog_buttons_style" />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center"
+            tools:ignore="MissingConstraints">
 
-        <ImageView
-            android:id="@+id/btn_retry"
-            style="@style/dialog_buttons_style"
-            android:src="@drawable/retry_button"/>
+            <ImageView
+                android:id="@+id/btn_home"
+                android:src="@drawable/home_button"
+                style="@style/dialog_buttons_style" />
 
-        <ImageView
-            android:id="@+id/btn_back"
-            style="@style/dialog_buttons_style"
-            android:src="@drawable/resume_button" />
+            <ImageView
+                android:id="@+id/btn_retry"
+                style="@style/dialog_buttons_style"
+                android:src="@drawable/retry_button"/>
 
-    </LinearLayout>
+            <ImageView
+                android:id="@+id/btn_back"
+                style="@style/dialog_buttons_style"
+                android:src="@drawable/resume_button" />
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.cardview.widget.CardView>

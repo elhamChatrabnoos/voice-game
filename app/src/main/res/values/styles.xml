@@ -317,7 +317,7 @@
     </style>
 
     <style name="dialog_buttons_style">
-        <item name="android:layout_width">200dp</item>
+        <item name="android:layout_width">150dp</item>
         <item name="android:layout_height">50dp</item>
     </style>
 
@@ -352,8 +352,9 @@
         <item name="android:layout_height">match_parent</item>
         <item name="android:layout_weight">1</item>
         <item name="android:padding">@dimen/normalSize</item>
-        <item name="android:visibility">gone</item>
+        <item name="android:gravity">center</item>
         <item name="android:orientation">vertical</item>
+        <item name="android:visibility">gone</item>
     </style>
 
     <style name="grade_style">
@@ -362,6 +363,7 @@
         <item name="android:layout_weight">4</item>
         <item name="android:gravity">center</item>
         <item name="android:textSize">30dp</item>
+        <item name="android:textStyle">bold</item>
         <item name="android:textColor">@color/black</item>
     </style>
 
@@ -370,17 +372,29 @@
         <item name="android:layout_height">match_parent</item>
         <item name="android:layout_weight">1</item>
         <item name="android:gravity">center</item>
-        <item name="android:textColor">@color/black</item>
+        <item name="android:textColor">@color/white</item>
         <item name="android:textSize">20dp</item>
     </style>
 
     <style name="final_score_style">
-        <item name="android:textColor">@color/black</item>
+        <item name="android:textColor">@color/white</item>
         <item name="android:layout_weight">2</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">match_parent</item>
         <item name="android:gravity">center</item>
         <item name="android:textSize">20dp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:layout_marginStart">@dimen/normalSize</item>
+    </style>
+
+    <style name="dialog_style">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/alerts_background</item>
+        <item name="android:paddingStart">@dimen/veryBigSize</item>
+        <item name="android:paddingEnd">@dimen/veryBigSize</item>
+        <item name="android:paddingTop">@dimen/bigSize</item>
+        <item name="android:paddingBottom">@dimen/bigSize</item>
     </style>
 
 </resources>

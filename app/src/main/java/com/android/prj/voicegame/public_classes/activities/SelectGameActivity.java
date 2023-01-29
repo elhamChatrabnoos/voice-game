@@ -5,6 +5,7 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -137,5 +138,9 @@ public class SelectGameActivity extends AppCompatActivity {
         if(selectAnyGame){
             startPlayerActivity();
         }
+        else{
+            Toast.makeText(this, R.string.select_game_msg, Toast.LENGTH_SHORT).show();
+        }
     }
+
 }

@@ -1,27 +1,23 @@
 package com.android.prj.voicegame.public_classes.dialogs;
 
-import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.media.MediaRecorder;
 import android.util.Log;
-import android.view.View;
-import android.view.WindowManager;
 
 import androidx.annotation.NonNull;
 
 import com.android.prj.voicegame.R;
 import com.android.prj.voicegame.databinding.SensitiveSettingLayoutBinding;
-import com.android.prj.voicegame.fish_game.SeekBarMoving;
 import com.android.prj.voicegame.public_classes.PlaySound;
 import com.android.prj.voicegame.public_classes.PublicSetting;
 import com.android.prj.voicegame.public_classes.SoundDetector;
 
 public class SensorSettingDialog extends Dialog {
 
+    private final Dialog dialog;
     private SensitiveSettingLayoutBinding binding;
     private int seekBarThumbPos;
     private float soundVolume;
@@ -31,18 +27,17 @@ public class SensorSettingDialog extends Dialog {
     private final int threadDelay = 50;
     private float sliderValue = 2;
     private SensitiveSetting sensitiveSetting;
-    private SeekBarMoving seekBarMoving;
 
     public SensorSettingDialog(@NonNull Context context, SensitiveSetting sensitiveSetting) {
         super(context);
         this.sensitiveSetting = sensitiveSetting;
 
-        Dialog dialog = new Dialog(getContext());
+        dialog = new Dialog(getContext());
         binding = SensitiveSettingLayoutBinding.inflate(getLayoutInflater());
         dialog.setContentView(binding.getRoot());
         dialog.setCancelable(false);
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.show();
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
         PublicSetting.hideSystemNavigation(dialog);
 
@@ -54,7 +49,6 @@ public class SensorSettingDialog extends Dialog {
         startThread();
         onClickObject();
     }
-
 
     private void moveSpeedPointer(){
         seekBarThumbPos = binding.mainSeekbar.getProgress();
@@ -114,8 +108,7 @@ public class SensorSettingDialog extends Dialog {
 
     private void onClickObject() {
         binding.startGame.setOnClickListener(view -> {
-            dismiss();
-            Log.d("drdr", "onClickObject: ");
+            dialog.dismiss();
             // start game activity
             PlaySound.playSound(getContext(), R.raw.click_sound, false);
             loopVar = false;

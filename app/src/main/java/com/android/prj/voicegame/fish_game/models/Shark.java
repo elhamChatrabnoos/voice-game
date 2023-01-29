@@ -58,7 +58,6 @@ public class Shark {
                 - sharkImage.getHeight()*1.5 && followFish && SeekBarMoving.startGame) {
             moveShark(sharkImage, false, false, true);
             upAnimation = true;
-
         }
     }
 
@@ -93,7 +92,6 @@ public class Shark {
                 // rotate shark head down
                 if (downAnimation) {
                     new Handler(Looper.getMainLooper()).post(() -> {
-                        Log.d("3r3r", "down animation: ");
                         sharkImage.animate().rotation(rotationValue).setDuration(duration);
                     });
                     downAnimation = false;
@@ -105,7 +103,6 @@ public class Shark {
                 if (frontAnimation) {
                     new Handler(Looper.getMainLooper()).post(() -> {
                         sharkImage.animate().rotation(0).setDuration(duration);
-                        Log.d("3r3r", "front animation: ");
                     });
                     frontAnimation = false;
                 }
@@ -117,6 +114,7 @@ public class Shark {
     public void changePosition(ImageView sharkImage, int fishPosition) {
         // when sound cut speed up shark moving and change its y depend on fish y
         movingSharkStep = 50;
+        Log.d("3434", "change shark Position: ");
 //        finishGame = true;
 
         // change shark y position depend on fish image position up or down

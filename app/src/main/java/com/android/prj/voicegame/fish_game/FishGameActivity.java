@@ -349,7 +349,6 @@ public class FishGameActivity extends AppCompatActivity implements
                     }
                     // when player lost shark receive it self to fish
                     else if (!gameFinished) {
-                        Log.d(TAG, "gameFinished is false: ");
                         shark.changePosition(binding.sharkImage, fishPosition);
                         delayRunning = false;
                         gameFinished = true;
@@ -459,7 +458,7 @@ public class FishGameActivity extends AppCompatActivity implements
 
     private void checkCollisionToShark() {
         // when shark receive fish
-        if (barriers.checkCollision( binding.sharkImage, binding.fishLayout, 100, 80, 80, 80)) {
+        if (barriers.checkCollision(binding.sharkImage, binding.fishLayout, 100, 80, 50, 80)) {
             runOnUiThread(() -> binding.fishLayout.setVisibility(View.INVISIBLE));
             stopHandlers();
             finishTheGame();
@@ -633,7 +632,9 @@ public class FishGameActivity extends AppCompatActivity implements
     }
 
     private void stopHandlers() {
-        PlaySound.playSound(this, R.raw.game_over, false);
+        if (!enablePauseButton){
+            PlaySound.playSound(this, R.raw.game_over, false);
+        }
         fishMovingHandler.removeCallbacksAndMessages(null);
         sharkMovingHandler.removeCallbacksAndMessages(null);
         if (robotPlaying) {
@@ -850,9 +851,7 @@ public class FishGameActivity extends AppCompatActivity implements
             // show reverse number
             runOnUiThread(() -> {
                 if (playWithRobot && !startGame) {
-                    backgroundSound = MediaPlayer.create(this, R.raw.fish_game_background);
-                    backgroundSound.setLooping(true);
-                    backgroundSound.start();
+                    startBackgroundSound();
                 }
                 showNumberToStart(0, "3");
                 showNumberToStart(1000, "2");
@@ -879,6 +878,12 @@ public class FishGameActivity extends AppCompatActivity implements
                 }
             }, 0, 1000);
         }
+    }
+
+    private void startBackgroundSound() {
+        backgroundSound = MediaPlayer.create(this, R.raw.fish_game_background);
+        backgroundSound.setLooping(true);
+        backgroundSound.start();
     }
 
 
@@ -909,6 +914,9 @@ public class FishGameActivity extends AppCompatActivity implements
     public void continueGame() {
         fishMovingHandler.postDelayed(fishThread, fishHandlerDelay);
         sharkMovingHandler.postDelayed(sharkThread, fishHandlerDelay);
+        if (playWithRobot){
+            startBackgroundSound();
+        }
     }
 
     @Override

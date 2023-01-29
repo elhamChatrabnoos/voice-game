@@ -74,16 +74,16 @@ public class FinalActivity extends AppCompatActivity {
         for (int i = 0; i < numberOfPlayer; i++) {
             String playerColor = playerList.get(i).getPlayerColor();
             if (playerColor.equals(getString(R.string.blue_color))) {
-                playersLayout[i].setBackgroundColor(getColor(R.color.blue_color));
+                playersLayout[i].setBackgroundResource(R.drawable.blue_result_back);
             }
             if (playerColor.equals(getString(R.string.green_color))) {
-                playersLayout[i].setBackgroundColor(getColor(R.color.green_color));
+                playersLayout[i].setBackgroundResource(R.drawable.green_result_back);
             }
             if (playerColor.equals(getString(R.string.red_color))) {
-                playersLayout[i].setBackgroundColor(getColor(R.color.red_color));
+                playersLayout[i].setBackgroundResource(R.drawable.red_result_back);
             }
             if (playerColor.equals(getString(R.string.yellow_color))) {
-                playersLayout[i].setBackgroundColor(getColor(R.color.yellow_color));
+                playersLayout[i].setBackgroundResource(R.drawable.yellow_result_back);
             }
             playersLayout[i].setVisibility(View.VISIBLE);
             playersScore[i].setText(String.valueOf(playerList.get(i).getPlayerTotalScore()));
@@ -93,11 +93,8 @@ public class FinalActivity extends AppCompatActivity {
 
 
     private void sortPlayers() {
-        Collections.sort(PlayerSelectionActivity.playerList, new Comparator<Player>() {
-            public int compare(Player obj1, Player obj2) {
-                return Integer.compare(obj2.getPlayerTotalScore(), obj1.getPlayerTotalScore());
-            }
-        });
+        Collections.sort(PlayerSelectionActivity.playerList, (obj1, obj2) ->
+                Integer.compare(obj2.getPlayerTotalScore(), obj1.getPlayerTotalScore()));
 
         playerList = PlayerSelectionActivity.playerList;
     }
