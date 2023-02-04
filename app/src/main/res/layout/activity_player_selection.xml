@@ -218,6 +218,7 @@
                 android:id="@+id/player1NameEdt"
                 style="@style/numberPlayerEdt"
                 android:text="@string/player1_txt"
+                android:imeOptions="actionDone"
                 android:background="@drawable/background_button_name"
                 app:layout_constraintTop_toBottomOf="@id/background1" />
 

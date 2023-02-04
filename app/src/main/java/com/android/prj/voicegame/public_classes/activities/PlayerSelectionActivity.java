@@ -1,13 +1,19 @@
 package com.android.prj.voicegame.public_classes.activities;
 
+import static java.security.AccessController.getContext;
+
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -60,6 +66,24 @@ public class PlayerSelectionActivity extends AppCompatActivity implements Sensor
         PublicSetting.setAppLanguage(getApplicationContext().getResources());
 
         PublicSetting.hideBars(this);
+
+        /// set feature when click enter on open keyboard close it
+        hideWhenEnterClick(binding.player1NameEdt);
+        hideWhenEnterClick(binding.player2NameEdt);
+        hideWhenEnterClick(binding.player3NameEdt);
+        hideWhenEnterClick(binding.player4NameEdt);
+    }
+
+    private void hideWhenEnterClick(EditText nameEdt) {
+        nameEdt.setOnKeyListener((view, i, keyEvent) -> {
+            if (keyEvent.getAction() == KeyEvent.ACTION_DOWN && i == KeyEvent.KEYCODE_ENTER){
+                InputMethodManager manager = (InputMethodManager) getSystemService(
+                        Context.INPUT_METHOD_SERVICE);
+                manager.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                return true;
+            }
+            return false;
+        });
     }
 
     @Override

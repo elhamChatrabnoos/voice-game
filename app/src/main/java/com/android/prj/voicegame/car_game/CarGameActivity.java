@@ -50,8 +50,6 @@ public class CarGameActivity extends AppCompatActivity
         implements NextPlayerDialog.Finish, PauseDialog.Actions {
 
     private static final String TAG = "3030";
-    public static final String MESSAGE = "message";
-    public static final String IS_PLAYER_ROBOT = "is player robot";
     private Handler mainHandler;
     private MediaRecorder recorder;
     private int numberOfPlayer;
@@ -194,6 +192,7 @@ public class CarGameActivity extends AppCompatActivity
         threadDelay = 50;
         handlerDelay = 50;
         playerNumber = 0;
+        windowWidth = 14000;
         moveCarSoundPlay = false;
         pauseMedia = false;
         counter = 0;
@@ -214,7 +213,7 @@ public class CarGameActivity extends AppCompatActivity
 
     private void generateNitrogen() {
         nitrogen = new Nitrogen(this, binding.mainLayout, screenWidth, screenHeight);
-        nitrogen.generateRandomNumber();
+        nitrogen.generateRandomNumber(windowWidth);
         robotNitrogenFeed = nitrogen.robotNitroRandomNumber();
 
         // generate random number when play with robot to generate nitrogen
@@ -459,7 +458,7 @@ public class CarGameActivity extends AppCompatActivity
         movingCarStep = 0;
         carPosition = (int) playerCarLayout.getX();
 
-        movingStep = 20;
+        movingStep = 40;
         movingThumbStep = 5;
         scrollX = 0;
         scrollY = 0;
@@ -720,7 +719,6 @@ public class CarGameActivity extends AppCompatActivity
             carBoil = false;
             handlerDelay = 50;
             playersCarLayout[playerNumber-1].removeView(smoke);
-//            runOnUiThread(() -> );
         }
 
         executorService = Executors.newFixedThreadPool(4);
@@ -757,9 +755,6 @@ public class CarGameActivity extends AppCompatActivity
         for (int i = 0; i < numberOfPlayer; i++) {
             carPoints[i].setVisibility(View.INVISIBLE);
         }
-//        runOnUiThread(() -> {
-//
-//        });
     }
 
     private void carPositionDependOnSeekbar() {
@@ -798,7 +793,7 @@ public class CarGameActivity extends AppCompatActivity
         // move car till end point
         if (carPosition < windowWidth - windowWidth / 15) {
             carPosition += movingCarStep;
-            playerImgLayout.setX(carPosition);
+            playerImgLayout.setX((float) (carPosition));
 
             // when capsule behind the car make carCollision true
             if (carCollision) {
@@ -806,7 +801,8 @@ public class CarGameActivity extends AppCompatActivity
             } else {
                 getNitrogen = false;
                 // if car receive target point generate capsule
-                carCollision = nitrogen.generateCapsule(carPosition, movingStep, layout, carPoints[playerNumber], roadHeight);
+                carCollision = nitrogen.generateCapsule(carPosition, movingStep,
+                        layout, carPoints[playerNumber], roadHeight);
                 // robot eat nitrogen randomly
                 if (playWithRobot) {
                     int num = Arrays.binarySearch(numberOfNitrogen, nitrogen.getNitrogenCount());
@@ -880,33 +876,9 @@ public class CarGameActivity extends AppCompatActivity
                             speedSound.start();
                         }
                         showSpeed = false;
-//                        speedImage = new GifImageView(CarGameActivity.this);
-//                        CarGameActivity.this.runOnUiThread(() -> {
-//                            speedImage.setImageResource(R.drawable.speed);
-//                            speedImage.setId(View.generateViewId());
-//                            ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(
-//                                    (int) ((int) playerImgLayout.getHeight())
-//                                    , (int) ((int) playerImgLayout.getHeight()));
-//                            speedImage.setLayoutParams(params);
-//                            playerImgLayout.removeView(speedImage);
-//                            playerImgLayout.addView(speedImage);
-//
-//                            // connect image constraint to layout
-//                            ConstraintSet set = new ConstraintSet();
-//                            set.clone(playerImgLayout);
-//                            set.connect(speedImage.getId(), ConstraintSet.END, playerImage.getId(), ConstraintSet.START, 0);
-//                            set.connect(speedImage.getId(), ConstraintSet.START, playerImgLayout.getId(), ConstraintSet.START, 5);
-//                            set.connect(speedImage.getId(), ConstraintSet.TOP, playerImgLayout.getId(), ConstraintSet.TOP, 0);
-//                            set.connect(speedImage.getId(), ConstraintSet.BOTTOM, playerImgLayout.getId(), ConstraintSet.BOTTOM, 0);
-//                            set.applyTo(playerImgLayout);
-//                        });
                     }
 
                     if (fastSpeedNumber == 20) {
-//                        Log.d(TAG, "remove speed");
-//                        runOnUiThread(() -> {
-//                            playerImgLayout.removeView(speedImage);
-//                        });
                         fastSpeedNumber = 0;
                         nitroClick = false;
                         robotNitrogenCounter = 0;
@@ -931,13 +903,13 @@ public class CarGameActivity extends AppCompatActivity
         }
 
         int finalPlayerScore = playerScore;
-
         runOnUiThread(() -> playerScoreTxt.setText(String.valueOf(finalPlayerScore)));
 
         return playerScore;
     }
 
     private void scrollBackground(View scrollView) {
+        // till end of page scroll background
         if (scrollX < windowWidth) {
             // car moving sooner background
             // when car receive target point, scrolling background starting
@@ -945,7 +917,7 @@ public class CarGameActivity extends AppCompatActivity
 
             // move background
             scrollY = carPosition;
-            scrollView.scrollTo(scrollX, scrollY);
+            scrollView.scrollTo((int) (scrollX), scrollY);
         }
     }
 
@@ -1013,7 +985,7 @@ public class CarGameActivity extends AppCompatActivity
                 definePlayerTurn(playerNumber);
 
                 nitrogen = new Nitrogen(this, binding.mainLayout, screenWidth, screenHeight);
-                nitrogen.generateRandomNumber();
+                nitrogen.generateRandomNumber(windowWidth);
                 carCollision = false;
             }
 

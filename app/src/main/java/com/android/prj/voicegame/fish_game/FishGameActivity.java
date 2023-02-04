@@ -24,7 +24,6 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintSet;
-import androidx.fragment.app.DialogFragment;
 
 import com.android.prj.voicegame.public_classes.PlaySound;
 import com.android.prj.voicegame.public_classes.activities.SelectGameActivity;
@@ -33,7 +32,7 @@ import com.android.prj.voicegame.public_classes.activities.PlayerSelectionActivi
 import com.android.prj.voicegame.public_classes.activities.ResultActivity;
 import com.android.prj.voicegame.public_classes.dialogs.NextPlayerDialog;
 import com.android.prj.voicegame.public_classes.dialogs.PauseDialog;
-import com.android.prj.voicegame.fish_game.models.Barriers;
+import com.android.prj.voicegame.fish_game.models.BarriersAndOptions;
 import com.android.prj.voicegame.fish_game.models.Fish;
 import com.android.prj.voicegame.fish_game.models.FishBot;
 import com.android.prj.voicegame.fish_game.models.HammerFish;
@@ -76,7 +75,7 @@ public class FishGameActivity extends AppCompatActivity implements
     private Thread fishThread;
     private Thread sharkThread;
     private int fishPosition;
-    private Barriers barriers;
+    private BarriersAndOptions barriers;
     private boolean loopVar;
     private boolean checkCollision;
     private boolean[] rocksCollision;
@@ -266,7 +265,7 @@ public class FishGameActivity extends AppCompatActivity implements
                 binding.gameLayout.getMinHeight(), binding.scoresLayout);
 
         // make barriers on page
-        barriers = new Barriers(this, binding.gameLayout, screenHeight, ScreenRelative.screenWidth);
+        barriers = new BarriersAndOptions(this, binding.gameLayout, screenHeight, ScreenRelative.screenWidth);
         barriers.generateObjects();
 
         seekBarMoving = new SeekBarMoving();

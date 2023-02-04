@@ -145,6 +145,5 @@ public class SensorSettingDialog extends Dialog {
     @Override
     public void onDetachedFromWindow() {
         super.onDetachedFromWindow();
-
     }
 }

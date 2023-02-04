@@ -15,7 +15,7 @@ import java.util.Random;
 
 import pl.droidsonroids.gif.GifImageView;
 
-public class Barriers {
+public class BarriersAndOptions {
 
     public static final String HOOKNAME = "hook";
     public static final String ROCKNAME = "rock";
@@ -47,7 +47,7 @@ public class Barriers {
         return hammerFishList;
     }
 
-    public Barriers(Context context, ConstraintLayout layout, int screenHeight, int screenWidth) {
+    public BarriersAndOptions(Context context, ConstraintLayout layout, int screenHeight, int screenWidth) {
         this.context = context;
         this.layout = layout;
         this.screenHeight = screenHeight;
@@ -73,7 +73,7 @@ public class Barriers {
         // 500
         int rockWidth = (int) (screenHeight * 0.46);
         // 100
-        int iconsSize = (int) (screenWidth * 0.05);
+        int iconsSize = (int) (screenWidth * 0.07);
 
         int[] randomNumbers = new int[100];
         for (int i = 0; i < randomNumbers.length; i++) {

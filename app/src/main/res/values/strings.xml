@@ -60,7 +60,7 @@
     <string name="give_perms">Please reinstall the app and Give us permission for better performance.</string>
     <string name="robot">Robot</string>
     <string name="human">human</string>
-    <string name="select_players_feild">please select at least two player and one human player</string>
+    <string name="select_players_feild">please select at least two player that one of them is human</string>
     <string name="restart">Restart</string>
     <string name="start_txt">start</string>
     <string name="final_score_txt">score:</string>

@@ -2,6 +2,7 @@ package com.android.prj.voicegame.car_game.models;
 
 import android.content.Context;
 import android.graphics.Rect;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -72,10 +73,13 @@ public class Nitrogen {
     }
 
     // generate random nitrogen in robot game
-    public void generateRandomNumber() {
+    public void generateRandomNumber(int screenWidth) {
+        Log.d("3434", "screen width: " + screenWidth);
+
         randomPoints = new int[numberOfNitrogen];
         randomPoints[0] = random.nextInt(1000) + 50;
 
+        // generate next random nitro depend on previous nitro position
         for (int i = 1; i < randomPoints.length; i++) {
             randomPoints[i] = random.nextInt(1000) + randomPoints[i - 1] + 1;
         }
@@ -98,7 +102,7 @@ public class Nitrogen {
             if (carPosition >= randomPoint && carPosition <= randomPoint + movingStep) {
                 this.carPosition = carPosition;
                 carCollision = true;
-                nitrogenCount++;
+                nitrogenCount ++;
                 imageView = new ImageView(context);
                 ViewGroup.LayoutParams params = new ViewGroup.LayoutParams((int) (screenWidth * 0.15), (int) (screenHeight * 0.15));
                 imageView.setX(randomPoint + CarGameActivity.screenWidth);

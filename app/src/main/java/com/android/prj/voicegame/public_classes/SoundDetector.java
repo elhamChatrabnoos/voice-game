@@ -13,19 +13,19 @@ public class SoundDetector {
 
     public MediaRecorder startVoiceListening(Context context) {
 
-        // we are here initializing our filename variable
-        // with the path of the recorded audio file.
+        // ready media recorder
         MediaRecorder recorder = new MediaRecorder();
         recorder.setAudioSource(MediaRecorder.AudioSource.MIC);
         recorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
         recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
 
+        // we are here initializing our filename variable
+        // with the path of the recorded audio file.
         try {
+            File file = File.createTempFile("prefix", ".extensions", context.getCacheDir());
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                File file = File.createTempFile("prefix", ".extensions", context.getCacheDir());
                 recorder.setOutputFile(file);
             }
-            // ??
             else{
                 String mFileName = Environment.getExternalStorageDirectory().getAbsolutePath();
                 mFileName += "/AudioRecording.3gp";
@@ -38,8 +38,8 @@ public class SoundDetector {
         try {
             recorder.prepare();
             recorder.start();
-        } catch (IOException e) {
-            Log.e("4040", "prepare() failed");
+        } catch (Exception e) {
+            Log.e("4040", "prepare() failed" + e.getMessage());
         }
 
         return recorder;
