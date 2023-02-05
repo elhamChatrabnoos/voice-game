@@ -17,7 +17,7 @@
             tools:ignore="MissingConstraints">
 
             <TextView
-                android:id="@+id/message"
+                android:id="@+id/playerNameOrFinish"
                 android:text="player1"
                 style="@style/titleStyle"
                 android:textSize="30dp"

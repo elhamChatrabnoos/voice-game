@@ -46,11 +46,11 @@ public class NextPlayerDialog extends Dialog {
         // message was finish prepare page for finish game
         if (message.equals(getContext().getString(R.string.finishMsg))){
             bindingCu.message2.setText(R.string.see_result);
-            bindingCu.message.setText(R.string.finishMsg);
+            bindingCu.playerNameOrFinish.setText(R.string.finishMsg);
         }
         // if message was player set name to message text
         else {
-            bindingCu.message.setText(message);
+            bindingCu.playerNameOrFinish.setText(message);
         }
 
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));

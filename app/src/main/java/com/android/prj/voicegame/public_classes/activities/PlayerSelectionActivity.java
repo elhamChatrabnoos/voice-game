@@ -50,11 +50,12 @@ public class PlayerSelectionActivity extends AppCompatActivity implements Sensor
     int[] playerResultStyle;
     private ImageView[] playerColorBoxes;
     private int[] playerCurrentStyle;
-    private int robotHumanCount ;
+    private int robotHumanCount;
     private int playerColorCount;
     private long humanCountForShowingBorder;
     public static float soundSensitive = 2;
     private int humanColorToShowBorder;
+    private EditText[] playersNameEditText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,24 +67,29 @@ public class PlayerSelectionActivity extends AppCompatActivity implements Sensor
         PublicSetting.setAppLanguage(getApplicationContext().getResources());
 
         PublicSetting.hideBars(this);
+        hideKeyboardWhenEnterClick();
 
-        /// set feature when click enter on open keyboard close it
-        hideWhenEnterClick(binding.player1NameEdt);
-        hideWhenEnterClick(binding.player2NameEdt);
-        hideWhenEnterClick(binding.player3NameEdt);
-        hideWhenEnterClick(binding.player4NameEdt);
     }
 
-    private void hideWhenEnterClick(EditText nameEdt) {
-        nameEdt.setOnKeyListener((view, i, keyEvent) -> {
-            if (keyEvent.getAction() == KeyEvent.ACTION_DOWN && i == KeyEvent.KEYCODE_ENTER){
-                InputMethodManager manager = (InputMethodManager) getSystemService(
-                        Context.INPUT_METHOD_SERVICE);
-                manager.hideSoftInputFromWindow(view.getWindowToken(), 0);
-                return true;
-            }
-            return false;
-        });
+    private void hideKeyboardWhenEnterClick() {
+        /// set feature when click enter on open keyboard close it
+        playersNameEditText = new EditText[]{
+                binding.player1NameEdt,
+                binding.player2NameEdt,
+                binding.player3NameEdt,
+                binding.player4NameEdt};
+
+        for (EditText playerName : playersNameEditText) {
+            playerName.setOnKeyListener((view, i, keyEvent) -> {
+                if (keyEvent.getAction() == KeyEvent.ACTION_DOWN && i == KeyEvent.KEYCODE_ENTER) {
+                    InputMethodManager manager = (InputMethodManager) getSystemService(
+                            Context.INPUT_METHOD_SERVICE);
+                    manager.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                    return true;
+                }
+                return false;
+            });
+        }
     }
 
     @Override
@@ -103,10 +109,10 @@ public class PlayerSelectionActivity extends AppCompatActivity implements Sensor
                 getString(R.string.player4_txt)};
 
         robotsName = new String[]{
-               getString(R.string.robot1),
-               getString(R.string.robot2),
-               getString(R.string.robot3),
-               getString(R.string.robot4)};
+                getString(R.string.robot1),
+                getString(R.string.robot2),
+                getString(R.string.robot3),
+                getString(R.string.robot4)};
 
         colors = new String[]{
                 getString(R.string.red_color),
@@ -120,7 +126,7 @@ public class PlayerSelectionActivity extends AppCompatActivity implements Sensor
         playerCurrentStyle = new int[4];
 
         colorBoxes = new ImageView[]{binding.redColor, binding.greenColor,
-                                          binding.yellowColor, binding.blueColor};
+                binding.yellowColor, binding.blueColor};
 
         playerColorBoxes = new ImageView[]{binding.player1Color, binding.player2Color,
                 binding.player3Color, binding.player4Color};
@@ -162,27 +168,34 @@ public class PlayerSelectionActivity extends AppCompatActivity implements Sensor
     }
 
     public void startGameClick(View view) {
-        if (enableStartButton){
+        if (enableStartButton) {
+            setPlayersName();
             stopService(SelectGameActivity.intentBackgroundSound);
             PlaySound.playSound(this, R.raw.click_sound, false);
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 // show setting for sound detective sensitive
                 new SensorSettingDialog(this, this);
-            }
-            else{
+            } else {
                 startActivity();
             }
-       }
-       else{
-           Toast.makeText(this, R.string.select_players_feild, Toast.LENGTH_SHORT).show();
-       }
+        } else {
+            Toast.makeText(this, R.string.select_players_feild, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void setPlayersName() {
+        for (int i = 0; i < playerList.size(); i++) {
+            if (!playersNameEditText[i].getText().toString().equals("")){
+                playerList.get(i).setPlayerName(playersNameEditText[i].getText().toString());
+            }
+        }
     }
 
 
     private void startActivity() {
 
-        int playerListSize =  playerList.size();
-        int playerListSizeTmp =  playerList.size();
+        int playerListSize = playerList.size();
+        int playerListSizeTmp = playerList.size();
 
         // remove items that have 0 id in players list
         for (int i = 0; i < playerListSize; i++) {
@@ -199,11 +212,10 @@ public class PlayerSelectionActivity extends AppCompatActivity implements Sensor
         // start game activity depend on game selected
         for (int i = 0; i < SelectGameActivity.gamesList.size(); i++) {
             String gameName = SelectGameActivity.gamesList.get(i).getGameName();
-            if (gameName.equals(getString(R.string.carGameTitle))){
+            if (gameName.equals(getString(R.string.carGameTitle))) {
                 startActivity(new Intent(PlayerSelectionActivity.this, CarGameActivity.class));
                 break;
-            }
-            else if (gameName.equals(getString(R.string.fishGameTitle))){
+            } else if (gameName.equals(getString(R.string.fishGameTitle))) {
                 startActivity(new Intent(PlayerSelectionActivity.this, FishGameActivity.class));
                 break;
             }
@@ -219,7 +231,7 @@ public class PlayerSelectionActivity extends AppCompatActivity implements Sensor
 
     public void player1Onclick(View view) {
         PlaySound.playSound(this, R.raw.click_sound, false);
-        setPlayerField(0, binding.player1Img, binding.player1NameEdt, 0, "" );
+        setPlayerField(0, binding.player1Img, binding.player1NameEdt, 0, "");
     }
 
     public void player2Onclick(View view) {
@@ -243,8 +255,7 @@ public class PlayerSelectionActivity extends AppCompatActivity implements Sensor
             // if clicked image is robot send robot name else send human name
             if (playerType.equals(getString(R.string.robot))) {
                 setPlayerField(0, binding.player1Img, binding.player1NameEdt, imagesResource, robotsName[0]);
-            }
-            else {
+            } else {
                 setPlayerField(0, binding.player1Img, binding.player1NameEdt, imagesResource, playersName[0]);
             }
         } else if (!players[1]) {
@@ -281,34 +292,33 @@ public class PlayerSelectionActivity extends AppCompatActivity implements Sensor
             playerType.setImageResource(targetImage);
             playerName.setText("");
             players[index] = false;
-            robotHumanCount --;
+            robotHumanCount--;
 
             // for showing border around human
-            if (!playerList.get(index).isPlayerRobot()){
-                humanCountForShowingBorder --;
-                if (playerColor[index]){
-                    humanColorToShowBorder --;
+            if (!playerList.get(index).isPlayerRobot()) {
+                humanCountForShowingBorder--;
+                if (playerColor[index]) {
+                    humanColorToShowBorder--;
                 }
             }
 
             // if color also selected remove from players
-            if (playerColor[index]){
+            if (playerColor[index]) {
                 // if human selected to remove
                 if (!playerList.get(index).isPlayerRobot()) {
-                    humanCount --;
+                    humanCount--;
                 }
-                numberOfPlayer --;
+                numberOfPlayer--;
                 playerList.get(index).setId(0);
 
                 // make index of player list false
                 playerList.get(index).setPlayerRobot(false);
             }
             playerType.setEnabled(false);
-        }
-        else {
+        } else {
             playerType.setImageResource(targetImage);
             playerName.setText(targetName);
-            robotHumanCount ++;
+            robotHumanCount++;
 
             // if color selected for player add player to player number
             players[index] = true;
@@ -318,49 +328,46 @@ public class PlayerSelectionActivity extends AppCompatActivity implements Sensor
             playerList.get(index).setPlayerName(targetName);
 
             // if color selected first
-            if (playerColor[index]){
+            if (playerColor[index]) {
                 playerList.get(index).setId(1);
-                numberOfPlayer ++;
+                numberOfPlayer++;
                 // if human selected add one number to humanCount
                 if (!playerList.get(index).isPlayerRobot()) {
                     if (humanCount < 4) {
-                        humanCount ++;
+                        humanCount++;
                     }
                 }
             }
-            if(!playerList.get(index).isPlayerRobot()){
+            if (!playerList.get(index).isPlayerRobot()) {
                 // for showing border around robot and human
-                humanCountForShowingBorder ++;
-                if (playerColor[index]){
-                    humanColorToShowBorder ++;
+                humanCountForShowingBorder++;
+                if (playerColor[index]) {
+                    humanColorToShowBorder++;
                 }
             }
             playerType.setEnabled(true);
-            }
-            checkEnableStartButton();
+        }
+        checkEnableStartButton();
     }
 
     private void checkEnableStartButton() {
         enableStartButton = humanCount > 0 && numberOfPlayer >= 2;
         // if user doesn't select player color show border around color box else remove this border
-        if (playerColorCount < 2 || humanColorToShowBorder < 1){
+        if (playerColorCount < 2 || humanColorToShowBorder < 1) {
             binding.colorBorder.setVisibility(View.VISIBLE);
-        }
-        else{
+        } else {
             binding.colorBorder.setVisibility(View.INVISIBLE);
         }
         // if user doesn't select human or robot show border around it
-        if (robotHumanCount < 2){
+        if (robotHumanCount < 2) {
             binding.humanRobotBorder.setVisibility(View.VISIBLE);
-        }
-        else{
+        } else {
             binding.humanRobotBorder.setVisibility(View.INVISIBLE);
         }
         // if user doesn't select any human player show border around human image
-        if (humanCountForShowingBorder < 1){
+        if (humanCountForShowingBorder < 1) {
             binding.humanBorder.setVisibility(View.VISIBLE);
-        }
-        else{
+        } else {
             binding.humanBorder.setVisibility(View.INVISIBLE);
         }
     }
@@ -383,7 +390,7 @@ public class PlayerSelectionActivity extends AppCompatActivity implements Sensor
 
     private void returnColorToBoxes(int index) {
         if (playerColor[index]) {
-            playerColorCount --;
+            playerColorCount--;
             // search to find player color and return its color to its place
             for (int i = 0; i < playerStyleColor.length; i++) {
                 if (playerCurrentStyle[index] == playerStyleColor[i]) {
@@ -396,11 +403,11 @@ public class PlayerSelectionActivity extends AppCompatActivity implements Sensor
                     playerColorBoxes[index].setImageResource(R.drawable.color_selection);
 
                     // when remove player color number of player reduce
-                    if (players[index]){
-                        numberOfPlayer --;
-                        if (!playerList.get(index).isPlayerRobot()){
-                            humanCount --;
-                            humanColorToShowBorder --;
+                    if (players[index]) {
+                        numberOfPlayer--;
+                        if (!playerList.get(index).isPlayerRobot()) {
+                            humanCount--;
+                            humanColorToShowBorder--;
                         }
                         playerList.get(i).setId(0);
                     }
@@ -440,7 +447,7 @@ public class PlayerSelectionActivity extends AppCompatActivity implements Sensor
             // search empty player color
             for (int i = 0; i < playerColor.length; i++) {
                 if (!playerColor[i]) {
-                    playerColorCount ++;
+                    playerColorCount++;
                     // fill player color box boolean
                     playerColor[i] = true;
 
@@ -457,15 +464,15 @@ public class PlayerSelectionActivity extends AppCompatActivity implements Sensor
                     playerList.get(i).setPlayerResultStyle(playerResultStyle[index]);
 
                     // if human or bot image selected before
-                    if (players[i]){
-                        numberOfPlayer ++;
+                    if (players[i]) {
+                        numberOfPlayer++;
                         playerList.get(i).setId(1);
                     }
                     // if select color for human image
                     if (!playerList.get(i).isPlayerRobot() && players[i]) {
-                        humanCount ++;
+                        humanCount++;
                         playerList.get(i).setPlayerRobot(false);
-                        humanColorToShowBorder ++;
+                        humanColorToShowBorder++;
                     }
                     break;
                 }

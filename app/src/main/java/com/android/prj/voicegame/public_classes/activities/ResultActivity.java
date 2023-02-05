@@ -46,7 +46,7 @@ public class ResultActivity extends AppCompatActivity {
         finishShowResult = false;
 
         binding.btnGoHome.setOnClickListener(view -> {
-            if (finishShowResult){
+            if (finishShowResult) {
                 PlaySound.stopSound();
                 lightOnSound.stop();
                 lightOnSound.release();
@@ -79,7 +79,7 @@ public class ResultActivity extends AppCompatActivity {
     private void setFourPlayerField() {
         setThreePlayerField();
         showResult(PlayerSelectionActivity.playerList.get(3), 4000);
-        showResult(PlayerSelectionActivity.playerList.get(3), 5000);
+        showResult(PlayerSelectionActivity.playerList.get(3), 4100);
         binding.fourthPlayerName.setText(PlayerSelectionActivity.playerList.get(3).getPlayerName());
         binding.fourthPlayerScore.setText(String.valueOf(PlayerSelectionActivity.playerList.get(3).getPlayerScore()));
     }
@@ -87,8 +87,8 @@ public class ResultActivity extends AppCompatActivity {
     private void setThreePlayerField() {
         setTwoPlayerField();
         showResult(PlayerSelectionActivity.playerList.get(2), 3000);
-        showResult(PlayerSelectionActivity.playerList.get(2), 5000);
-        if (numberOfPlayer == 3){
+        showResult(PlayerSelectionActivity.playerList.get(2), 4100);
+        if (numberOfPlayer == 3) {
             binding.wholeLayout.removeView(binding.fourthPlayerLayout);
         }
         binding.thirdPlayerName.setText(PlayerSelectionActivity.playerList.get(2).getPlayerName());
@@ -97,14 +97,14 @@ public class ResultActivity extends AppCompatActivity {
 
     private void setTwoPlayerField() {
         // when enter this method from two player do it
-        if(numberOfPlayer == 2){
+        if (numberOfPlayer == 2) {
             binding.wholeLayout.removeView(binding.fourthPlayerLayout);
             binding.wholeLayout.removeView(binding.thirdPlayerLayout);
         }
 
         showResult(PlayerSelectionActivity.playerList.get(0), 1000);
         showResult(PlayerSelectionActivity.playerList.get(1), 2000);
-        showResult(PlayerSelectionActivity.playerList.get(1), 5000);
+        showResult(PlayerSelectionActivity.playerList.get(1), 4100);
 
         // set first player info
         binding.firstPlayerName.setText(PlayerSelectionActivity.playerList.get(0).getPlayerName());
@@ -127,7 +127,7 @@ public class ResultActivity extends AppCompatActivity {
                             binding.firstPlayerLayout.setBackgroundResource(player.getPlayerResultStyle());
                             // if player get any score add to his score
                             // show player score on textview  // change image resources of star
-                            if (player.getPlayerScore() > 0){
+                            if (player.getPlayerScore() > 0) {
                                 player.setPlayerTotalScore(player.getPlayerTotalScore() + 3);
                                 binding.firstPlayerTotalScore.setText(String.valueOf(player.getPlayerTotalScore()));
                                 binding.firstPersonSticker.setImageResource(R.drawable.three_star);
@@ -137,7 +137,7 @@ public class ResultActivity extends AppCompatActivity {
                         case 2000:
                             binding.secondPlayerLayout.setBackgroundResource(player.getPlayerResultStyle());
                             // show player score on textview
-                            if (player.getPlayerScore() > 0){
+                            if (player.getPlayerScore() > 0) {
                                 player.setPlayerTotalScore(player.getPlayerTotalScore() + 2);
                                 binding.secondPlayerTotalScore.setText(String.valueOf(player.getPlayerTotalScore()));
                                 binding.secondPersonSticker.setImageResource(R.drawable.two_star);
@@ -147,7 +147,7 @@ public class ResultActivity extends AppCompatActivity {
                         case 3000:
                             binding.thirdPlayerLayout.setBackgroundResource(player.getPlayerResultStyle());
                             // show player score on textview
-                            if (player.getPlayerScore() > 0){
+                            if (player.getPlayerScore() > 0) {
                                 player.setPlayerTotalScore(player.getPlayerTotalScore() + 1);
                                 binding.thirdPlayerTotalScore.setText(String.valueOf(player.getPlayerTotalScore()));
                                 binding.thirdPersonSticker.setImageResource(R.drawable.one_star);
@@ -162,7 +162,7 @@ public class ResultActivity extends AppCompatActivity {
                             binding.fourthPersonSticker.setImageResource(R.drawable.no_star);
                             startLightOnSound();
                             break;
-                        case 5000:
+                        case 4100:
                             finishShowResult = true;
                     }
                 });
@@ -182,7 +182,7 @@ public class ResultActivity extends AppCompatActivity {
     }
 
     public void NextGameButton(View view) {
-        if (finishShowResult){
+        if (finishShowResult) {
             boolean allGamesDone = true;
 
             PlaySound.stopSound();
@@ -195,12 +195,11 @@ public class ResultActivity extends AppCompatActivity {
             for (int i = 0; i < SelectGameActivity.gamesList.size(); i++) {
                 String gameName = SelectGameActivity.gamesList.get(i).getGameName();
                 if (!SelectGameActivity.gamesList.get(i).isGameDone()) {
-                    if (SelectGameActivity.gamesList.get(i).getGameName().equals(getString(R.string.carGameTitle))){
+                    if (SelectGameActivity.gamesList.get(i).getGameName().equals(getString(R.string.carGameTitle))) {
                         allGamesDone = false;
                         startActivity(new Intent(this, CarGameActivity.class));
                         break;
-                    }
-                    else if (gameName.equals(getString(R.string.fishGameTitle))){
+                    } else if (gameName.equals(getString(R.string.fishGameTitle))) {
                         allGamesDone = false;
                         startActivity(new Intent(ResultActivity.this, FishGameActivity.class));
                         break;
@@ -209,7 +208,7 @@ public class ResultActivity extends AppCompatActivity {
             }
 
             // start selection activity when all games finish
-            if (allGamesDone){
+            if (allGamesDone) {
                 startActivity(new Intent(ResultActivity.this, FinalActivity.class));
             }
         }

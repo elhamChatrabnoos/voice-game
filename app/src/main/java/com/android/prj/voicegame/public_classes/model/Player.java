@@ -19,6 +19,7 @@ public class Player implements Parcelable {
     private int playerGif;
     private boolean playerRobot;
     private int playerSecondGif;
+    private int playerResultSticker;
 
     protected Player(Parcel in) {
         id = in.readInt();
@@ -28,10 +29,19 @@ public class Player implements Parcelable {
         playerTurn = in.readByte() != 0;
         playerColor = in.readString();
         playerResultStyle = in.readInt();
+        playerResultSticker = in.readInt();
         playerImage = in.readInt();
         playerGif = in.readInt();
         playerSecondGif = in.readInt();
         playerRobot = in.readByte() != 0;
+    }
+
+    public int getPlayerResultSticker() {
+        return playerResultSticker;
+    }
+
+    public void setPlayerResultSticker(int playerResultSticker) {
+        this.playerResultSticker = playerResultSticker;
     }
 
     public static final Creator<Player> CREATOR = new Creator<Player>() {
@@ -148,6 +158,7 @@ public class Player implements Parcelable {
         parcel.writeByte((byte) (playerTurn ? 1 : 0));
         parcel.writeString(playerColor);
         parcel.writeInt(playerResultStyle);
+        parcel.writeInt(playerResultSticker);
         parcel.writeInt(playerImage);
         parcel.writeInt(playerGif);
         parcel.writeInt(playerSecondGif);

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -20,10 +21,10 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import pl.droidsonroids.gif.GifImageView;
+
 public class FinalActivity extends AppCompatActivity {
 
-    private LinearLayout[] playersLayout;
-    private TextView[] playersScore;
     private ActivityFinalBinding binding;
     private List<Player> playerList;
 
@@ -37,16 +38,34 @@ public class FinalActivity extends AppCompatActivity {
         PlaySound.playSound(this, R.raw.final_activity_sound, true);
 
         sortPlayers();
+        setPlayerStickers();
         showPlayersImage();
-
-        binding.btnBack.setOnClickListener(view -> {
-            PlaySound.stopSound();
-            finish();
-            startActivity(new Intent(this, SelectGameActivity.class));
-        });
 
         PublicSetting.setAppLanguage(getApplicationContext().getResources());
         PublicSetting.hideBars(this);
+    }
+
+    private void setPlayerStickers() {
+        int[] playerStickers = new int[]{
+                R.drawable.grade_one_player,
+                R.drawable.grade_two_player,
+                R.drawable.grade_three_player,
+                R.drawable.grade_four_player,
+        };
+
+        // set players sticker depend on their sort
+        for (int i = 0; i < playerList.size(); i++) {
+            playerList.get(i).setPlayerResultSticker(playerStickers[i]);
+        }
+
+        //// search each player between all if they have same score make their sticker like each other
+        for (int i = 0; i < playerList.size(); i++) {
+            for (int j = 0; j < playerList.size(); j++) {
+                if (playerList.get(i).getPlayerTotalScore() == playerList.get(j).getPlayerTotalScore()) {
+                    playerList.get(j).setPlayerResultSticker(playerList.get(i).getPlayerResultSticker());
+                }
+            }
+        }
     }
 
     @Override
@@ -55,19 +74,22 @@ public class FinalActivity extends AppCompatActivity {
     }
 
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
     private void showPlayersImage() {
-        playersLayout = new LinearLayout[]{
+        LinearLayout[] playersLayout = new LinearLayout[]{
                 binding.firstPlayerLayout,
                 binding.secondPlayerLayout,
                 binding.thirdPlayerLayout,
                 binding.fourthPlayerLayout};
 
-        playersScore = new TextView[]{
+        TextView[] playersScore = new TextView[]{
                 binding.firstPlayerScore,
                 binding.secondPlayerScore,
                 binding.thirdPlayerScore,
                 binding.fourthPlayerScore};
+
+        GifImageView[] playersStickerGif = new GifImageView[]{
+                binding.firstPlayer, binding.secondPlayer, binding.thirdPlayer, binding.fourthPlayer
+        };
 
         int numberOfPlayer = PlayerSelectionActivity.numberOfPlayer;
 
@@ -87,6 +109,7 @@ public class FinalActivity extends AppCompatActivity {
             }
             playersLayout[i].setVisibility(View.VISIBLE);
             playersScore[i].setText(String.valueOf(playerList.get(i).getPlayerTotalScore()));
+            playersStickerGif[i].setImageResource(playerList.get(i).getPlayerResultSticker());
         }
 
     }
@@ -95,7 +118,6 @@ public class FinalActivity extends AppCompatActivity {
     private void sortPlayers() {
         Collections.sort(PlayerSelectionActivity.playerList, (obj1, obj2) ->
                 Integer.compare(obj2.getPlayerTotalScore(), obj1.getPlayerTotalScore()));
-
         playerList = PlayerSelectionActivity.playerList;
     }
 
