@@ -36,6 +36,7 @@ public class ResultActivity extends AppCompatActivity {
 
         defineFields();
         PublicSetting.hideBars(this);
+        PublicSetting.keepScreenOn(this);
     }
 
     private void defineFields() {

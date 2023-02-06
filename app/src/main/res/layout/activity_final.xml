@@ -19,6 +19,7 @@
             android:background="@drawable/blue_result_back">
 
             <TextView
+                android:id="@+id/firstPlayerGrade"
                 android:text="1"
                 style="@style/grade_style" />
 
@@ -52,6 +53,7 @@
             android:background="@drawable/green_result_back">
 
             <TextView
+                android:id="@+id/secondPlayerGrade"
                 android:text="2"
                 style="@style/grade_style" />
 
@@ -85,6 +87,7 @@
             android:background="@drawable/yellow_result_back">
 
             <TextView
+                android:id="@+id/thirdPlayerGrade"
                 android:text="3"
                 style="@style/grade_style" />
 
@@ -118,6 +121,7 @@
             android:background="@drawable/red_result_back">
 
             <TextView
+                android:id="@+id/fourthPlayerGrade"
                 android:text="4"
                 style="@style/grade_style" />
 

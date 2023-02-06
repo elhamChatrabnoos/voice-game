@@ -165,6 +165,7 @@ public class FishGameActivity extends AppCompatActivity implements
 
         PublicSetting.setAppLanguage(getApplicationContext().getResources());
         PublicSetting.hideBars(this);
+        PublicSetting.keepScreenOn(this);
     }
 
     @Override

@@ -68,7 +68,7 @@ public class PlayerSelectionActivity extends AppCompatActivity implements Sensor
 
         PublicSetting.hideBars(this);
         hideKeyboardWhenEnterClick();
-
+        PublicSetting.keepScreenOn(this);
     }
 
     private void hideKeyboardWhenEnterClick() {

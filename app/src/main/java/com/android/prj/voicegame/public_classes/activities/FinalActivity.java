@@ -43,6 +43,7 @@ public class FinalActivity extends AppCompatActivity {
 
         PublicSetting.setAppLanguage(getApplicationContext().getResources());
         PublicSetting.hideBars(this);
+        PublicSetting.keepScreenOn(this);
     }
 
     private void setPlayerStickers() {
@@ -50,19 +51,27 @@ public class FinalActivity extends AppCompatActivity {
                 R.drawable.grade_one_player,
                 R.drawable.grade_two_player,
                 R.drawable.grade_three_player,
-                R.drawable.grade_four_player,
-        };
+                R.drawable.grade_four_player};
 
-        // set players sticker depend on their sort
+        TextView[] playersGrade = new TextView[]{
+             binding.firstPlayerGrade,
+             binding.secondPlayerGrade,
+             binding.thirdPlayerGrade,
+             binding.fourthPlayerGrade};
+
+        // set players sticker and grade depend on their sort
         for (int i = 0; i < playerList.size(); i++) {
             playerList.get(i).setPlayerResultSticker(playerStickers[i]);
+            playerList.get(i).setPlayerGrade(Integer.parseInt(playersGrade[i].getText().toString()));
         }
 
-        //// search each player between all if they have same score make their sticker like each other
+        //// search each player between all if they have same score make their sticker and grade like eachOther
         for (int i = 0; i < playerList.size(); i++) {
             for (int j = 0; j < playerList.size(); j++) {
                 if (playerList.get(i).getPlayerTotalScore() == playerList.get(j).getPlayerTotalScore()) {
                     playerList.get(j).setPlayerResultSticker(playerList.get(i).getPlayerResultSticker());
+                    playerList.get(j).setPlayerGrade(playerList.get(i).getPlayerGrade());
+                    playersGrade[j].setText(String.valueOf(playerList.get(j).getPlayerGrade()));
                 }
             }
         }
@@ -93,6 +102,7 @@ public class FinalActivity extends AppCompatActivity {
 
         int numberOfPlayer = PlayerSelectionActivity.numberOfPlayer;
 
+        // set player background color and image and score depend on their order
         for (int i = 0; i < numberOfPlayer; i++) {
             String playerColor = playerList.get(i).getPlayerColor();
             if (playerColor.equals(getString(R.string.blue_color))) {

@@ -204,13 +204,15 @@
                                 app:layout_constraintTop_toTopOf="parent">
 
                                 <!--car image-->
+
                                 <pl.droidsonroids.gif.GifImageView
                                     android:id="@+id/car1"
                                     style="@style/playerImageStyle"
                                     android:src="@drawable/red_car_r"
                                     app:layout_constraintEnd_toEndOf="parent"
-                                    app:layout_constraintTop_toTopOf="parent"
+                                    app:layout_constraintHorizontal_bias="0.0"
                                     app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent"
                                     tools:ignore="MissingConstraints" />
 
                                 <View

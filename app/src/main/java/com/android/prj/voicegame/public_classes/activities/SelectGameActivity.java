@@ -48,6 +48,7 @@ public class SelectGameActivity extends AppCompatActivity {
         soundPermission.getPermission();
         PublicSetting.setAppLanguage(getApplicationContext().getResources());
         PublicSetting.hideBars(this);
+        PublicSetting.keepScreenOn(this);
     }
 
     @Override

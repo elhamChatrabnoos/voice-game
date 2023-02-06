@@ -20,6 +20,7 @@ public class Player implements Parcelable {
     private boolean playerRobot;
     private int playerSecondGif;
     private int playerResultSticker;
+    private int playerGrade;
 
     protected Player(Parcel in) {
         id = in.readInt();
@@ -30,10 +31,20 @@ public class Player implements Parcelable {
         playerColor = in.readString();
         playerResultStyle = in.readInt();
         playerResultSticker = in.readInt();
+        playerGrade = in.readInt();
         playerImage = in.readInt();
         playerGif = in.readInt();
         playerSecondGif = in.readInt();
         playerRobot = in.readByte() != 0;
+    }
+
+
+    public int getPlayerGrade() {
+        return playerGrade;
+    }
+
+    public void setPlayerGrade(int playerGrade) {
+        this.playerGrade = playerGrade;
     }
 
     public int getPlayerResultSticker() {
@@ -159,6 +170,7 @@ public class Player implements Parcelable {
         parcel.writeString(playerColor);
         parcel.writeInt(playerResultStyle);
         parcel.writeInt(playerResultSticker);
+        parcel.writeInt(playerGrade);
         parcel.writeInt(playerImage);
         parcel.writeInt(playerGif);
         parcel.writeInt(playerSecondGif);

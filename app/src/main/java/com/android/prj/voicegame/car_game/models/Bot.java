@@ -4,14 +4,12 @@ import java.util.Random;
 
 public class Bot {
 
-    //?? commend all class
     private static final String TAG = "2020";
     private int[] randomNumbers;
     private Random random;
 
     private int robotSound;
     private int loosePoint;
-    private boolean loopVar = true;
     int number = 0;
 
 
@@ -39,6 +37,7 @@ public class Bot {
         // generate random
         for (int i = 0; i < randomNumbers.length; i++) {
             // generate random number between 1 to 5 until generate suitable number
+            boolean loopVar = true;
             while (loopVar){
                 number = random.nextInt(5) + 1;
                 if (number == 1 && number1 < redPercent){

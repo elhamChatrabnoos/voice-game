@@ -47,8 +47,11 @@ public class PublicSetting {
         resources.updateConfiguration(configuration, resources.getDisplayMetrics());
     }
 
-    public static void hideSystemNavigation(Dialog dialog) {
+    public static void keepScreenOn(Activity activity){
+        activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+    }
 
+    public static void hideSystemNavigation(Dialog dialog) {
         //Set the dialog to immersive sticky mode
         dialog.getWindow().getDecorView().setSystemUiVisibility(
                 View.SYSTEM_UI_FLAG_LAYOUT_STABLE |
