@@ -26,17 +26,14 @@ import java.util.Objects;
 public class NextPlayerDialog extends Dialog {
 
     private final Dialog dialog;
-    private Finish finish;
-    private com.android.prj.voicegame.databinding.NextPlayerDialogBinding bindingCu;
-
+    private final Finish finish;
 
     public NextPlayerDialog(@NonNull Context context,
                             Finish finishContext,
                             String message,
                             boolean isPlayerRobot) {
         super(context);
-
-        bindingCu = NextPlayerDialogBinding.inflate(
+        com.android.prj.voicegame.databinding.NextPlayerDialogBinding bindingCu = NextPlayerDialogBinding.inflate(
                 LayoutInflater.from(getContext()), null, false);
         dialog = new Dialog(context);
         dialog.setContentView(bindingCu.getRoot());

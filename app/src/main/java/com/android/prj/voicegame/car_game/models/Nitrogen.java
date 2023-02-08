@@ -73,9 +73,7 @@ public class Nitrogen {
     }
 
     // generate random nitrogen in robot game
-    public void generateRandomNumber(int screenWidth) {
-        Log.d("3434", "screen width: " + screenWidth);
-
+    public void generateRandomNumber(int roadWidth) {
         randomPoints = new int[numberOfNitrogen];
         randomPoints[0] = random.nextInt(1000) + 50;
 

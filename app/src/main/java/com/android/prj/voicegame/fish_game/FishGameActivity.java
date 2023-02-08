@@ -121,6 +121,7 @@ public class FishGameActivity extends AppCompatActivity implements
     private boolean confusedFish;
     private MediaPlayer backgroundSound;
     private MediaPlayer confusedSound;
+    private int changeFishDuration = 10;
 
 
     @SuppressLint("ClickableViewAccessibility")
@@ -141,7 +142,9 @@ public class FishGameActivity extends AppCompatActivity implements
 
         // if robot game is start with human or game is without robot
         if (!playWithRobot) {
-            runOnUiThread(() -> showDialogFinish(PlayerSelectionActivity.playerList.get(playerNumber).isPlayerRobot(), PlayerSelectionActivity.playerList.get(playerNumber).getPlayerName()));
+            runOnUiThread(() -> showDialogFinish(
+                    PlayerSelectionActivity.playerList.get(playerNumber).isPlayerRobot(),
+                    PlayerSelectionActivity.playerList.get(playerNumber).getPlayerName()));
         }
         else {
             startTheGame(PlayerSelectionActivity.playerList.get(playerNumber).isPlayerRobot(), PlayerSelectionActivity.playerList.get(playerNumber).getPlayerName());
@@ -238,7 +241,7 @@ public class FishGameActivity extends AppCompatActivity implements
         gameFinished = false;
         delayRunning = false;
         showProgress = true;
-        maxProgressValue = 6;
+        maxProgressValue = changeFishDuration;
 
         addProgressBar();
 
@@ -279,7 +282,7 @@ public class FishGameActivity extends AppCompatActivity implements
         hookList = barriers.getHookList();
         hammerFishList = barriers.getHammerFishList();
 
-        ////// ???
+        ////// ??? delete ToDo
         for (int i = 0; i < hookList.size(); i++) {
             Log.d("MyHooksX", "hooks x: " + hookList.get(i).getImageView().getX());
         }
@@ -296,22 +299,7 @@ public class FishGameActivity extends AppCompatActivity implements
         fishThread = new Thread(new Runnable() {
             @Override
             public void run() {
-                // get values until they are 0
-                if (fishFirstX == 0) {
-                    fishFirstX = binding.fishLayout.getX();
-                }
-                if (sharkFirstX == 0) {
-                    sharkFirstX = binding.sharkImage.getX();
-                }
-                if (fishFirstY == 0) {
-                    fishFirstY = binding.fishLayout.getY();
-                }
-                if (sharkFistY == 0) {
-                    sharkFistY = binding.sharkImage.getY();
-                }
-                if (loosePoint == 0){
-                    loosePoint = binding.gameScrollView.getWidth() * 7;
-                }
+                setFirstPositionOfFishAndShark();
 
                 // define witch time start game
                 fishMovingHandler.postDelayed(this, fishHandlerDelay);
@@ -359,6 +347,25 @@ public class FishGameActivity extends AppCompatActivity implements
                 }
             }
         });
+    }
+
+    private void setFirstPositionOfFishAndShark() {
+        // get values until they are 0
+        if (fishFirstX == 0) {
+            fishFirstX = binding.fishLayout.getX();
+        }
+        if (sharkFirstX == 0) {
+            sharkFirstX = binding.sharkImage.getX();
+        }
+        if (fishFirstY == 0) {
+            fishFirstY = binding.fishLayout.getY();
+        }
+        if (sharkFistY == 0) {
+            sharkFistY = binding.sharkImage.getY();
+        }
+        if (loosePoint == 0){
+            loosePoint = binding.gameScrollView.getWidth() * 7;
+        }
     }
 
     private void defineRobotActions() {
@@ -433,7 +440,7 @@ public class FishGameActivity extends AppCompatActivity implements
             // show finish dialog and make game false to do not come again to this game
             runOnUiThread(() -> showDialogFinish(false, getString(R.string.finishMsg)));
         } else {
-            runOnUiThread(() -> resetTheGame());
+            runOnUiThread(this::resetTheGame);
             // when next player turn show suitable dialog depend on robot or human
             isNext = true;
             if (!playWithRobot) {
@@ -470,7 +477,8 @@ public class FishGameActivity extends AppCompatActivity implements
         if (!Fish.hookCutter && !fishChanged) {
             runOnUiThread(() -> {
                 for (int i = 0; i < swordFishList.size(); i++) {
-                    if (barriers.checkCollision(binding.fishLayout, swordFishList.get(i).getImageView(), 0, 0, 0, 0)) {
+                    if (barriers.checkCollision(binding.fishLayout,
+                            swordFishList.get(i).getImageView(), 0, 0, 0, 0)) {
                         fish.changeToSwordFish();
                         binding.gameLayout.removeView(swordFishList.get(i).getImageView());
                         keepFishStateForTime(HOOKER_CUTTER, player);
@@ -566,7 +574,7 @@ public class FishGameActivity extends AppCompatActivity implements
                 loopVar = true;
                 showProgress = true;
                 while (loopVar) {
-                    for (index = 120; index > 0; index--) {
+                    for (index = changeFishDuration*20; index > 0; index--) {
                         // add progressbar one time and change its position another times
                         if (showProgress) {
                             showProgress = false;
@@ -584,7 +592,7 @@ public class FishGameActivity extends AppCompatActivity implements
                             // remove progressbar from page
                             runOnUiThread(() -> {
                                 runOnUiThread(() -> durationProgress.setVisibility(View.INVISIBLE));
-                                maxProgressValue = 6;
+                                maxProgressValue = changeFishDuration;
                             });
                             fishChanged = false;
                             // if fish was swordfish
@@ -615,7 +623,7 @@ public class FishGameActivity extends AppCompatActivity implements
                             runOnUiThread(() -> {
                                 // reduce progressbar value
                                 durationProgress.setProgress(maxProgressValue);
-                                maxProgressValue--;
+                                maxProgressValue --;
                             });
                             try {
                                 Thread.sleep(1000);

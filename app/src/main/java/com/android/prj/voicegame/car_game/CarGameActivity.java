@@ -49,7 +49,6 @@ import pl.droidsonroids.gif.GifImageView;
 public class CarGameActivity extends AppCompatActivity
         implements NextPlayerDialog.Finish, PauseDialog.Actions {
 
-    private static final String TAG = "3030";
     private Handler mainHandler;
     private MediaRecorder recorder;
     private int numberOfPlayer;
