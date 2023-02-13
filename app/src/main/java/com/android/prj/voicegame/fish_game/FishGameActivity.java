@@ -154,12 +154,12 @@ public class FishGameActivity extends AppCompatActivity implements
         ScreenRelative screenRelative = new ScreenRelative();
 
         // change fish size depend on screen size
-        screenRelative.makeViewResponsive((int)((int)ScreenRelative.screenWidth*0.11),
-                (int)((int)ScreenRelative.screenWidth*0.11), binding.fishImage);
+        screenRelative.makeViewResponsive((int)(ScreenRelative.screenWidth*0.11),
+                (int)(ScreenRelative.screenWidth*0.11), binding.fishImage);
 
         // change shark size depend on screen size
-        screenRelative.makeViewResponsive((int)((int)ScreenRelative.screenWidth*0.35),
-                (int)((int) screenHeight*0.35), binding.sharkImage);
+        screenRelative.makeViewResponsive((int)(ScreenRelative.screenWidth*0.35),
+                (int)(screenHeight*0.35), binding.sharkImage);
 
         // take the shark out of page
         binding.sharkImage.setX(-1300);
@@ -219,7 +219,6 @@ public class FishGameActivity extends AppCompatActivity implements
         for (int i = 0; i < PlayerSelectionActivity.playerList.size(); i++) {
             playerScoreImage[i].setImageResource(PlayerSelectionActivity.playerList.get(i).getPlayerGif());
         }
-
         // remove additional layout
         for (int i = PlayerSelectionActivity.playerList.size(); i < 4; i++) {
             binding.scoresLayout.removeView(playerScoreLayout[i]);
